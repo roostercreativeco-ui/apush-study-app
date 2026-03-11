@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APUSH Flashcards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #121829;
+            --accent-blue: #4f8cff;
+            --accent-red: #ff4f4f;
+            --accent-gold: #ffc845;
+            --accent-green: #34d399;
+            --text-main: #f0f2ff;
+            --text-dim: #8892b0;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(79, 140, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bg-glow.blue { background: var(--accent-blue); top: -200px; right: -100px; }
+        .bg-glow.red { background: var(--accent-red); bottom: -300px; left: -200px; opacity: 0.2; }
+
+        /* NAV BAR */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            background: rgba(10, 14, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--accent-blue); }
+        .nav-back {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent-blue); }
+
+        /* MAIN CONTAINER */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 80px 24px 40px;
+            min-height: 100vh;
+        }
+
+        /* PERIOD SELECTOR */
+        .period-selector {
+            margin-bottom: 28px;
+        }
+        .period-selector label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            display: block;
+            margin-bottom: 10px;
+        }
+        .period-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .period-pill {
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .period-pill:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .period-pill.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: white;
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .progress-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            border-radius: 100px;
+            transition: width 0.4s ease;
+        }
+        .progress-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        /* FLASHCARD */
+        .flashcard-wrapper {
+            perspective: 1200px;
+            margin-bottom: 28px;
+            cursor: pointer;
+        }
+        .flashcard {
+            position: relative;
+            width: 100%;
+            min-height: 280px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .flashcard-front {
+            background: var(--bg-card);
+            border: 1px solid rgba(79, 140, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .flashcard-back {
+            background: linear-gradient(135deg, #121829, #1a2240);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transform: rotateY(180deg);
+        }
+
+        .card-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            color: var(--accent-blue);
+        }
+        .flashcard-back .card-label { color: var(--accent-green); }
+
+        .card-period-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            background: rgba(255, 200, 69, 0.1);
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        .card-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        .card-answer {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+        .card-answer .correct-letter {
+            display: inline-block;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--accent-green);
+            margin-bottom: 12px;
+        }
+        .card-answer .explanation {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .tap-hint {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 16px;
+            opacity: 0.6;
+        }
+
+        /* CONTROLS */
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .btn-control {
+            flex: 1;
+            max-width: 160px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-prev {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-dim);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-prev:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+        .btn-next {
+            background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
+            color: white;
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79,140,255,0.3); }
+        .btn-control:active { transform: translateY(0); }
+
+        .btn-shuffle {
+            display: block;
+            margin: 0 auto 32px;
+            padding: 10px 24px;
+            background: transparent;
+            border: 1px solid rgba(255, 200, 69, 0.25);
+            border-radius: 100px;
+            color: var(--accent-gold);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-shuffle:hover { background: rgba(255, 200, 69, 0.1); }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading p { color: var(--text-dim); }
+
+        /* KEYBOARD HINTS */
+        .keyboard-hints {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+        .keyboard-hints kbd {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            margin: 0 2px;
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 72px 18px 32px; }
+            .flashcard-face { padding: 24px 20px; }
+            .card-question { font-size: 1rem; }
+            .keyboard-hints { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow blue"></div>
+    <div class="bg-glow red"></div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">🇺🇸 <span>APUSH</span></a>
+        <a href="index.html" class="nav-back">← Back</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="period-selector">
+            <label>Choose a period:</label>
+            <div class="period-pills" id="period-pills">
+                <button class="period-pill active" data-period="all">All</button>
+                <button class="period-pill" data-period="1">1</button>
+                <button class="period-pill" data-period="2">2</button>
+                <button class="period-pill" data-period="3">3</button>
+                <button class="period-pill" data-period="4">4</button>
+                <button class="period-pill" data-period="5">5</button>
+                <button class="period-pill" data-period="6">6</button>
+                <button class="period-pill" data-period="7">7</button>
+                <button class="period-pill" data-period="8">8</button>
+                <button class="period-pill" data-period="9">9</button>
+            </div>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading flashcards...</p>
+        </div>
+
+        <div id="flashcard-area" style="display:none;">
+            <div class="progress-bar">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text" id="progress-text">1 / 1</span>
+            </div>
+
+            <div class="flashcard-wrapper" id="flashcard-wrapper" onclick="flipCard()">
+                <div class="flashcard" id="flashcard">
+                    <div class="flashcard-face flashcard-front">
+                        <div class="card-period-tag" id="card-period-tag">Period 3</div>
+                        <div class="card-label">Question</div>
+                        <div class="card-question" id="card-question"></div>
+                        <div class="tap-hint">Tap to reveal answer</div>
+                    </div>
+                    <div class="flashcard-face flashcard-back">
+                        <div class="card-label">Answer</div>
+                        <div class="card-answer" id="card-answer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-control btn-prev" onclick="prevCard()">← Prev</button>
+                <button class="btn-control btn-next" onclick="nextCard()">Next →</button>
+            </div>
+
+            <button class="btn-shuffle" onclick="shuffleCards()">🔀 Shuffle</button>
+
+            <div class="keyboard-hints">
+                <kbd>Space</kbd> flip &nbsp; <kbd>←</kbd> prev &nbsp; <kbd>→</kbd> next &nbsp; <kbd>S</kbd> shuffle
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================
+        // GOOGLE SHEET CSV URL
+        // ========================
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=919172279&single=true&output=csv";
+
+        let allQuestions = [];
+        let filteredQuestions = [];
+        let currentIndex = 0;
+        let currentPeriod = "all";
+
+        // ========================
+        // FETCH & PARSE CSV
+        // ========================
+        async function loadQuestions() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const text = await response.text();
+                const rows = parseCSV(text);
+
+                // Skip header row
+                allQuestions = rows.slice(1).map(function(row) {
+                    return {
+                        id: row[0],
+                        period: row[1],
+                        type: row[2],
+                        question: row[3],
+                        choiceA: row[4],
+                        choiceB: row[5],
+                        choiceC: row[6],
+                        choiceD: row[7],
+                        correct: row[8],
+                        explanation: row[9]
+                    };
+                }).filter(function(q) {
+                    return q.question && q.question.trim() !== '';
+                });
+
+                filterQuestions("all");
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('flashcard-area').style.display = 'block';
+
+            } catch (error) {
+                document.getElementById('loading').innerHTML =
+                    '<p style="color: var(--accent-red);">Failed to load questions. Please refresh and try again.</p>';
+            }
+        }
+
+        // Simple CSV parser that handles quoted fields
+        function parseCSV(text) {
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const next = text[i + 1];
+
+                if (inQuotes) {
+                    if (char === '"' && next === '"') {
+                        field += '"';
+                        i++;
+                    } else if (char === '"') {
+                        inQuotes = false;
+                    } else {
+                        field += char;
+                    }
+                } else {
+                    if (char === '"') {
+                        inQuotes = true;
+                    } else if (char === ',') {
+                        row.push(field.trim());
+                        field = '';
+                    } else if (char === '\n' || (char === '\r' && next === '\n')) {
+                        row.push(field.trim());
+                        if (row.length > 1) rows.push(row);
+                        row = [];
+                        field = '';
+                        if (char === '\r') i++;
+                    } else {
+                        field += char;
+                    }
+                }
+            }
+            // Last field
+            if (field || row.length > 0) {
+                row.push(field.trim());
+                if (row.length > 1) rows.push(row);
+            }
+            return rows;
+        }
+
+        // ========================
+        // FILTER BY PERIOD
+        // ========================
+        function filterQuestions(period) {
+            currentPeriod = period;
+            currentIndex = 0;
+
+            if (period === "all") {
+                filteredQuestions = [...allQuestions];
+            } else {
+                filteredQuestions = allQuestions.filter(function(q) {
+                    return q.period === period;
+                });
+            }
+
+            // Update pill styles
+            document.querySelectorAll('.period-pill').forEach(function(pill) {
+                pill.classList.remove('active');
+                if (pill.dataset.period === period) pill.classList.add('active');
+            });
+
+            if (filteredQuestions.length > 0) {
+                showCard();
+            }
+        }
+
+        // ========================
+        // DISPLAY CARD
+        // ========================
+        function showCard() {
+            if (filteredQuestions.length === 0) return;
+
+            const q = filteredQuestions[currentIndex];
+
+            // Unflip
+            document.getElementById('flashcard').classList.remove('flipped');
+
+            // Front
+            document.getElementById('card-period-tag').textContent = 'Period ' + q.period;
+            document.getElementById('card-question').textContent = q.question;
+
+            // Back — show correct answer with choices
+            const letters = { A: q.choiceA, B: q.choiceB, C: q.choiceC, D: q.choiceD };
+            const correctText = letters[q.correct] || '';
+            document.getElementById('card-answer').innerHTML =
+                '<div class="correct-letter">' + q.correct + '</div>' +
+                '<div>' + correctText + '</div>' +
+                '<div class="explanation">' + q.explanation + '</div>';
+
+            // Progress
+            const pct = ((currentIndex + 1) / filteredQuestions.length) * 100;
+            document.getElementById('progress-fill').style.width = pct + '%';
+            document.getElementById('progress-text').textContent =
+                (currentIndex + 1) + ' / ' + filteredQuestions.length;
+        }
+
+        // ========================
+        // CARD ACTIONS
+        // ========================
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            if (filteredQuestions.length === 0) return;
+            currentIndex = (currentIndex + 1) % filteredQuestions.length;
+            showCard();
+        }
+
+        function prevCard() {
+            if (filteredQuestions.length === 0) return;
+            currentIndex = (currentIndex - 1 + filteredQuestions.length) % filteredQuestions.length;
+            showCard();
+        }
+
+        function shuffleCards() {
+            for (let i = filteredQuestions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                var temp = filteredQuestions[i];
+                filteredQuestions[i] = filteredQuestions[j];
+                filteredQuestions[j] = temp;
+            }
+            currentIndex = 0;
+            showCard();
+        }
+
+        // ========================
+        // KEYBOARD SHORTCUTS
+        // ========================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                flipCard();
+            } else if (e.key === 'ArrowRight') {
+                nextCard();
+            } else if (e.key === 'ArrowLeft') {
+                prevCard();
+            } else if (e.key === 's' || e.key === 'S') {
+                shuffleCards();
+            }
+        });
+
+        // ========================
+        // SWIPE SUPPORT (MOBILE)
+        // ========================
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 60) {
+                if (diff > 0) nextCard();
+                else prevCard();
+            }
+        }, { passive: true });
+
+        // ========================
+        // PERIOD PILL CLICKS
+        // ========================
+        document.querySelectorAll('.period-pill').forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                filterQuestions(this.dataset.period);
+            });
+        });
+
+        // ========================
+        // INIT
+        // ========================
+        loadQuestions();
+    </script>
+</body>
+</html>
