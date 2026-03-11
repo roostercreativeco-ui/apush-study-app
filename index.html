@@ -1,3 +1,158 @@
+
+APUSH
+/
+do this in xcode or web based ?
+
+3:25 PM
+
+Evaluated project documentation and weighed development platform options
+Evaluated project documentation and weighed development platform options
+I've read through your project status file — it's really well put together. Let me save it as a markdown file for you, and then let's talk about the Xcode vs. web question.
+
+Short answer: Start web-based. Here's why that's the right call for you:
+
+Xcode means learning Swift/SwiftUI from scratch, which is a steep climb when you're also learning to code. A web app (HTML, CSS, JavaScript) is easier to learn, easier to debug, and you can see results instantly in a browser. The great news is this isn't an either/or decision — your project status file already lays out the smart path: build it as a web app first on Netlify, then wrap it with Capacitor later to put it on the App Store. You get the best of both worlds.
+
+Think of it like this: web-based gets you a working app students can use in weeks. Xcode would take months before you have anything to show.
+
+Let me create that status file for you now.
+
+
+Weighed platform options for development implementation
+Weighed platform options for development implementation
+Here's your project status file — upload it to your project knowledge so Claude reads it every session.
+
+To recap the web vs. Xcode decision: go web-based first. You'll build with HTML, CSS, and JavaScript, host free on Netlify, and when you're ready for the App Store, you wrap it with Capacitor — no need to rewrite anything in Swift. That's Step 11 in your build order, so it's a future-you problem.
+
+When you're ready to kick things off, Step 1 is setting up a GitHub repo and connecting it to Netlify for automatic deploys. Want to start that?
+
+Apush project status
+Document · MD 
+i have claude in xcode. would netifly and wrpaaing still be the mmost effcient way ?
+
+3:26 PM
+
+Awaited clarification to tailor deployment recommendations
+Awaited clarification to tailor deployment recommendations
+Great question — having Claude in Xcode actually changes things. Let me break down both paths honestly:
+
+With Claude in Xcode, you could build a native SwiftUI app directly. Claude would write the Swift code for you, so the "I don't know Swift" barrier is much lower. You'd skip the wrapping step entirely and get a true native iOS app.
+
+But there are real tradeoffs:
+
+Native SwiftUI (Xcode + Claude) — You get a polished iOS app from day one, no wrapping headaches, and direct App Store submission. The downside is you can only test on a Mac with Simulator (or a plugged-in iPhone), debugging Swift errors can be confusing for a beginner, and there's no web version for students without iPhones.
+
+Web app + Capacitor wrap — You can test instantly in any browser, share a link for feedback before the app is even in the store, and the code (HTML/CSS/JS) is generally easier to understand and troubleshoot. The downside is the extra wrapping step later and a slightly less native feel.
+
+Here's the real question to help you decide:
+
+Your answers will help me give you a clear recommendation. Either path works with your Firebase + Google APIs stack — it's really about what fits your situation best.
+
+As long as the UI doesnt diminish on is, i guess web then wrapping will work
+
+3:28 PM
+
+Validated web-based approach while addressing iOS interface concerns
+Validated web-based approach while addressing iOS interface concerns
+Good call — and your concern about UI quality is totally valid. The good news is that with modern CSS, animations, and Capacitor's native bridge, a well-built web app can look and feel great on iOS. Apps like Instagram Lite and Starbucks have used this exact approach.
+
+A few things we'll do to make sure it doesn't feel "webby" on iOS:
+
+Smooth animations and transitions so it feels native, not clunky
+Touch-friendly design — big tap targets, swipe gestures, no tiny buttons
+No browser chrome — Capacitor removes the URL bar, so it looks like a real app
+iOS-style UI patterns — bottom nav, cards, haptic-style feedback
+Fast loading — Firebase is snappy, so no waiting around
+If you ever feel the web version isn't cutting it, you already have Claude in Xcode as a backup to rebuild specific screens natively. But honestly, for a quiz/flashcard app, web tech is more than enough.
+
+So the plan stays: Web app (HTML/CSS/JS) → Netlify → Capacitor wrap → App Store. Your tech stack (Firebase, Formspree, Google APIs, AdMob) all work perfectly with this path.
+
+Ready to start Step 1 — setting up your GitHub repo and connecting it to Netlify? I'll walk you through it one click at a time.
+
+yes
+
+3:29 PM
+
+Architected step-by-step GitHub setup guidance for beginners
+Architected step-by-step GitHub setup guidance for beginners
+Let's do it. First things first:
+
+Once I know where you're at with accounts, I'll give you the exact steps to follow.
+
+Q: Do you already have a GitHub account?
+A: No, I need to create one
+
+Q: Do you have a Netlify account?
+A: No, I need to create one
+
+4:07 PM
+
+Orchestrated sequential account creation strategy prioritizing GitHub integration
+Orchestrated sequential account creation strategy prioritizing GitHub integration
+No problem — we'll set both up. GitHub first, since Netlify can connect directly to it.
+
+Step 1A: Create your GitHub account
+Go to https://github.com/signup
+Enter your email, create a password, and pick a username
+Verify your email when they send you a confirmation
+That's it for now. Don't create any repositories yet — I'll walk you through that next.
+
+Come back here once your GitHub account is ready and let me know!
+
+i have the account
+
+4:10 PM
+
+Charted next steps for repository creation
+Charted next steps for repository creation
+Nice! Now let's create your APUSH repository.
+
+Step 1B: Create your repo
+Go to https://github.com/new
+Fill in these settings:
+Repository name: apush-study-app
+Description: A fun study app for the 2026 AP US History exam
+Public (leave it selected — Netlify needs this on free tier)
+Check the box that says "Add a README file"
+Click the green "Create repository" button
+That's it — don't change anything else on that page. Let me know when it's created!
+
+add gitignore or a license ?
+
+4:12 PM
+
+Weighed merits of .gitignore versus license inclusion
+Weighed merits of .gitignore versus license inclusion
+Good thinking! Yes to both.
+
+On that same "Create repository" page:
+
+Add .gitignore: Click the dropdown and type "Node" — select it. This prevents junk files (like node_modules) from cluttering your repo later when we use Capacitor.
+License: Click that dropdown and pick MIT License. It's the simplest and most common for open-source apps. If you ever want to keep your code private instead, you can skip the license — but MIT is a safe default.
+So your final settings before hitting "Create repository":
+
+Repository name: apush-study-app
+Description: A fun study app for the 2026 AP US History exam
+Public
+✅ Add a README
+✅ .gitignore: Node
+✅ License: MIT
+Hit Create repository and let me know when it's done!
+
+done
+
+4:13 PM
+
+Strategized simplest deployment path for beginner developer
+Strategized simplest deployment path for beginner developer
+Awesome! Now let's add a simple starter file so Netlify has something to show when we connect it.
+
+Step 1C: Add your first file
+You should be on your new repo page at github.com/yourusername/apush-study-app
+Click the "Add file" button (near the top) → then "Create new file"
+In the filename box at the top, type: index.html
+Paste this code into the big editor box:
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,3 +182,866 @@
     </div>
 </body>
 </html>
+Scroll down, leave the commit message as "Create index.html" and click the green "Commit changes" button
+Let me know when that's done and we'll connect Netlify!
+
+leave the commit message ? I dont see that
+
+4:14 PM
+
+Clarified GitHub's commit message dialog location
+Clarified GitHub's commit message dialog location
+No worries — after you paste the code, look for a green button that says "Commit changes..." (it might be in the top right corner). Click that, and a popup will appear with a commit message already filled in. Just leave whatever's already there and click "Commit changes" again in the popup to confirm.
+
+Let me know once the file is saved!
+
+any other action here ?
+
+4:15 PM
+
+Assessed dialog interface and deemed it satisfactory
+Assessed dialog interface and deemed it satisfactory
+Nope, everything looks perfect! Just click that green "Commit changes" button and you're done.
+
+"Commit directly to the main branch" is the right option, and the message "Create index.html" is fine. No need to add an extended description.
+
+Let me know once you've clicked it and we'll set up Netlify next!
+
+ok. done
+
+4:15 PM
+
+Charted next steps for deployment infrastructure integration
+Charted next steps for deployment infrastructure integration
+Now let's get Netlify set up and connected to your repo.
+
+Step 1D: Create your Netlify account
+Go to https://app.netlify.com/signup
+Click "Sign up with GitHub" — this is the easiest way because it links the two accounts automatically
+Authorize Netlify when GitHub asks for permission
+Once you're logged into Netlify's dashboard, let me know and I'll walk you through connecting your repo!
+
+ok im in
+
+4:17 PM
+
+Charted pathway to integrate GitHub repository with Netlify
+Charted pathway to integrate GitHub repository with Netlify
+Now let's connect your repo so every time you update code on GitHub, Netlify automatically publishes it.
+
+Step 1E: Connect your repo to Netlify
+Click "Add new site" (or "New site" — might be a button near the top)
+Choose "Import an existing project"
+Click "GitHub" as your Git provider
+You'll see a list of your repos — click apush-study-app
+On the settings page that appears, don't change anything — the defaults are fine
+Click "Deploy site"
+Netlify will take about 30 seconds to build. When it's done, you'll see a random URL like something-random-1234.netlify.app. Click that link — you should see your "APUSH Study App - Coming soon" page live on the internet!
+
+Let me know what you see!
+
+https://symphonious-dasik-40b845.netlify.app/  is the link
+
+4:20 PM
+
+Thought for 2s
+Thought for 2s
+Your app is LIVE on the internet! That's a huge first win — Step 1 is done.
+
+One quick optional thing before we move on — that random URL is hard to remember. Let's clean it up.
+
+Optional: Custom site name
+In Netlify, go to Site configuration (in the left sidebar)
+Click "Change site name"
+Type something like apush-study-app
+Save — your new URL would be apush-study-app.netlify.app (much easier to share!)
+If the name is taken, try variations like apush-study or apush-2026.
+
+Once that's done (or if you want to skip it), we're ready for Step 2 — building the real landing page with Firebase Auth sign-in. Want to keep going?
+
+yes
+
+4:21 PM
+
+Charted Firebase setup pathway and consulted relevant skills
+Charted Firebase setup pathway and consulted relevant skills
+Before we build the landing page, you need a Firebase project. Let's set that up first.
+
+Step 2A: Create your Firebase project
+Go to https://console.firebase.google.com
+Click "Create a project" (or "Add project")
+Project name: type apush-study-app
+It will ask about Google Analytics — toggle it ON (it's free and we'll use it later)
+When it asks to choose a Google Analytics account, pick "Default Account for Firebase"
+Click "Create project" and wait for it to finish
+Click "Continue" when it's ready
+You should land on your Firebase project dashboard. Let me know when you're there!
+
+im there
+
+4:24 PM
+
+Charted Firebase authentication setup and web app configuration
+Charted Firebase authentication setup and web app configuration
+Now let's register your web app with Firebase so we get the connection keys.
+
+Step 2B: Add a web app to Firebase
+On your Firebase dashboard, look for a big icon that looks like </> (the web icon) — click it
+App nickname: type APUSH Web App
+Check the box that says "Also set up Firebase Hosting" — actually leave it unchecked, we're using Netlify instead
+Click "Register app"
+You'll see a code block with your Firebase config — it'll look something like this:
+javascript
+const firebaseConfig = {
+  apiKey: "AIza...",
+  authDomain: "apush-study-app.firebaseapp.com",
+  projectId: "apush-study-app",
+  storageBucket: "apush-study-app...",
+  messagingSenderId: "123...",
+  appId: "1:123...",
+  measurementId: "G-..."
+};
+Copy that entire config block and paste it here in the chat — I'll need it for the next step when we build the landing page.
+
+Then click "Continue to console".
+
+?
+
+4:25 PM
+
+Identified missing web app setup step
+Identified missing web app setup step
+You're on the right page! Click the "+ Add app" button right under "apush-study-app" at the top. Then on the next screen, click the </> web icon.
+
+That'll start the process to register your web app and get the config keys we need.
+
+ok
+
+4:26 PM
+
+Thought for 1s
+Thought for 1s
+Now you should see a "Register app" screen. Fill it in:
+
+App nickname: type APUSH Web App
+Make sure "Firebase Hosting" is unchecked
+Click "Register app"
+On the next screen you'll see a code block with your Firebase config keys. Copy that entire config block and paste it here in the chat — I'll use it to build your landing page.
+
+?
+
+4:27 PM
+
+Thought for 6s
+Thought for 6s
+Got your config keys. Click "Continue to console" to go back to your dashboard.
+
+Now before we build the landing page, we need to turn on Authentication. Here's the next step:
+
+Step 2C: Enable Firebase Authentication
+In the left sidebar, click Build to expand it
+Click Authentication
+Click "Get started"
+You'll see a list of sign-in providers. Click "Email/Password"
+Toggle the first switch ON (Email/Password) — leave the second one (Email link) off
+Click Save
+Go back to the sign-in providers list and click "Google"
+Toggle it ON
+It will ask for a project support email — pick your email from the dropdown
+Click Save
+Once both Email/Password and Google are enabled, let me know and I'll build your landing page with sign-in!
+
+public facing name for project ?
+
+4:30 PM
+
+Deciphered Firebase's public-facing project naming convention
+Deciphered Firebase's public-facing project naming convention
+That's what students will see on the Google sign-in popup. Type "APUSH Study App" — clean and clear.
+
+Then pick your email from the dropdown below it and hit Save.
+
+done
+
+4:30 PM
+
+Strategized landing page architecture with Firebase authentication integration
+Strategized landing page architecture with Firebase authentication integration
+Now let me build your landing page with sign-in. Let me check the design guidelines first.
+
+
+Architected engaging landing page with Firebase authentication integration
+Architected engaging landing page with Firebase authentication integration
+Now let me build your landing page with Firebase sign-in. This needs to look fun for high school students, not boring.
+
+
+Orchestrated GitHub file replacement instructions
+Orchestrated GitHub file replacement instructions
+Here's your landing page! Preview it above — it has a countdown to exam day, Google sign-in, email/password sign-in, and a fun dark theme.
+
+Now let's get it live. Here's how to replace your old index.html on GitHub:
+
+Go to your repo: github.com/yourusername/apush-study-app
+Click on index.html in the file list
+Click the pencil icon (edit button) in the top right of the file
+Select all the existing code and delete it
+Paste the entire code from the file I just gave you (download it and open in a text editor, or copy from the preview)
+Click "Commit changes" → then "Commit changes" again in the popup
+Netlify will auto-deploy in about 30 seconds. Then visit your Netlify URL and try signing in! Let me know how it goes.
+
+Index
+Code · HTML 
+what about the console messages ? Uncaught error
+
+4:34 PM
+
+Diagnosed Firebase authentication error, sought clarification
+Diagnosed Firebase authentication error, sought clarification
+Can you share a screenshot of the console errors? That'll help me pinpoint exactly what's wrong.
+
+To open the console: right-click anywhere on the page → Inspect → click the "Console" tab at the top.
+
+Then screenshot what you see there and paste it here!
+
+4:35 PM
+
+Identified preview limitation versus actual deployment functionality
+Identified preview limitation versus actual deployment functionality
+That error is just from the preview window here in Claude — it can't load external scripts like Firebase. It's not a real problem.
+
+The real test is your live Netlify site. Go to your Netlify URL (symphonious-dasik-40b845.netlify.app) after you've updated the index.html on GitHub. Firebase will load properly there.
+
+Have you replaced the code on GitHub yet? If so, check your Netlify URL and let me know if it works there!
+
+
+
+You've used 75% of your weekly limit
+Get more usage
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Index · HTML
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APUSH Study App — Ace the 2026 Exam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #121829;
+            --accent-blue: #4f8cff;
+            --accent-red: #ff4f4f;
+            --accent-gold: #ffc845;
+            --accent-green: #34d399;
+            --text-main: #f0f2ff;
+            --text-dim: #8892b0;
+            --glow-blue: rgba(79, 140, 255, 0.25);
+            --glow-gold: rgba(255, 200, 69, 0.2);
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* === ANIMATED BACKGROUND === */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(79, 140, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .bg-glow.blue { background: var(--accent-blue); top: -200px; right: -100px; }
+        .bg-glow.red { background: var(--accent-red); bottom: -300px; left: -200px; opacity: 0.2; }
+
+        /* === LAYOUT === */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 460px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* === HEADER === */
+        .countdown-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 200, 69, 0.1);
+            border: 1px solid rgba(255, 200, 69, 0.25);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-bottom: 32px;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 200, 69, 0.1); }
+            50% { box-shadow: 0 0 25px rgba(255, 200, 69, 0.2); }
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .flag-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 16px;
+            animation: wave 2s ease-in-out infinite;
+        }
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(12deg); }
+            75% { transform: rotate(-8deg); }
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        /* === AUTH CARD === */
+        .auth-card {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid rgba(79, 140, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* Google button */
+        .btn-google {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: #fff;
+            color: #333;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 20px;
+        }
+        .btn-google:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,255,255,0.15); }
+        .btn-google:active { transform: translateY(0); }
+        .btn-google svg { width: 20px; height: 20px; }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Email form */
+        .input-group {
+            margin-bottom: 14px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        .input-group input::placeholder { color: var(--text-dim); }
+        .input-group input:focus { border-color: var(--accent-blue); }
+
+        .btn-email {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 4px;
+        }
+        .btn-email:hover { transform: translateY(-2px); box-shadow: 0 6px 24px var(--glow-blue); }
+        .btn-email:active { transform: translateY(0); }
+
+        .toggle-auth {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        .toggle-auth a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .toggle-auth a:hover { text-decoration: underline; }
+
+        /* Error / status messages */
+        .auth-message {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .auth-message.error {
+            display: block;
+            background: rgba(255, 79, 79, 0.1);
+            border: 1px solid rgba(255, 79, 79, 0.25);
+            color: var(--accent-red);
+        }
+        .auth-message.success {
+            display: block;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+            color: var(--accent-green);
+        }
+
+        /* === LOGGED IN STATE === */
+        .dashboard {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .welcome-msg {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .user-email {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .coming-soon-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(79, 140, 255, 0.1);
+            border-radius: var(--radius);
+            padding: 40px 28px;
+            margin-bottom: 20px;
+        }
+
+        .coming-soon-card .emoji { font-size: 2.5rem; margin-bottom: 16px; }
+        .coming-soon-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+        .coming-soon-card p { color: var(--text-dim); font-size: 0.95rem; }
+
+        .btn-signout {
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-signout:hover { border-color: var(--accent-red); color: var(--accent-red); }
+
+        /* === FEATURES PREVIEW === */
+        .features {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .feature-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        .feature-chip .emoji { font-size: 1.1rem; }
+
+        /* === FOOTER === */
+        .footer {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 20px;
+        }
+
+        /* === FADE IN ANIMATIONS === */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s ease forwards;
+        }
+        .fade-up:nth-child(1) { animation-delay: 0.1s; }
+        .fade-up:nth-child(2) { animation-delay: 0.2s; }
+        .fade-up:nth-child(3) { animation-delay: 0.3s; }
+        .fade-up:nth-child(4) { animation-delay: 0.4s; }
+        .fade-up:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 480px) {
+            .container { padding: 32px 18px; }
+            h1 { font-size: 2rem; }
+            .auth-card { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow blue"></div>
+    <div class="bg-glow red"></div>
+
+    <div class="container">
+
+        <!-- LOGGED OUT STATE -->
+        <div id="auth-section">
+            <div class="countdown-badge fade-up">
+                🔥 <span id="countdown-text"></span> until exam day
+            </div>
+
+            <div class="logo-section fade-up">
+                <span class="flag-icon">🇺🇸</span>
+                <h1>Study <span class="highlight">APUSH</span><br>Like a Boss</h1>
+                <p class="subtitle">The fun way to prep for the 2026 AP US History exam. Quiz yourself, track streaks, crush all 9 periods.</p>
+            </div>
+
+            <div class="features fade-up">
+                <div class="feature-chip"><span class="emoji">🃏</span> Flashcards</div>
+                <div class="feature-chip"><span class="emoji">🎯</span> MCQ Quizzes</div>
+                <div class="feature-chip"><span class="emoji">🔥</span> Daily Streaks</div>
+                <div class="feature-chip"><span class="emoji">🏆</span> Leaderboard</div>
+                <div class="feature-chip"><span class="emoji">👹</span> Boss Battles</div>
+                <div class="feature-chip"><span class="emoji">📝</span> Essay Prep</div>
+            </div>
+
+            <div class="auth-card fade-up">
+                <div class="auth-title" id="auth-title">Create your account</div>
+
+                <div class="auth-message" id="auth-message"></div>
+
+                <button class="btn-google" id="btn-google" onclick="signInWithGoogle()">
+                    <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Continue with Google
+                </button>
+
+                <div class="divider">or</div>
+
+                <div class="input-group">
+                    <input type="email" id="email-input" placeholder="Email address">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="Password (min 6 characters)">
+                </div>
+
+                <button class="btn-email" id="btn-email" onclick="emailAuth()">Sign Up</button>
+
+                <div class="toggle-auth">
+                    <span id="toggle-text">Already have an account?</span>
+                    <a id="toggle-link" onclick="toggleAuthMode()">Log in</a>
+                </div>
+            </div>
+
+            <div class="footer fade-up">
+                Built for the May 8, 2026 APUSH Exam
+            </div>
+        </div>
+
+        <!-- LOGGED IN STATE -->
+        <div class="dashboard" id="dashboard">
+            <div class="countdown-badge fade-up">
+                🔥 <span id="countdown-text-2"></span> until exam day
+            </div>
+
+            <div class="logo-section fade-up">
+                <span class="flag-icon">🇺🇸</span>
+                <h2 class="welcome-msg" id="welcome-msg">Welcome back!</h2>
+                <p class="user-email" id="user-email"></p>
+            </div>
+
+            <div class="coming-soon-card fade-up">
+                <div class="emoji">🚀</div>
+                <h3>You're in!</h3>
+                <p>Flashcards, quizzes, and boss battles are coming soon. We'll notify you when they're ready.</p>
+            </div>
+
+            <button class="btn-signout fade-up" onclick="signOutUser()">Sign Out</button>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK (CDN version) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+
+    <script>
+        // ========================
+        // FIREBASE CONFIG
+        // ========================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSGb5RS3Nl0vVTYgJ_mhL2MKyon8pdxIg",
+            authDomain: "apush-study-app.firebaseapp.com",
+            projectId: "apush-study-app",
+            storageBucket: "apush-study-app.firebasestorage.app",
+            messagingSenderId: "542394166242",
+            appId: "1:542394166242:web:a25342b1cba5af5c3267bb",
+            measurementId: "G-3DNWBLPPC3"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        const auth = firebase.auth();
+        const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+        // ========================
+        // AUTH STATE
+        // ========================
+        let isSignUp = true;
+
+        // Listen for auth state changes
+        auth.onAuthStateChanged(function(user) {
+            if (user) {
+                showDashboard(user);
+            } else {
+                showAuth();
+            }
+        });
+
+        // ========================
+        // GOOGLE SIGN IN
+        // ========================
+        function signInWithGoogle() {
+            clearMessage();
+            auth.signInWithPopup(googleProvider)
+                .catch(function(error) {
+                    showMessage(error.message, 'error');
+                });
+        }
+
+        // ========================
+        // EMAIL/PASSWORD AUTH
+        // ========================
+        function emailAuth() {
+            clearMessage();
+            const email = document.getElementById('email-input').value.trim();
+            const password = document.getElementById('password-input').value;
+
+            if (!email || !password) {
+                showMessage('Please enter both email and password.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters.', 'error');
+                return;
+            }
+
+            if (isSignUp) {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .catch(function(error) {
+                        if (error.code === 'auth/email-already-in-use') {
+                            showMessage('That email is already registered. Try logging in!', 'error');
+                        } else {
+                            showMessage(error.message, 'error');
+                        }
+                    });
+            } else {
+                auth.signInWithEmailAndPassword(email, password)
+                    .catch(function(error) {
+                        if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                            showMessage('Incorrect email or password.', 'error');
+                        } else {
+                            showMessage(error.message, 'error');
+                        }
+                    });
+            }
+        }
+
+        // Enter key triggers submit
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const authSection = document.getElementById('auth-section');
+                if (authSection.style.display !== 'none') {
+                    emailAuth();
+                }
+            }
+        });
+
+        // ========================
+        // TOGGLE SIGN UP / LOG IN
+        // ========================
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            clearMessage();
+            document.getElementById('auth-title').textContent = isSignUp ? 'Create your account' : 'Welcome back';
+            document.getElementById('btn-email').textContent = isSignUp ? 'Sign Up' : 'Log In';
+            document.getElementById('toggle-text').textContent = isSignUp ? 'Already have an account?' : "Don't have an account?";
+            document.getElementById('toggle-link').textContent = isSignUp ? 'Log in' : 'Sign up';
+        }
+
+        // ========================
+        // SIGN OUT
+        // ========================
+        function signOutUser() {
+            auth.signOut();
+        }
+
+        // ========================
+        // UI HELPERS
+        // ========================
+        function showDashboard(user) {
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+
+            const name = user.displayName || user.email.split('@')[0];
+            document.getElementById('welcome-msg').textContent = 'Hey, ' + name + '! 👋';
+            document.getElementById('user-email').textContent = user.email;
+        }
+
+        function showAuth() {
+            document.getElementById('auth-section').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+        }
+
+        function showMessage(text, type) {
+            const el = document.getElementById('auth-message');
+            el.textContent = text;
+            el.className = 'auth-message ' + type;
+        }
+
+        function clearMessage() {
+            const el = document.getElementById('auth-message');
+            el.className = 'auth-message';
+            el.textContent = '';
+        }
+
+        // ========================
+        // COUNTDOWN TO EXAM DAY
+        // ========================
+        function updateCountdown() {
+            const examDate = new Date('2026-05-08T08:00:00');
+            const now = new Date();
+            const diff = examDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            let text = '';
+            if (days > 1) {
+                text = days + ' days';
+            } else if (days === 1) {
+                text = '1 day';
+            } else if (days === 0) {
+                text = 'TODAY';
+            } else {
+                text = 'Exam has passed';
+            }
+
+            const el1 = document.getElementById('countdown-text');
+            const el2 = document.getElementById('countdown-text-2');
+            if (el1) el1.textContent = text;
+            if (el2) el2.textContent = text;
+        }
+
+        updateCountdown();
+        // Update daily
+        setInterval(updateCountdown, 60 * 60 * 1000);
+    </script>
+</body>
+</html>
+
+
