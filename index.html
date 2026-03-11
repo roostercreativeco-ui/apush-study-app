@@ -265,17 +265,38 @@
             margin-bottom: 32px;
         }
 
-        .coming-soon-card {
+        .nav-links {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 20px;
             background: var(--bg-card);
             border: 1px solid rgba(79, 140, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 40px 28px;
-            margin-bottom: 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.2s;
         }
-
-        .coming-soon-card .emoji { font-size: 2.5rem; margin-bottom: 16px; }
-        .coming-soon-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
-        .coming-soon-card p { color: var(--text-dim); font-size: 0.95rem; }
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 140, 255, 0.1);
+        }
+        .nav-link .nav-emoji { font-size: 1.5rem; }
+        .nav-link .nav-arrow {
+            margin-left: auto;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
 
         .btn-signout {
             padding: 12px 28px;
@@ -411,10 +432,15 @@
                 <p class="user-email" id="user-email"></p>
             </div>
 
-            <div class="coming-soon-card fade-up">
-                <div class="emoji">🚀</div>
-                <h3>You're in!</h3>
-                <p>Flashcards, quizzes, and boss battles are coming soon. We'll notify you when they're ready.</p>
+            <div class="nav-links fade-up">
+                <a href="flashcards.html" class="nav-link">
+                    <span class="nav-emoji">🃏</span> Flashcards
+                    <span class="nav-arrow">110 cards →</span>
+                </a>
+                <a href="quiz.html" class="nav-link">
+                    <span class="nav-emoji">🎯</span> MCQ Quiz
+                    <span class="nav-arrow">Test yourself →</span>
+                </a>
             </div>
 
             <button class="btn-signout fade-up" onclick="signOutUser()">Sign Out</button>
