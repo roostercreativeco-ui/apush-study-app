@@ -52,7 +52,6 @@
         .bg-glow.blue { background: var(--accent-blue); top: -200px; right: -100px; }
         .bg-glow.red { background: var(--accent-red); bottom: -300px; left: -200px; opacity: 0.2; }
 
-        /* NAV */
         .nav {
             position: fixed;
             top: 0;
@@ -83,7 +82,6 @@
         }
         .nav-back:hover { color: var(--accent-blue); }
 
-        /* CONTAINER */
         .container {
             position: relative;
             z-index: 1;
@@ -93,7 +91,6 @@
             min-height: 100vh;
         }
 
-        /* PERIOD SELECTOR */
         .period-selector {
             margin-bottom: 28px;
         }
@@ -128,7 +125,6 @@
             color: white;
         }
 
-        /* QUIZ SETUP */
         .quiz-setup {
             text-align: center;
             margin-top: 20px;
@@ -177,6 +173,60 @@
         .btn-start:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
         .btn-start:active { transform: translateY(0); }
 
+        /* HISTORY */
+        .history-section {
+            margin-top: 36px;
+            text-align: left;
+        }
+        .history-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .history-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+        }
+        .history-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .history-period {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+        .history-date {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+        .history-score {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .history-empty {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            padding: 20px;
+            opacity: 0.6;
+        }
+
         /* PROGRESS BAR */
         .progress-bar {
             display: flex;
@@ -204,7 +254,6 @@
             white-space: nowrap;
         }
 
-        /* SCORE STRIP */
         .score-strip {
             display: flex;
             justify-content: center;
@@ -216,7 +265,6 @@
         .score-correct { color: var(--accent-green); }
         .score-wrong { color: var(--accent-red); }
 
-        /* QUESTION CARD */
         .question-card {
             background: var(--bg-card);
             border: 1px solid rgba(79, 140, 255, 0.1);
@@ -241,7 +289,6 @@
             line-height: 1.5;
         }
 
-        /* CHOICES */
         .choices {
             display: flex;
             flex-direction: column;
@@ -281,11 +328,7 @@
             color: var(--text-dim);
             flex-shrink: 0;
         }
-        .choice-btn .choice-text {
-            padding-top: 4px;
-        }
-
-        /* Choice states after answering */
+        .choice-btn .choice-text { padding-top: 4px; }
         .choice-btn.correct {
             border-color: var(--accent-green);
             background: rgba(52, 211, 153, 0.08);
@@ -302,15 +345,9 @@
             background: var(--accent-red);
             color: white;
         }
-        .choice-btn.dimmed {
-            opacity: 0.4;
-        }
-        .choice-btn.disabled {
-            cursor: default;
-            pointer-events: none;
-        }
+        .choice-btn.dimmed { opacity: 0.4; }
+        .choice-btn.disabled { cursor: default; pointer-events: none; }
 
-        /* EXPLANATION BOX */
         .explanation-box {
             display: none;
             padding: 20px;
@@ -337,7 +374,6 @@
         .explanation-box.is-wrong .result-label { color: var(--accent-red); }
         .explanation-box .result-text { color: var(--text-dim); }
 
-        /* NEXT QUESTION BUTTON */
         .btn-next-q {
             display: none;
             width: 100%;
@@ -355,21 +391,13 @@
         .btn-next-q.show { display: block; }
         .btn-next-q:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
 
-        /* RESULTS SCREEN */
         .results {
             display: none;
             text-align: center;
             padding: 20px 0;
         }
-        .results-emoji {
-            font-size: 4rem;
-            margin-bottom: 16px;
-        }
-        .results h2 {
-            font-size: 1.8rem;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
+        .results-emoji { font-size: 4rem; margin-bottom: 16px; }
+        .results h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
         .results .results-subtitle {
             color: var(--text-dim);
             font-size: 1rem;
@@ -390,11 +418,7 @@
         }
         .results-big-score .score-num { color: var(--accent-green); }
         .results-big-score .score-den { color: var(--text-dim); }
-        .results-pct {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
+        .results-pct { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; }
         .results-bar {
             height: 10px;
             background: rgba(255,255,255,0.08);
@@ -416,6 +440,18 @@
         .results-stats .stat-correct { color: var(--accent-green); }
         .results-stats .stat-wrong { color: var(--accent-red); }
         .results-stats span { font-weight: 700; }
+        .saved-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 16px;
+            padding: 6px 14px;
+            background: rgba(52, 211, 153, 0.1);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--accent-green);
+        }
 
         .results-actions {
             display: flex;
@@ -452,7 +488,6 @@
         }
         .btn-home:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
-        /* LOADING */
         .loading {
             text-align: center;
             padding: 80px 20px;
@@ -489,13 +524,11 @@
 
     <div class="container">
 
-        <!-- LOADING -->
         <div id="loading" class="loading">
             <div class="spinner"></div>
             <p>Loading questions...</p>
         </div>
 
-        <!-- SETUP SCREEN -->
         <div id="setup-screen" style="display:none;">
             <div class="period-selector">
                 <label>Choose a period:</label>
@@ -527,9 +560,13 @@
                 </div>
                 <button class="btn-start" onclick="startQuiz()">🎯 Start Quiz</button>
             </div>
+
+            <div class="history-section" id="history-section" style="display:none;">
+                <div class="history-title">📊 Recent Scores</div>
+                <div class="history-list" id="history-list"></div>
+            </div>
         </div>
 
-        <!-- QUIZ SCREEN -->
         <div id="quiz-screen" style="display:none;">
             <div class="progress-bar">
                 <div class="progress-track">
@@ -558,7 +595,6 @@
             <button class="btn-next-q" id="btn-next-q" onclick="nextQuestion()">Next Question →</button>
         </div>
 
-        <!-- RESULTS SCREEN -->
         <div class="results" id="results-screen">
             <div class="results-emoji" id="results-emoji">🎉</div>
             <h2 id="results-title">Great Job!</h2>
@@ -576,6 +612,7 @@
                     <div class="stat-correct">✓ Correct: <span id="final-correct-2">0</span></div>
                     <div class="stat-wrong">✗ Wrong: <span id="final-wrong">0</span></div>
                 </div>
+                <div class="saved-badge" id="saved-badge" style="display:none;">✓ Score saved</div>
             </div>
 
             <div class="results-actions">
@@ -586,7 +623,129 @@
 
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
     <script>
+        // ========================
+        // FIREBASE SETUP
+        // ========================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSGb5RS3Nl0vVTYgJ_mhL2MKyon8pdxIg",
+            authDomain: "apush-study-app.firebaseapp.com",
+            projectId: "apush-study-app",
+            storageBucket: "apush-study-app.firebasestorage.app",
+            messagingSenderId: "542394166242",
+            appId: "1:542394166242:web:a25342b1cba5af5c3267bb",
+            measurementId: "G-3DNWBLPPC3"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+
+        auth.onAuthStateChanged(function(user) {
+            currentUser = user;
+            if (user) {
+                loadHistory();
+            }
+        });
+
+        // ========================
+        // SAVE SCORE TO FIRESTORE
+        // ========================
+        async function saveScore(correct, total, period, pct) {
+            if (!currentUser) return;
+
+            try {
+                await db.collection('users').doc(currentUser.uid)
+                    .collection('quizScores').add({
+                        correct: correct,
+                        total: total,
+                        percent: pct,
+                        period: period,
+                        date: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                // Update user stats
+                var userRef = db.collection('users').doc(currentUser.uid);
+                var userDoc = await userRef.get();
+
+                if (userDoc.exists) {
+                    var data = userDoc.data();
+                    await userRef.update({
+                        totalQuizzes: (data.totalQuizzes || 0) + 1,
+                        totalCorrect: (data.totalCorrect || 0) + correct,
+                        totalAnswered: (data.totalAnswered || 0) + total,
+                        lastActive: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    await userRef.set({
+                        name: currentUser.displayName || currentUser.email.split('@')[0],
+                        email: currentUser.email,
+                        totalQuizzes: 1,
+                        totalCorrect: correct,
+                        totalAnswered: total,
+                        lastActive: firebase.firestore.FieldValue.serverTimestamp(),
+                        joined: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+
+                document.getElementById('saved-badge').style.display = 'inline-flex';
+            } catch (error) {
+                console.log('Could not save score:', error);
+            }
+        }
+
+        // ========================
+        // LOAD QUIZ HISTORY
+        // ========================
+        async function loadHistory() {
+            if (!currentUser) return;
+
+            try {
+                var snapshot = await db.collection('users').doc(currentUser.uid)
+                    .collection('quizScores')
+                    .orderBy('date', 'desc')
+                    .limit(5)
+                    .get();
+
+                if (snapshot.empty) {
+                    document.getElementById('history-section').style.display = 'none';
+                    return;
+                }
+
+                var html = '';
+                snapshot.forEach(function(doc) {
+                    var d = doc.data();
+                    var dateStr = d.date ? d.date.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Just now';
+                    var periodLabel = d.period === 'all' ? 'All Periods' : 'Period ' + d.period;
+                    var pct = d.percent;
+                    var color = pct >= 80 ? 'var(--accent-green)' : pct >= 60 ? 'var(--accent-gold)' : 'var(--accent-red)';
+
+                    html += '<div class="history-item">' +
+                        '<div class="history-left">' +
+                        '<span class="history-period">' + periodLabel + '</span>' +
+                        '<span class="history-date">' + dateStr + '</span>' +
+                        '</div>' +
+                        '<span class="history-score" style="color:' + color + '">' + d.correct + '/' + d.total + ' (' + pct + '%)</span>' +
+                        '</div>';
+                });
+
+                document.getElementById('history-list').innerHTML = html;
+                document.getElementById('history-section').style.display = 'block';
+            } catch (error) {
+                console.log('Could not load history:', error);
+            }
+        }
+
+        // ========================
+        // QUESTION LOADING
+        // ========================
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=919172279&single=true&output=csv";
 
         let allQuestions = [];
@@ -598,9 +757,6 @@
         let answered = false;
         let currentPeriod = "all";
 
-        // ========================
-        // LOAD QUESTIONS
-        // ========================
         async function loadQuestions() {
             try {
                 const response = await fetch(SHEET_URL);
@@ -715,20 +871,14 @@
             answered = false;
             var q = quizQuestions[currentIndex];
 
-            // Progress
             var pct = ((currentIndex) / quizQuestions.length) * 100;
             document.getElementById('progress-fill').style.width = pct + '%';
             document.getElementById('progress-text').textContent = (currentIndex + 1) + ' / ' + quizQuestions.length;
-
-            // Score
             document.getElementById('score-correct').textContent = correctCount;
             document.getElementById('score-wrong').textContent = wrongCount;
-
-            // Question
             document.getElementById('q-period').textContent = 'Period ' + q.period;
             document.getElementById('q-text').textContent = q.question;
 
-            // Choices
             var choices = [
                 { letter: 'A', text: q.choiceA },
                 { letter: 'B', text: q.choiceB },
@@ -744,8 +894,6 @@
                     '</button>';
             });
             document.getElementById('choices').innerHTML = choicesHTML;
-
-            // Hide explanation and next button
             document.getElementById('explanation-box').className = 'explanation-box';
             document.getElementById('btn-next-q').className = 'btn-next-q';
         }
@@ -768,11 +916,9 @@
                 document.getElementById('score-wrong').textContent = wrongCount;
             }
 
-            // Style all buttons
             document.querySelectorAll('.choice-btn').forEach(function(btn) {
                 btn.classList.add('disabled');
                 var btnLetter = btn.dataset.letter;
-
                 if (btnLetter === q.correct) {
                     btn.classList.add('correct');
                 } else if (btnLetter === letter && !isCorrect) {
@@ -782,19 +928,16 @@
                 }
             });
 
-            // Show explanation
             var expBox = document.getElementById('explanation-box');
             expBox.className = 'explanation-box show ' + (isCorrect ? 'is-correct' : 'is-wrong');
             document.getElementById('result-label').textContent = isCorrect ? '✓ Correct!' : '✗ Incorrect';
             document.getElementById('result-text').textContent = q.explanation;
 
-            // Show next button
             var isLast = currentIndex >= quizQuestions.length - 1;
             var nextBtn = document.getElementById('btn-next-q');
             nextBtn.textContent = isLast ? 'See Results →' : 'Next Question →';
             nextBtn.className = 'btn-next-q show';
 
-            // Scroll to explanation on mobile
             setTimeout(function() { expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
         }
 
@@ -826,21 +969,19 @@
             document.getElementById('final-correct-2').textContent = correctCount;
             document.getElementById('final-wrong').textContent = wrongCount;
             document.getElementById('final-pct').textContent = pct + '%';
+            document.getElementById('saved-badge').style.display = 'none';
 
-            // Color the percentage
             var pctEl = document.getElementById('final-pct');
             if (pct >= 80) { pctEl.style.color = 'var(--accent-green)'; }
             else if (pct >= 60) { pctEl.style.color = 'var(--accent-gold)'; }
             else { pctEl.style.color = 'var(--accent-red)'; }
 
-            // Bar fill with color
             var barFill = document.getElementById('results-bar-fill');
             if (pct >= 80) { barFill.style.background = 'linear-gradient(90deg, var(--accent-green), #34d399)'; }
             else if (pct >= 60) { barFill.style.background = 'linear-gradient(90deg, var(--accent-gold), #ffc845)'; }
             else { barFill.style.background = 'linear-gradient(90deg, var(--accent-red), #ff6b6b)'; }
             setTimeout(function() { barFill.style.width = pct + '%'; }, 100);
 
-            // Emoji and title
             var emoji, title, subtitle;
             if (pct === 100) {
                 emoji = '🏆'; title = 'Perfect Score!'; subtitle = "You're ready for the exam!";
@@ -857,6 +998,9 @@
             document.getElementById('results-title').textContent = title;
             document.getElementById('results-subtitle').textContent = subtitle;
 
+            // Save to Firestore
+            saveScore(correctCount, total, currentPeriod, pct);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -867,6 +1011,7 @@
             document.getElementById('results-screen').style.display = 'none';
             document.getElementById('results-bar-fill').style.width = '0%';
             document.getElementById('setup-screen').style.display = 'block';
+            loadHistory();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
