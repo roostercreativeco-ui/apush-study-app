@@ -587,4 +587,310 @@
     </div>
 
     <script>
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=919172279&single=true
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=919172279&single=true&output=csv";
+
+        let allQuestions = [];
+        let filteredQuestions = [];
+        let quizQuestions = [];
+        let currentIndex = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let answered = false;
+        let currentPeriod = "all";
+
+        // ========================
+        // LOAD QUESTIONS
+        // ========================
+        async function loadQuestions() {
+            try {
+                const response = await fetch(SHEET_URL);
+                const text = await response.text();
+                const rows = parseCSV(text);
+
+                allQuestions = rows.slice(1).map(function(row) {
+                    return {
+                        id: row[0], period: row[1], type: row[2],
+                        question: row[3], choiceA: row[4], choiceB: row[5],
+                        choiceC: row[6], choiceD: row[7], correct: row[8],
+                        explanation: row[9]
+                    };
+                }).filter(function(q) { return q.question && q.question.trim() !== ''; });
+
+                filteredQuestions = [...allQuestions];
+                updateAvailableCount();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('setup-screen').style.display = 'block';
+            } catch (error) {
+                document.getElementById('loading').innerHTML =
+                    '<p style="color: var(--accent-red);">Failed to load questions. Please refresh.</p>';
+            }
+        }
+
+        function parseCSV(text) {
+            const rows = [];
+            let row = [];
+            let field = '';
+            let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i];
+                const next = text[i + 1];
+                if (inQuotes) {
+                    if (char === '"' && next === '"') { field += '"'; i++; }
+                    else if (char === '"') { inQuotes = false; }
+                    else { field += char; }
+                } else {
+                    if (char === '"') { inQuotes = true; }
+                    else if (char === ',') { row.push(field.trim()); field = ''; }
+                    else if (char === '\n' || (char === '\r' && next === '\n')) {
+                        row.push(field.trim());
+                        if (row.length > 1) rows.push(row);
+                        row = []; field = '';
+                        if (char === '\r') i++;
+                    } else { field += char; }
+                }
+            }
+            if (field || row.length > 0) { row.push(field.trim()); if (row.length > 1) rows.push(row); }
+            return rows;
+        }
+
+        // ========================
+        // PERIOD SELECTION
+        // ========================
+        document.querySelectorAll('.period-pill').forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                currentPeriod = this.dataset.period;
+                document.querySelectorAll('.period-pill').forEach(function(p) { p.classList.remove('active'); });
+                this.classList.add('active');
+
+                if (currentPeriod === "all") {
+                    filteredQuestions = [...allQuestions];
+                } else {
+                    filteredQuestions = allQuestions.filter(function(q) { return q.period === currentPeriod; });
+                }
+                updateAvailableCount();
+            });
+        });
+
+        function updateAvailableCount() {
+            document.getElementById('available-count').textContent = filteredQuestions.length + ' questions available';
+        }
+
+        // ========================
+        // START QUIZ
+        // ========================
+        function startQuiz() {
+            if (filteredQuestions.length === 0) return;
+
+            var numSelect = document.getElementById('num-questions').value;
+            var shuffled = [...filteredQuestions];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                var temp = shuffled[i];
+                shuffled[i] = shuffled[j];
+                shuffled[j] = temp;
+            }
+
+            if (numSelect === "all") {
+                quizQuestions = shuffled;
+            } else {
+                var num = parseInt(numSelect);
+                quizQuestions = shuffled.slice(0, Math.min(num, shuffled.length));
+            }
+
+            currentIndex = 0;
+            correctCount = 0;
+            wrongCount = 0;
+
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('results-screen').style.display = 'none';
+
+            showQuestion();
+        }
+
+        // ========================
+        // SHOW QUESTION
+        // ========================
+        function showQuestion() {
+            answered = false;
+            var q = quizQuestions[currentIndex];
+
+            // Progress
+            var pct = ((currentIndex) / quizQuestions.length) * 100;
+            document.getElementById('progress-fill').style.width = pct + '%';
+            document.getElementById('progress-text').textContent = (currentIndex + 1) + ' / ' + quizQuestions.length;
+
+            // Score
+            document.getElementById('score-correct').textContent = correctCount;
+            document.getElementById('score-wrong').textContent = wrongCount;
+
+            // Question
+            document.getElementById('q-period').textContent = 'Period ' + q.period;
+            document.getElementById('q-text').textContent = q.question;
+
+            // Choices
+            var choices = [
+                { letter: 'A', text: q.choiceA },
+                { letter: 'B', text: q.choiceB },
+                { letter: 'C', text: q.choiceC },
+                { letter: 'D', text: q.choiceD }
+            ];
+
+            var choicesHTML = '';
+            choices.forEach(function(c) {
+                choicesHTML += '<button class="choice-btn" data-letter="' + c.letter + '" onclick="selectAnswer(\'' + c.letter + '\')">' +
+                    '<div class="letter">' + c.letter + '</div>' +
+                    '<div class="choice-text">' + c.text + '</div>' +
+                    '</button>';
+            });
+            document.getElementById('choices').innerHTML = choicesHTML;
+
+            // Hide explanation and next button
+            document.getElementById('explanation-box').className = 'explanation-box';
+            document.getElementById('btn-next-q').className = 'btn-next-q';
+        }
+
+        // ========================
+        // SELECT ANSWER
+        // ========================
+        function selectAnswer(letter) {
+            if (answered) return;
+            answered = true;
+
+            var q = quizQuestions[currentIndex];
+            var isCorrect = letter === q.correct;
+
+            if (isCorrect) {
+                correctCount++;
+                document.getElementById('score-correct').textContent = correctCount;
+            } else {
+                wrongCount++;
+                document.getElementById('score-wrong').textContent = wrongCount;
+            }
+
+            // Style all buttons
+            document.querySelectorAll('.choice-btn').forEach(function(btn) {
+                btn.classList.add('disabled');
+                var btnLetter = btn.dataset.letter;
+
+                if (btnLetter === q.correct) {
+                    btn.classList.add('correct');
+                } else if (btnLetter === letter && !isCorrect) {
+                    btn.classList.add('wrong');
+                } else {
+                    btn.classList.add('dimmed');
+                }
+            });
+
+            // Show explanation
+            var expBox = document.getElementById('explanation-box');
+            expBox.className = 'explanation-box show ' + (isCorrect ? 'is-correct' : 'is-wrong');
+            document.getElementById('result-label').textContent = isCorrect ? '✓ Correct!' : '✗ Incorrect';
+            document.getElementById('result-text').textContent = q.explanation;
+
+            // Show next button
+            var isLast = currentIndex >= quizQuestions.length - 1;
+            var nextBtn = document.getElementById('btn-next-q');
+            nextBtn.textContent = isLast ? 'See Results →' : 'Next Question →';
+            nextBtn.className = 'btn-next-q show';
+
+            // Scroll to explanation on mobile
+            setTimeout(function() { expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+        }
+
+        // ========================
+        // NEXT QUESTION
+        // ========================
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex >= quizQuestions.length) {
+                showResults();
+            } else {
+                showQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // ========================
+        // RESULTS
+        // ========================
+        function showResults() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+
+            var total = quizQuestions.length;
+            var pct = Math.round((correctCount / total) * 100);
+
+            document.getElementById('final-correct').textContent = correctCount;
+            document.getElementById('final-total').textContent = ' / ' + total;
+            document.getElementById('final-correct-2').textContent = correctCount;
+            document.getElementById('final-wrong').textContent = wrongCount;
+            document.getElementById('final-pct').textContent = pct + '%';
+
+            // Color the percentage
+            var pctEl = document.getElementById('final-pct');
+            if (pct >= 80) { pctEl.style.color = 'var(--accent-green)'; }
+            else if (pct >= 60) { pctEl.style.color = 'var(--accent-gold)'; }
+            else { pctEl.style.color = 'var(--accent-red)'; }
+
+            // Bar fill with color
+            var barFill = document.getElementById('results-bar-fill');
+            if (pct >= 80) { barFill.style.background = 'linear-gradient(90deg, var(--accent-green), #34d399)'; }
+            else if (pct >= 60) { barFill.style.background = 'linear-gradient(90deg, var(--accent-gold), #ffc845)'; }
+            else { barFill.style.background = 'linear-gradient(90deg, var(--accent-red), #ff6b6b)'; }
+            setTimeout(function() { barFill.style.width = pct + '%'; }, 100);
+
+            // Emoji and title
+            var emoji, title, subtitle;
+            if (pct === 100) {
+                emoji = '🏆'; title = 'Perfect Score!'; subtitle = "You're ready for the exam!";
+            } else if (pct >= 80) {
+                emoji = '🔥'; title = 'Great Job!'; subtitle = 'You really know your history!';
+            } else if (pct >= 60) {
+                emoji = '💪'; title = 'Not Bad!'; subtitle = 'Keep studying and you\'ll crush it!';
+            } else if (pct >= 40) {
+                emoji = '📚'; title = 'Keep Going!'; subtitle = 'Review the flashcards and try again!';
+            } else {
+                emoji = '😤'; title = 'Time to Study!'; subtitle = 'Hit the flashcards and come back stronger!';
+            }
+            document.getElementById('results-emoji').textContent = emoji;
+            document.getElementById('results-title').textContent = title;
+            document.getElementById('results-subtitle').textContent = subtitle;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========================
+        // RETRY
+        // ========================
+        function retryQuiz() {
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('results-bar-fill').style.width = '0%';
+            document.getElementById('setup-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========================
+        // KEYBOARD SHORTCUTS
+        // ========================
+        document.addEventListener('keydown', function(e) {
+            if (!answered) {
+                if (e.key === '1' || e.key === 'a' || e.key === 'A') selectAnswer('A');
+                else if (e.key === '2' || e.key === 'b' || e.key === 'B') selectAnswer('B');
+                else if (e.key === '3' || e.key === 'c' || e.key === 'C') selectAnswer('C');
+                else if (e.key === '4' || e.key === 'd' || e.key === 'D') selectAnswer('D');
+            } else {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    nextQuestion();
+                }
+            }
+        });
+
+        // ========================
+        // INIT
+        // ========================
+        loadQuestions();
+    </script>
+</body>
+</html>
