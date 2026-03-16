@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -90,6 +90,18 @@
         }
         .period-pill:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
         .period-pill.active { background: var(--accent-blue); border-color: var(--accent-blue); color: white; }
+        .period-pill.bookmark-pill {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        .period-pill.bookmark-pill:hover {
+            background: rgba(255, 200, 69, 0.1);
+        }
+        .period-pill.bookmark-pill.active {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: #0a0e1a;
+        }
 
         .quiz-setup { text-align: center; margin-top: 20px; }
         .quiz-setup p { color: var(--text-dim); margin-bottom: 20px; font-size: 0.95rem; }
@@ -119,6 +131,7 @@
         .history-date { font-size: 0.75rem; color: var(--text-dim); }
         .history-score { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; }
 
+        /* PROGRESS BAR */
         .progress-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
         .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); border-radius: 100px; transition: width 0.4s ease; }
@@ -128,21 +141,82 @@
         .score-correct { color: var(--accent-green); }
         .score-wrong { color: var(--accent-red); }
 
+        /* QUESTION CARD — with bookmark row */
         .question-card {
             background: var(--bg-card);
             border: 1px solid rgba(79, 140, 255, 0.1);
             border-radius: var(--radius);
-            padding: 28px 24px;
+            padding: 28px 24px 20px;
             margin-bottom: 20px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .question-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
         }
         .question-card .period-tag {
             font-size: 0.75rem; font-weight: 600; color: var(--accent-gold);
             background: rgba(255, 200, 69, 0.1);
             padding: 4px 12px; border-radius: 100px;
-            display: inline-block; margin-bottom: 16px;
+            display: inline-block;
         }
-        .question-card .question-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; }
+        .question-card .question-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 16px; }
+
+        /* BOOKMARK BUTTON */
+        .bookmark-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: transparent;
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+        .bookmark-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        .bookmark-btn.bookmarked {
+            background: rgba(255, 200, 69, 0.12);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+        .bookmark-btn .bk-star { font-size: 1rem; line-height: 1; }
+
+        /* BOOKMARK TOAST */
+        .bookmark-toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 10px 20px;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            z-index: 999;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .bookmark-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
         .choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 
@@ -179,14 +253,7 @@
             color: var(--text-dim);
             flex-shrink: 0;
         }
-
-        .choice-body {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            padding-top: 4px;
-            flex: 1;
-        }
+        .choice-body { display: flex; flex-direction: column; gap: 0; padding-top: 4px; flex: 1; }
         .choice-text { line-height: 1.4; }
 
         .wrong-reason {
@@ -201,10 +268,7 @@
             color: #ff9999;
             font-weight: 500;
         }
-        .wrong-reason.visible {
-            display: block;
-            animation: fadeInReason 0.3s ease;
-        }
+        .wrong-reason.visible { display: block; animation: fadeInReason 0.3s ease; }
         .choice-btn.correct .wrong-reason { display: none !important; }
 
         @keyframes fadeInReason {
@@ -261,6 +325,17 @@
         .results-stats .stat-correct { color: var(--accent-green); }
         .results-stats .stat-wrong { color: var(--accent-red); }
         .results-stats span { font-weight: 700; }
+        .weakest-period {
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: rgba(255, 200, 69, 0.07);
+            border: 1px solid rgba(255, 200, 69, 0.2);
+            border-radius: 12px;
+            font-size: 0.88rem;
+            color: var(--accent-gold);
+            line-height: 1.5;
+        }
+        .weakest-period strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
         .saved-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 6px 14px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); border-radius: 100px; font-size: 0.8rem; color: var(--accent-green); }
         .results-actions { display: flex; gap: 12px; justify-content: center; }
         .btn-retry { padding: 14px 28px; background: linear-gradient(135deg, var(--accent-blue), #6c63ff); color: white; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
@@ -275,7 +350,7 @@
 
         @media (max-width: 480px) {
             .container { padding: 72px 18px 32px; }
-            .question-card { padding: 22px 18px; }
+            .question-card { padding: 22px 18px 16px; }
             .choice-btn { padding: 14px 14px; font-size: 0.9rem; }
             .results-big-score { font-size: 2.4rem; }
         }
@@ -285,6 +360,9 @@
     <div class="bg-grid"></div>
     <div class="bg-glow blue"></div>
     <div class="bg-glow red"></div>
+
+    <!-- Bookmark toast notification -->
+    <div class="bookmark-toast" id="bookmark-toast"></div>
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">🇺🇸 <span>APUSH</span></a>
@@ -312,6 +390,7 @@
                     <button class="period-pill" data-period="7">7</button>
                     <button class="period-pill" data-period="8">8</button>
                     <button class="period-pill" data-period="9">9</button>
+                    <button class="period-pill bookmark-pill" data-period="bookmarks" id="bookmarks-pill" style="display:none;">⭐ Saved</button>
                 </div>
             </div>
 
@@ -350,7 +429,13 @@
             </div>
 
             <div class="question-card">
-                <span class="period-tag" id="q-period">Period 3</span>
+                <div class="question-card-top">
+                    <span class="period-tag" id="q-period">Period 3</span>
+                    <button class="bookmark-btn" id="bookmark-btn" onclick="toggleBookmark()">
+                        <span class="bk-star">☆</span>
+                        <span class="bk-label">Save</span>
+                    </button>
+                </div>
                 <div class="question-text" id="q-text"></div>
             </div>
 
@@ -382,6 +467,7 @@
                     <div class="stat-wrong">✗ Wrong: <span id="final-wrong">0</span></div>
                 </div>
                 <div class="saved-badge" id="saved-badge" style="display:none;">✓ Score saved</div>
+                <div class="weakest-period" id="weakest-period" style="display:none;"></div>
             </div>
 
             <div class="results-actions">
@@ -412,11 +498,113 @@
         const db = firebase.firestore();
         let currentUser = null;
 
+        // ========================
+        // BOOKMARKS (in-memory + Firestore)
+        // ========================
+        let bookmarkedIds = new Set(); // set of question id strings
+
+        async function loadBookmarks() {
+            if (!currentUser) return;
+            try {
+                var snap = await db.collection('users').doc(currentUser.uid)
+                    .collection('bookmarks').get();
+                bookmarkedIds = new Set();
+                snap.forEach(function(doc) { bookmarkedIds.add(doc.id); });
+                updateBookmarksPill();
+            } catch(e) { console.log('Could not load bookmarks:', e); }
+        }
+
+        async function toggleBookmark() {
+            var q = quizQuestions[currentIndex];
+            if (!q) return;
+            var qid = String(q.id);
+            var btn = document.getElementById('bookmark-btn');
+
+            if (bookmarkedIds.has(qid)) {
+                // Remove bookmark
+                bookmarkedIds.delete(qid);
+                btn.classList.remove('bookmarked');
+                btn.querySelector('.bk-star').textContent = '☆';
+                btn.querySelector('.bk-label').textContent = 'Save';
+                showToast('Removed ✕');
+                if (currentUser) {
+                    try { await db.collection('users').doc(currentUser.uid).collection('bookmarks').doc(qid).delete(); } catch(e) {}
+                }
+            } else {
+                // Add bookmark
+                bookmarkedIds.add(qid);
+                btn.classList.add('bookmarked');
+                btn.querySelector('.bk-star').textContent = '⭐';
+                btn.querySelector('.bk-label').textContent = 'Saved!';
+                showToast('⭐ Saved!');
+                if (currentUser) {
+                    try {
+                        await db.collection('users').doc(currentUser.uid).collection('bookmarks').doc(qid).set({
+                            questionId: qid,
+                            period: q.period,
+                            savedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    } catch(e) {}
+                }
+            }
+            updateBookmarksPill();
+        }
+
+        function updateBookmarkBtn(q) {
+            var btn = document.getElementById('bookmark-btn');
+            var isBookmarked = bookmarkedIds.has(String(q.id));
+            if (isBookmarked) {
+                btn.classList.add('bookmarked');
+                btn.querySelector('.bk-star').textContent = '⭐';
+                btn.querySelector('.bk-label').textContent = 'Saved!';
+            } else {
+                btn.classList.remove('bookmarked');
+                btn.querySelector('.bk-star').textContent = '☆';
+                btn.querySelector('.bk-label').textContent = 'Save';
+            }
+        }
+
+        function updateBookmarksPill() {
+            var pill = document.getElementById('bookmarks-pill');
+            if (bookmarkedIds.size > 0) {
+                pill.style.display = 'inline-flex';
+                pill.textContent = '⭐ Saved (' + bookmarkedIds.size + ')';
+            } else {
+                pill.style.display = 'none';
+                // If currently viewing bookmarks and all removed, switch to all
+                if (currentPeriod === 'bookmarks') {
+                    currentPeriod = 'all';
+                    filteredQuestions = [...allQuestions];
+                    updateAvailableCount();
+                    document.querySelectorAll('.period-pill').forEach(function(p) { p.classList.remove('active'); });
+                    document.querySelector('[data-period="all"]').classList.add('active');
+                }
+            }
+        }
+
+        let toastTimer = null;
+        function showToast(msg) {
+            var toast = document.getElementById('bookmark-toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 1800);
+        }
+
+        // ========================
+        // AUTH
+        // ========================
         auth.onAuthStateChanged(function(user) {
             currentUser = user;
-            if (user) loadHistory();
+            if (user) {
+                loadHistory();
+                loadBookmarks();
+            }
         });
 
+        // ========================
+        // SAVE SCORE
+        // ========================
         async function saveScore(correct, total, period, pct) {
             if (!currentUser) return;
             try {
@@ -448,6 +636,9 @@
             } catch(e) { console.log('Could not save score:', e); }
         }
 
+        // ========================
+        // LOAD HISTORY
+        // ========================
         async function loadHistory() {
             if (!currentUser) return;
             try {
@@ -458,7 +649,7 @@
                 snap.forEach(function(doc) {
                     var d = doc.data();
                     var dateStr = d.date ? d.date.toDate().toLocaleDateString('en-US',{month:'short',day:'numeric'}) : 'Just now';
-                    var periodLabel = d.period === 'all' ? 'All Periods' : 'Period ' + d.period;
+                    var periodLabel = d.period === 'all' ? 'All Periods' : d.period === 'bookmarks' ? '⭐ Saved' : 'Period ' + d.period;
                     var color = d.percent >= 80 ? 'var(--accent-green)' : d.percent >= 60 ? 'var(--accent-gold)' : 'var(--accent-red)';
                     html += '<div class="history-item"><div class="history-left"><span class="history-period">' + periodLabel + '</span><span class="history-date">' + dateStr + '</span></div><span class="history-score" style="color:' + color + '">' + d.correct + '/' + d.total + ' (' + d.percent + '%)</span></div>';
                 });
@@ -467,11 +658,15 @@
             } catch(e) { console.log('Could not load history:', e); }
         }
 
+        // ========================
+        // QUESTION LOADING
+        // ========================
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=562015740&single=true&output=csv";
 
         let allQuestions = [], filteredQuestions = [], quizQuestions = [];
         let currentIndex = 0, correctCount = 0, wrongCount = 0;
         let answered = false, currentPeriod = "all";
+        let wrongByPeriod = {};
 
         async function loadQuestions() {
             try {
@@ -482,12 +677,9 @@
                         id: row[0], period: row[1], type: row[2],
                         question: row[3],
                         choiceA: row[4], choiceB: row[5], choiceC: row[6], choiceD: row[7],
-                        correct: row[8],
-                        explanation: row[9],
-                        explainA: row[10] || '',
-                        explainB: row[11] || '',
-                        explainC: row[12] || '',
-                        explainD: row[13] || ''
+                        correct: row[8], explanation: row[9],
+                        explainA: row[10] || '', explainB: row[11] || '',
+                        explainC: row[12] || '', explainD: row[13] || ''
                     };
                 }).filter(function(q) { return q.question && q.question.trim() !== ''; });
 
@@ -523,20 +715,35 @@
             return rows;
         }
 
+        // ========================
+        // PERIOD SELECTION
+        // ========================
         document.querySelectorAll('.period-pill').forEach(function(pill) {
             pill.addEventListener('click', function() {
                 currentPeriod = this.dataset.period;
                 document.querySelectorAll('.period-pill').forEach(function(p) { p.classList.remove('active'); });
                 this.classList.add('active');
-                filteredQuestions = currentPeriod === "all" ? [...allQuestions] : allQuestions.filter(function(q) { return q.period === currentPeriod; });
+
+                if (currentPeriod === 'all') {
+                    filteredQuestions = [...allQuestions];
+                } else if (currentPeriod === 'bookmarks') {
+                    filteredQuestions = allQuestions.filter(function(q) { return bookmarkedIds.has(String(q.id)); });
+                } else {
+                    filteredQuestions = allQuestions.filter(function(q) { return q.period === currentPeriod; });
+                }
                 updateAvailableCount();
             });
         });
 
         function updateAvailableCount() {
-            document.getElementById('available-count').textContent = filteredQuestions.length + ' questions available';
+            var count = filteredQuestions.length;
+            var label = currentPeriod === 'bookmarks' ? count + ' saved questions' : count + ' questions available';
+            document.getElementById('available-count').textContent = label;
         }
 
+        // ========================
+        // START QUIZ
+        // ========================
         function startQuiz() {
             if (filteredQuestions.length === 0) return;
             var numSelect = document.getElementById('num-questions').value;
@@ -546,13 +753,16 @@
                 [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
             quizQuestions = numSelect === "all" ? shuffled : shuffled.slice(0, Math.min(parseInt(numSelect), shuffled.length));
-            currentIndex = 0; correctCount = 0; wrongCount = 0;
+            currentIndex = 0; correctCount = 0; wrongCount = 0; wrongByPeriod = {};
             document.getElementById('setup-screen').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'block';
             document.getElementById('results-screen').style.display = 'none';
             showQuestion();
         }
 
+        // ========================
+        // SHOW QUESTION
+        // ========================
         function showQuestion() {
             answered = false;
             var q = quizQuestions[currentIndex];
@@ -563,6 +773,9 @@
             document.getElementById('score-wrong').textContent = wrongCount;
             document.getElementById('q-period').textContent = 'Period ' + q.period;
             document.getElementById('q-text').textContent = q.question;
+
+            // Set bookmark button state
+            updateBookmarkBtn(q);
 
             var choices = [
                 { letter: 'A', text: q.choiceA, explain: q.explainA },
@@ -593,6 +806,9 @@
             return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
         }
 
+        // ========================
+        // SELECT ANSWER
+        // ========================
         function selectAnswer(letter) {
             if (answered) return;
             answered = true;
@@ -601,7 +817,11 @@
             var isCorrect = letter === q.correct;
 
             if (isCorrect) { correctCount++; document.getElementById('score-correct').textContent = correctCount; }
-            else           { wrongCount++;   document.getElementById('score-wrong').textContent = wrongCount; }
+            else {
+                wrongCount++; document.getElementById('score-wrong').textContent = wrongCount;
+                var wp = q.period || 'unknown';
+                wrongByPeriod[wp] = (wrongByPeriod[wp] || 0) + 1;
+            }
 
             document.querySelectorAll('.choice-btn').forEach(function(btn) {
                 btn.classList.add('disabled');
@@ -638,12 +858,55 @@
             setTimeout(function() { expBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
         }
 
+        // ========================
+        // NEXT QUESTION
+        // ========================
         function nextQuestion() {
             currentIndex++;
             if (currentIndex >= quizQuestions.length) { showResults(); }
             else { showQuestion(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
         }
 
+
+        // ========================
+        // WEAKEST PERIOD
+        // ========================
+        function showWeakestPeriod() {
+            var el = document.getElementById('weakest-period');
+            if (!el) return;
+
+            // Find period with most wrong answers
+            var periods = Object.keys(wrongByPeriod);
+            if (periods.length === 0) {
+                el.style.display = 'none';
+                return;
+            }
+
+            var weakest = periods.reduce(function(a, b) {
+                return wrongByPeriod[a] >= wrongByPeriod[b] ? a : b;
+            });
+
+            var periodNames = {
+                '1': 'Period 1 — Pre-Columbian & Exploration',
+                '2': 'Period 2 — Colonial America',
+                '3': 'Period 3 — Revolution & Early Republic',
+                '4': 'Period 4 — Expansion & Reform',
+                '5': 'Period 5 — Civil War & Reconstruction',
+                '6': 'Period 6 — Gilded Age',
+                '7': 'Period 7 — Progressivism through WWII',
+                '8': 'Period 8 — Cold War & Civil Rights',
+                '9': 'Period 9 — Modern America'
+            };
+
+            var name = periodNames[weakest] || ('Period ' + weakest);
+            var count = wrongByPeriod[weakest];
+            el.innerHTML = '<strong>📉 Weakest area: ' + name + '</strong>You missed ' + count + ' question' + (count > 1 ? 's' : '') + ' here — quiz that period next!';
+            el.style.display = 'block';
+        }
+
+        // ========================
+        // RESULTS
+        // ========================
         function showResults() {
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('results-screen').style.display = 'block';
@@ -680,10 +943,14 @@
             document.getElementById('results-title').textContent    = title;
             document.getElementById('results-subtitle').textContent = subtitle;
 
+            showWeakestPeriod();
             saveScore(correctCount, total, currentPeriod, pct);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // ========================
+        // RETRY
+        // ========================
         function retryQuiz() {
             document.getElementById('results-screen').style.display = 'none';
             document.getElementById('results-bar-fill').style.width = '0%';
@@ -692,6 +959,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // ========================
+        // KEYBOARD SHORTCUTS
+        // ========================
         document.addEventListener('keydown', function(e) {
             if (!answered) {
                 if (e.key==='1'||e.key==='a'||e.key==='A') selectAnswer('A');
