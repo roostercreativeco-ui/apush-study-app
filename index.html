@@ -159,7 +159,6 @@
             margin-bottom: 20px;
         }
         .btn-google:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,255,255,0.15); }
-        .btn-google:active { transform: translateY(0); }
         .btn-google svg { width: 20px; height: 20px; }
 
         .divider {
@@ -177,9 +176,7 @@
             background: rgba(255,255,255,0.08);
         }
 
-        .input-group {
-            margin-bottom: 14px;
-        }
+        .input-group { margin-bottom: 14px; }
         .input-group input {
             width: 100%;
             padding: 14px 16px;
@@ -210,7 +207,6 @@
             margin-top: 4px;
         }
         .btn-email:hover { transform: translateY(-2px); box-shadow: 0 6px 24px var(--glow-blue); }
-        .btn-email:active { transform: translateY(0); }
 
         .toggle-auth {
             text-align: center;
@@ -234,35 +230,49 @@
             margin-bottom: 16px;
             display: none;
         }
-        .auth-message.error {
-            display: block;
-            background: rgba(255, 79, 79, 0.1);
-            border: 1px solid rgba(255, 79, 79, 0.25);
-            color: var(--accent-red);
-        }
-        .auth-message.success {
-            display: block;
-            background: rgba(52, 211, 153, 0.1);
-            border: 1px solid rgba(52, 211, 153, 0.25);
-            color: var(--accent-green);
-        }
+        .auth-message.error { display: block; background: rgba(255, 79, 79, 0.1); border: 1px solid rgba(255, 79, 79, 0.25); color: var(--accent-red); }
+        .auth-message.success { display: block; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); color: var(--accent-green); }
 
-        .dashboard {
-            display: none;
-            width: 100%;
-            text-align: center;
-        }
+        /* DASHBOARD */
+        .dashboard { display: none; width: 100%; text-align: center; }
 
-        .welcome-msg {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
+        .welcome-msg { font-size: 1.5rem; font-weight: 800; margin-bottom: 8px; }
+        .user-email { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 20px; }
 
-        .user-email {
+        /* STREAK ROW */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .stat-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
             color: var(--text-dim);
-            font-size: 0.95rem;
-            margin-bottom: 32px;
+        }
+        .stat-chip.streak-active {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: #ff8c42;
+        }
+        .stat-chip.streak-zero {
+            background: rgba(255,255,255,0.03);
+            border-color: rgba(255,255,255,0.08);
+            color: var(--text-dim);
+        }
+        .stat-chip.accuracy-chip {
+            background: rgba(52, 211, 153, 0.07);
+            border-color: rgba(52, 211, 153, 0.2);
+            color: var(--accent-green);
         }
 
         .nav-links {
@@ -286,17 +296,9 @@
             font-size: 1rem;
             transition: all 0.2s;
         }
-        .nav-link:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(79, 140, 255, 0.1);
-        }
+        .nav-link:hover { border-color: var(--accent-blue); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79, 140, 255, 0.1); }
         .nav-link .nav-emoji { font-size: 1.5rem; }
-        .nav-link .nav-arrow {
-            margin-left: auto;
-            color: var(--text-dim);
-            font-size: 0.85rem;
-        }
+        .nav-link .nav-arrow { margin-left: auto; color: var(--text-dim); font-size: 0.85rem; }
 
         .btn-signout {
             padding: 12px 28px;
@@ -332,28 +334,15 @@
         }
         .feature-chip .emoji { font-size: 1.1rem; }
 
-        .footer {
-            text-align: center;
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            opacity: 0.6;
-            margin-top: 20px;
-        }
+        .footer { text-align: center; color: var(--text-dim); font-size: 0.8rem; opacity: 0.6; margin-top: 20px; }
 
-        .fade-up {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.6s ease forwards;
-        }
+        .fade-up { opacity: 0; transform: translateY(20px); animation: fadeUp 0.6s ease forwards; }
         .fade-up:nth-child(1) { animation-delay: 0.1s; }
         .fade-up:nth-child(2) { animation-delay: 0.2s; }
         .fade-up:nth-child(3) { animation-delay: 0.3s; }
         .fade-up:nth-child(4) { animation-delay: 0.4s; }
         .fade-up:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 480px) {
             .container { padding: 32px 18px; }
@@ -391,7 +380,6 @@
 
             <div class="auth-card fade-up">
                 <div class="auth-title" id="auth-title">Create your account</div>
-
                 <div class="auth-message" id="auth-message"></div>
 
                 <button class="btn-google" id="btn-google" onclick="signInWithGoogle()">
@@ -416,11 +404,10 @@
                 </div>
             </div>
 
-            <div class="footer fade-up">
-                Built for the May 8, 2026 APUSH Exam
-            </div>
+            <div class="footer fade-up">Built for the May 8, 2026 APUSH Exam</div>
         </div>
 
+        <!-- DASHBOARD -->
         <div class="dashboard" id="dashboard">
             <div class="countdown-badge fade-up">
                 🔥 <span id="countdown-text-2"></span> until exam day
@@ -430,6 +417,12 @@
                 <span class="flag-icon">🇺🇸</span>
                 <h2 class="welcome-msg" id="welcome-msg">Welcome back!</h2>
                 <p class="user-email" id="user-email"></p>
+            </div>
+
+            <!-- STREAK + ACCURACY CHIPS -->
+            <div class="stats-row fade-up">
+                <div class="stat-chip streak-zero" id="streak-chip">🔥 0 day streak</div>
+                <div class="stat-chip accuracy-chip" id="accuracy-chip" style="display:none;">🎯 <span id="accuracy-val">—</span>% accuracy</div>
             </div>
 
             <div class="nav-links fade-up">
@@ -454,6 +447,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 
     <script>
@@ -469,91 +463,111 @@
 
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
-
         const auth = firebase.auth();
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
+        const db = firebase.firestore();
 
         let isSignUp = true;
 
         auth.onAuthStateChanged(function(user) {
             if (user) {
                 showDashboard(user);
+                loadUserStats(user);
             } else {
                 showAuth();
             }
         });
 
+        // ========================
+        // LOAD STREAK + ACCURACY
+        // ========================
+        async function loadUserStats(user) {
+            try {
+                var userDoc = await db.collection('users').doc(user.uid).get();
+                if (!userDoc.exists) return;
+                var data = userDoc.data();
+
+                // Streak chip
+                var streak = data.streak || 0;
+                var chip = document.getElementById('streak-chip');
+                if (streak >= 7) {
+                    chip.textContent = '🔥 ' + streak + ' day streak — on fire!';
+                    chip.className = 'stat-chip streak-active';
+                } else if (streak >= 2) {
+                    chip.textContent = '🔥 ' + streak + ' day streak!';
+                    chip.className = 'stat-chip streak-active';
+                } else if (streak === 1) {
+                    chip.textContent = '🔥 1 day streak — keep it going!';
+                    chip.className = 'stat-chip streak-active';
+                } else {
+                    chip.textContent = '🔥 Start your streak today!';
+                    chip.className = 'stat-chip streak-zero';
+                }
+
+                // Accuracy chip
+                var totalAnswered = data.totalAnswered || 0;
+                var totalCorrect  = data.totalCorrect  || 0;
+                if (totalAnswered > 0) {
+                    var pct = Math.round((totalCorrect / totalAnswered) * 100);
+                    document.getElementById('accuracy-val').textContent = pct;
+                    document.getElementById('accuracy-chip').style.display = 'inline-flex';
+                }
+            } catch(e) { console.log('Could not load stats:', e); }
+        }
+
+        // ========================
+        // AUTH
+        // ========================
         function signInWithGoogle() {
             clearMessage();
-            auth.signInWithPopup(googleProvider)
-                .catch(function(error) {
-                    showMessage(error.message, 'error');
-                });
+            auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+                .catch(function(error) { showMessage(error.message, 'error'); });
         }
 
         function emailAuth() {
             clearMessage();
-            const email = document.getElementById('email-input').value.trim();
-            const password = document.getElementById('password-input').value;
-
-            if (!email || !password) {
-                showMessage('Please enter both email and password.', 'error');
-                return;
-            }
-
-            if (password.length < 6) {
-                showMessage('Password must be at least 6 characters.', 'error');
-                return;
-            }
+            var email = document.getElementById('email-input').value.trim();
+            var password = document.getElementById('password-input').value;
+            if (!email || !password) { showMessage('Please enter both email and password.', 'error'); return; }
+            if (password.length < 6) { showMessage('Password must be at least 6 characters.', 'error'); return; }
 
             if (isSignUp) {
                 auth.createUserWithEmailAndPassword(email, password)
                     .catch(function(error) {
-                        if (error.code === 'auth/email-already-in-use') {
-                            showMessage('That email is already registered. Try logging in!', 'error');
-                        } else {
-                            showMessage(error.message, 'error');
-                        }
+                        showMessage(error.code === 'auth/email-already-in-use'
+                            ? 'That email is already registered. Try logging in!'
+                            : error.message, 'error');
                     });
             } else {
                 auth.signInWithEmailAndPassword(email, password)
                     .catch(function(error) {
-                        if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                            showMessage('Incorrect email or password.', 'error');
-                        } else {
-                            showMessage(error.message, 'error');
-                        }
+                        showMessage(['auth/wrong-password','auth/user-not-found','auth/invalid-credential'].includes(error.code)
+                            ? 'Incorrect email or password.'
+                            : error.message, 'error');
                     });
             }
         }
 
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                const authSection = document.getElementById('auth-section');
-                if (authSection.style.display !== 'none') {
-                    emailAuth();
-                }
+            if (e.key === 'Enter' && document.getElementById('auth-section').style.display !== 'none') {
+                emailAuth();
             }
         });
 
         function toggleAuthMode() {
             isSignUp = !isSignUp;
             clearMessage();
-            document.getElementById('auth-title').textContent = isSignUp ? 'Create your account' : 'Welcome back';
-            document.getElementById('btn-email').textContent = isSignUp ? 'Sign Up' : 'Log In';
-            document.getElementById('toggle-text').textContent = isSignUp ? 'Already have an account?' : "Don't have an account?";
-            document.getElementById('toggle-link').textContent = isSignUp ? 'Log in' : 'Sign up';
+            document.getElementById('auth-title').textContent   = isSignUp ? 'Create your account' : 'Welcome back';
+            document.getElementById('btn-email').textContent    = isSignUp ? 'Sign Up' : 'Log In';
+            document.getElementById('toggle-text').textContent  = isSignUp ? 'Already have an account?' : "Don't have an account?";
+            document.getElementById('toggle-link').textContent  = isSignUp ? 'Log in' : 'Sign up';
         }
 
-        function signOutUser() {
-            auth.signOut();
-        }
+        function signOutUser() { auth.signOut(); }
 
         function showDashboard(user) {
             document.getElementById('auth-section').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
-
-            const name = user.displayName || user.email.split('@')[0];
+            var name = user.displayName || user.email.split('@')[0];
             document.getElementById('welcome-msg').textContent = 'Hey, ' + name + '! 👋';
             document.getElementById('user-email').textContent = user.email;
         }
@@ -564,40 +578,29 @@
         }
 
         function showMessage(text, type) {
-            const el = document.getElementById('auth-message');
+            var el = document.getElementById('auth-message');
             el.textContent = text;
             el.className = 'auth-message ' + type;
         }
 
         function clearMessage() {
-            const el = document.getElementById('auth-message');
+            var el = document.getElementById('auth-message');
             el.className = 'auth-message';
             el.textContent = '';
         }
 
+        // ========================
+        // COUNTDOWN
+        // ========================
         function updateCountdown() {
-            const examDate = new Date('2026-05-08T08:00:00');
-            const now = new Date();
-            const diff = examDate - now;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-            let text = '';
-            if (days > 1) {
-                text = days + ' days';
-            } else if (days === 1) {
-                text = '1 day';
-            } else if (days === 0) {
-                text = 'TODAY';
-            } else {
-                text = 'Exam has passed';
-            }
-
-            const el1 = document.getElementById('countdown-text');
-            const el2 = document.getElementById('countdown-text-2');
+            var examDate = new Date('2026-05-08T08:00:00');
+            var days = Math.floor((examDate - new Date()) / (1000 * 60 * 60 * 24));
+            var text = days > 1 ? days + ' days' : days === 1 ? '1 day' : days === 0 ? 'TODAY' : 'Exam has passed';
+            var el1 = document.getElementById('countdown-text');
+            var el2 = document.getElementById('countdown-text-2');
             if (el1) el1.textContent = text;
             if (el2) el2.textContent = text;
         }
-
         updateCountdown();
         setInterval(updateCountdown, 60 * 60 * 1000);
     </script>
