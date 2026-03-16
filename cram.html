@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APUSH Cram Mode</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #121829;
+            --accent-blue: #4f8cff;
+            --accent-red: #ff4f4f;
+            --accent-gold: #ffc845;
+            --accent-green: #34d399;
+            --accent-orange: #ff8c42;
+            --text-main: #f0f2ff;
+            --text-dim: #8892b0;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,140,66,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,140,66,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+        }
+        .bg-glow {
+            position: fixed; width: 600px; height: 600px;
+            border-radius: 50%; filter: blur(120px); opacity: 0.3;
+            z-index: 0; pointer-events: none;
+        }
+        .bg-glow.orange { background: var(--accent-orange); top: -200px; right: -100px; }
+        .bg-glow.red { background: var(--accent-red); bottom: -300px; left: -200px; opacity: 0.15; }
+
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 24px;
+            background: rgba(10, 14, 26, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--text-main); text-decoration: none; }
+        .nav-logo span { color: var(--accent-orange); }
+        .nav-back { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent-orange); }
+
+        .container {
+            position: relative; z-index: 1;
+            max-width: 520px; margin: 0 auto;
+            padding: 80px 24px 40px;
+            min-height: 100vh;
+        }
+
+        /* ── SETUP SCREEN ── */
+        .setup-hero { text-align: center; margin-bottom: 32px; }
+        .setup-hero .cram-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+        .setup-hero h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
+        .setup-hero h2 span { color: var(--accent-orange); }
+        .setup-hero p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; }
+
+        .mode-cards {
+            display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px;
+        }
+        .mode-card {
+            display: flex; align-items: center; gap: 16px;
+            padding: 18px 20px;
+            background: var(--bg-card);
+            border: 2px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .mode-card:hover { border-color: var(--accent-orange); }
+        .mode-card.selected { border-color: var(--accent-orange); background: rgba(255,140,66,0.06); }
+        .mode-card .mode-icon { font-size: 1.8rem; flex-shrink: 0; }
+        .mode-card .mode-info { flex: 1; }
+        .mode-card .mode-title { font-weight: 700; font-size: 1rem; margin-bottom: 2px; }
+        .mode-card .mode-desc { font-size: 0.82rem; color: var(--text-dim); line-height: 1.4; }
+        .mode-card .mode-check {
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .mode-card.selected .mode-check {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+            color: white;
+        }
+
+        .period-selector { margin-bottom: 24px; }
+        .period-selector label { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); display: block; margin-bottom: 10px; }
+        .period-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+        .period-pill {
+            padding: 7px 14px; border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: var(--text-dim);
+            font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .period-pill:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+        .period-pill.active { background: var(--accent-orange); border-color: var(--accent-orange); color: white; }
+
+        .btn-cram-start {
+            width: 100%; padding: 18px;
+            background: linear-gradient(135deg, var(--accent-orange), #e0623a);
+            color: white; font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem; font-weight: 800;
+            border: none; border-radius: 14px; cursor: pointer; transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+        .btn-cram-start:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,140,66,0.35); }
+
+        /* ── QUIZ SCREEN ── */
+        .cram-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .cram-progress {
+            display: flex; align-items: center; gap: 10px; flex: 1;
+        }
+        .cram-track {
+            flex: 1; height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 100px; overflow: hidden;
+        }
+        .cram-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-gold));
+            border-radius: 100px;
+            transition: width 0.3s ease;
+        }
+        .cram-counter {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem; color: var(--text-dim); white-space: nowrap;
+        }
+        .cram-timer {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--accent-orange);
+            margin-left: 16px;
+            min-width: 48px; text-align: right;
+        }
+
+        .cram-score-strip {
+            display: flex; justify-content: center; gap: 20px;
+            margin-bottom: 20px;
+            font-family: 'Space Mono', monospace; font-size: 0.85rem;
+        }
+        .score-correct { color: var(--accent-green); }
+        .score-wrong   { color: var(--accent-red); }
+
+        .question-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 66, 0.12);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .question-card .period-tag {
+            font-size: 0.75rem; font-weight: 600; color: var(--accent-orange);
+            background: rgba(255, 140, 66, 0.1);
+            padding: 4px 12px; border-radius: 100px;
+            display: inline-block; margin-bottom: 14px;
+        }
+        .question-card .question-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; }
+
+        .choices { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .choice-btn {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif; font-size: 0.95rem;
+            text-align: left; cursor: pointer; transition: all 0.15s;
+            width: 100%;
+        }
+        .choice-btn:hover:not(.disabled) { border-color: var(--accent-orange); background: rgba(255,140,66,0.06); }
+        .choice-btn .letter {
+            display: flex; align-items: center; justify-content: center;
+            min-width: 30px; height: 30px; border-radius: 7px;
+            background: rgba(255,255,255,0.06);
+            font-weight: 700; font-size: 0.82rem; color: var(--text-dim); flex-shrink: 0;
+        }
+        .choice-btn.correct { border-color: var(--accent-green); background: rgba(52,211,153,0.08); }
+        .choice-btn.correct .letter { background: var(--accent-green); color: var(--bg-dark); }
+        .choice-btn.wrong { border-color: var(--accent-red); background: rgba(255,79,79,0.08); }
+        .choice-btn.wrong .letter { background: var(--accent-red); color: white; }
+        .choice-btn.dimmed { opacity: 0.35; }
+        .choice-btn.disabled { cursor: default; pointer-events: none; }
+
+        /* Flash feedback */
+        .flash-feedback {
+            text-align: center; font-size: 1.6rem; font-weight: 900;
+            margin-bottom: 12px; height: 36px;
+            opacity: 0; transition: opacity 0.15s;
+        }
+        .flash-feedback.show { opacity: 1; }
+        .flash-feedback.correct-flash { color: var(--accent-green); }
+        .flash-feedback.wrong-flash   { color: var(--accent-red); }
+
+        /* ── RESULTS SCREEN ── */
+        .results { display: none; text-align: center; padding: 20px 0; }
+        .results-emoji { font-size: 4rem; margin-bottom: 12px; }
+        .results h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; }
+        .results .results-subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 8px; }
+        .cram-time-display {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem; color: var(--accent-orange);
+            margin-bottom: 28px; font-weight: 700;
+        }
+
+        .results-score-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,140,66,0.15);
+            border-radius: var(--radius); padding: 24px; margin-bottom: 24px;
+        }
+        .results-big-score { font-family: 'Space Mono', monospace; font-size: 3rem; font-weight: 700; margin-bottom: 8px; }
+        .results-big-score .score-num { color: var(--accent-green); }
+        .results-big-score .score-den { color: var(--text-dim); }
+        .results-pct { font-size: 1.2rem; font-weight: 700; margin-bottom: 14px; }
+        .results-bar { height: 10px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; margin-bottom: 14px; }
+        .results-bar-fill { height: 100%; border-radius: 100px; transition: width 1s ease; }
+        .results-stats { display: flex; justify-content: center; gap: 32px; font-size: 0.9rem; }
+        .results-stats .stat-c { color: var(--accent-green); font-weight: 700; }
+        .results-stats .stat-w { color: var(--accent-red); font-weight: 700; }
+
+        /* WRONG ANSWER REVIEW */
+        .review-section { text-align: left; margin-bottom: 28px; }
+        .review-title {
+            font-size: 0.9rem; font-weight: 700; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .review-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,79,79,0.15);
+            border-radius: 12px; padding: 16px; margin-bottom: 10px;
+        }
+        .review-item .review-q {
+            font-size: 0.9rem; font-weight: 600; line-height: 1.4;
+            margin-bottom: 10px; color: var(--text-main);
+        }
+        .review-item .review-period {
+            font-size: 0.72rem; font-weight: 600; color: var(--accent-orange);
+            background: rgba(255,140,66,0.1);
+            padding: 2px 10px; border-radius: 100px;
+            display: inline-block; margin-bottom: 8px;
+        }
+        .review-answers { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+        .review-answer {
+            font-size: 0.83rem; padding: 6px 10px; border-radius: 8px;
+            display: flex; align-items: flex-start; gap: 8px;
+        }
+        .review-answer.was-wrong { background: rgba(255,79,79,0.08); color: #ff9999; }
+        .review-answer.is-correct { background: rgba(52,211,153,0.08); color: var(--accent-green); font-weight: 600; }
+        .review-answer .ans-letter { font-weight: 700; flex-shrink: 0; }
+        .review-exp {
+            font-size: 0.82rem; color: var(--text-dim); line-height: 1.5;
+            padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .results-actions { display: flex; gap: 12px; justify-content: center; }
+        .btn-retry {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--accent-orange), #e0623a);
+            color: white; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+            border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(255,140,66,0.3); }
+        .btn-home {
+            padding: 14px 28px; background: transparent;
+            border: 1px solid rgba(255,255,255,0.15); color: var(--text-dim);
+            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s;
+            text-decoration: none; display: inline-flex; align-items: center;
+        }
+        .btn-home:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+        .loading { text-align: center; padding: 80px 20px; }
+        .loading .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-orange);
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading p { color: var(--text-dim); }
+
+        @media (max-width: 480px) {
+            .container { padding: 72px 18px 32px; }
+            .question-card { padding: 18px; }
+            .choice-btn { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow orange"></div>
+    <div class="bg-glow red"></div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">⚡ <span>Cram Mode</span></a>
+        <a href="index.html" class="nav-back">← Back</a>
+    </nav>
+
+    <div class="container">
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading questions...</p>
+        </div>
+
+        <!-- SETUP -->
+        <div id="setup-screen" style="display:none;">
+            <div class="setup-hero">
+                <span class="cram-icon">⚡</span>
+                <h2>Cram <span>Mode</span></h2>
+                <p>Rapid-fire practice. No pausing, no explanations — just reps. Review what you missed at the end.</p>
+            </div>
+
+            <div class="mode-cards">
+                <div class="mode-card selected" data-mode="top50" onclick="selectMode(this)">
+                    <div class="mode-icon">🎯</div>
+                    <div class="mode-info">
+                        <div class="mode-title">Top 55 — High Priority</div>
+                        <div class="mode-desc">The most commonly tested APUSH topics. Best bang for your time.</div>
+                    </div>
+                    <div class="mode-check">✓</div>
+                </div>
+                <div class="mode-card" data-mode="all" onclick="selectMode(this)">
+                    <div class="mode-icon">📚</div>
+                    <div class="mode-info">
+                        <div class="mode-title">Full Bank — All 110</div>
+                        <div class="mode-desc">Every question across all 9 periods.</div>
+                    </div>
+                    <div class="mode-check"></div>
+                </div>
+            </div>
+
+            <div class="period-selector">
+                <label>Filter by period (optional):</label>
+                <div class="period-pills">
+                    <button class="period-pill active" data-period="all">All</button>
+                    <button class="period-pill" data-period="1">1</button>
+                    <button class="period-pill" data-period="2">2</button>
+                    <button class="period-pill" data-period="3">3</button>
+                    <button class="period-pill" data-period="4">4</button>
+                    <button class="period-pill" data-period="5">5</button>
+                    <button class="period-pill" data-period="6">6</button>
+                    <button class="period-pill" data-period="7">7</button>
+                    <button class="period-pill" data-period="8">8</button>
+                    <button class="period-pill" data-period="9">9</button>
+                </div>
+            </div>
+
+            <p style="text-align:center; color:var(--text-dim); font-size:0.9rem; margin-bottom:20px;" id="available-count">55 questions available</p>
+
+            <button class="btn-cram-start" onclick="startCram()">⚡ Start Cramming</button>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz-screen" style="display:none;">
+            <div class="cram-header">
+                <div class="cram-progress">
+                    <div class="cram-track">
+                        <div class="cram-fill" id="cram-fill" style="width:0%"></div>
+                    </div>
+                    <span class="cram-counter" id="cram-counter">1 / 20</span>
+                </div>
+                <div class="cram-timer" id="cram-timer">0:00</div>
+            </div>
+
+            <div class="cram-score-strip">
+                <span class="score-correct">✓ <span id="score-correct">0</span></span>
+                <span class="score-wrong">✗ <span id="score-wrong">0</span></span>
+            </div>
+
+            <div class="flash-feedback" id="flash-feedback"></div>
+
+            <div class="question-card">
+                <span class="period-tag" id="q-period">Period 3</span>
+                <div class="question-text" id="q-text"></div>
+            </div>
+
+            <div class="choices" id="choices"></div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="results" id="results-screen">
+            <div class="results-emoji" id="results-emoji">🎉</div>
+            <h2 id="results-title">Nice work!</h2>
+            <p class="results-subtitle" id="results-subtitle">Here's how you did</p>
+            <div class="cram-time-display" id="cram-time-display">⏱ Finished in 0:00</div>
+
+            <div class="results-score-card">
+                <div class="results-big-score">
+                    <span class="score-num" id="final-correct">0</span>
+                    <span class="score-den" id="final-total"> / 20</span>
+                </div>
+                <div class="results-pct" id="final-pct">100%</div>
+                <div class="results-bar">
+                    <div class="results-bar-fill" id="results-bar-fill" style="width:0%"></div>
+                </div>
+                <div class="results-stats">
+                    <div class="stat-c">✓ <span id="final-correct-2">0</span></div>
+                    <div class="stat-w">✗ <span id="final-wrong">0</span></div>
+                </div>
+            </div>
+
+            <!-- WRONG ANSWER REVIEW -->
+            <div class="review-section" id="review-section" style="display:none;">
+                <div class="review-title">📖 Review — Questions you missed</div>
+                <div id="review-list"></div>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-retry" onclick="retryCram()">⚡ Cram Again</button>
+                <a href="index.html" class="btn-home">🏠 Home</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSGb5RS3Nl0vVTYgJ_mhL2MKyon8pdxIg",
+            authDomain: "apush-study-app.firebaseapp.com",
+            projectId: "apush-study-app",
+            storageBucket: "apush-study-app.firebasestorage.app",
+            messagingSenderId: "542394166242",
+            appId: "1:542394166242:web:a25342b1cba5af5c3267bb",
+            measurementId: "G-3DNWBLPPC3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        let currentUser = null;
+        auth.onAuthStateChanged(function(u) { currentUser = u; });
+
+        // ========================
+        // DATA
+        // ========================
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=562015740&single=true&output=csv";
+
+        let allQuestions = [], filteredQuestions = [], cramQuestions = [];
+        let currentIndex = 0, correctCount = 0, wrongCount = 0;
+        let wrongItems = []; // stores full question objects that were answered wrong
+        let answered = false;
+        let selectedMode = 'top50';
+        let selectedPeriod = 'all';
+        let timerInterval = null;
+        let elapsedSeconds = 0;
+
+        async function loadQuestions() {
+            try {
+                const text = await (await fetch(SHEET_URL)).text();
+                const rows = parseCSV(text);
+                allQuestions = rows.slice(1).map(function(row) {
+                    return {
+                        id: row[0], period: row[1], type: row[2],
+                        question: row[3],
+                        choiceA: row[4], choiceB: row[5], choiceC: row[6], choiceD: row[7],
+                        correct: row[8], explanation: row[9],
+                        explainA: row[10]||'', explainB: row[11]||'',
+                        explainC: row[12]||'', explainD: row[13]||'',
+                        cram: row[14] === '1' ? 1 : 0
+                    };
+                }).filter(function(q) { return q.question && q.question.trim() !== ''; });
+
+                applyFilters();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('setup-screen').style.display = 'block';
+            } catch(e) {
+                document.getElementById('loading').innerHTML = '<p style="color:var(--accent-red);">Failed to load. Please refresh.</p>';
+            }
+        }
+
+        function parseCSV(text) {
+            const rows = []; let row = [], field = '', inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                const char = text[i], next = text[i+1];
+                if (inQuotes) {
+                    if (char==='"'&&next==='"'){field+='"';i++;}
+                    else if(char==='"'){inQuotes=false;}
+                    else{field+=char;}
+                } else {
+                    if(char==='"'){inQuotes=true;}
+                    else if(char===','){row.push(field.trim());field='';}
+                    else if(char==='\n'||(char==='\r'&&next==='\n')){
+                        row.push(field.trim());
+                        if(row.length>1)rows.push(row);
+                        row=[];field='';if(char==='\r')i++;
+                    }else{field+=char;}
+                }
+            }
+            if(field||row.length>0){row.push(field.trim());if(row.length>1)rows.push(row);}
+            return rows;
+        }
+
+        // ========================
+        // MODE + PERIOD SELECTION
+        // ========================
+        function selectMode(el) {
+            document.querySelectorAll('.mode-card').forEach(function(c) {
+                c.classList.remove('selected');
+                c.querySelector('.mode-check').textContent = '';
+            });
+            el.classList.add('selected');
+            el.querySelector('.mode-check').textContent = '✓';
+            selectedMode = el.dataset.mode;
+            applyFilters();
+        }
+
+        document.querySelectorAll('.period-pill').forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                selectedPeriod = this.dataset.period;
+                document.querySelectorAll('.period-pill').forEach(function(p) { p.classList.remove('active'); });
+                this.classList.add('active');
+                applyFilters();
+            });
+        });
+
+        function applyFilters() {
+            var base = selectedMode === 'top50'
+                ? allQuestions.filter(function(q) { return q.cram === 1; })
+                : [...allQuestions];
+
+            filteredQuestions = selectedPeriod === 'all'
+                ? base
+                : base.filter(function(q) { return q.period === selectedPeriod; });
+
+            var count = filteredQuestions.length;
+            document.getElementById('available-count').textContent = count + ' question' + (count !== 1 ? 's' : '') + ' available';
+        }
+
+        // ========================
+        // TIMER
+        // ========================
+        function startTimer() {
+            elapsedSeconds = 0;
+            updateTimerDisplay();
+            timerInterval = setInterval(function() {
+                elapsedSeconds++;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function formatTime(s) {
+            var m = Math.floor(s / 60);
+            var sec = s % 60;
+            return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function updateTimerDisplay() {
+            var el = document.getElementById('cram-timer');
+            if (el) el.textContent = formatTime(elapsedSeconds);
+        }
+
+        // ========================
+        // START CRAM
+        // ========================
+        function startCram() {
+            if (filteredQuestions.length === 0) return;
+
+            var shuffled = [...filteredQuestions];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            cramQuestions = shuffled.slice(0, Math.min(20, shuffled.length));
+
+            currentIndex = 0; correctCount = 0; wrongCount = 0; wrongItems = [];
+
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('results-screen').style.display = 'none';
+
+            startTimer();
+            showQuestion();
+        }
+
+        // ========================
+        // SHOW QUESTION
+        // ========================
+        function showQuestion() {
+            answered = false;
+            var q = cramQuestions[currentIndex];
+
+            var pct = (currentIndex / cramQuestions.length) * 100;
+            document.getElementById('cram-fill').style.width = pct + '%';
+            document.getElementById('cram-counter').textContent = (currentIndex + 1) + ' / ' + cramQuestions.length;
+            document.getElementById('score-correct').textContent = correctCount;
+            document.getElementById('score-wrong').textContent = wrongCount;
+            document.getElementById('q-period').textContent = 'Period ' + q.period;
+            document.getElementById('q-text').textContent = q.question;
+
+            // Clear flash
+            var flash = document.getElementById('flash-feedback');
+            flash.className = 'flash-feedback';
+            flash.textContent = '';
+
+            var choices = [
+                { letter: 'A', text: q.choiceA },
+                { letter: 'B', text: q.choiceB },
+                { letter: 'C', text: q.choiceC },
+                { letter: 'D', text: q.choiceD }
+            ];
+
+            var html = '';
+            choices.forEach(function(c) {
+                html += '<button class="choice-btn" data-letter="' + c.letter + '" onclick="selectAnswer(\'' + c.letter + '\')">' +
+                    '<div class="letter">' + c.letter + '</div>' +
+                    '<div>' + c.text + '</div>' +
+                    '</button>';
+            });
+            document.getElementById('choices').innerHTML = html;
+        }
+
+        // ========================
+        // SELECT ANSWER — rapid fire, auto-advance
+        // ========================
+        function selectAnswer(letter) {
+            if (answered) return;
+            answered = true;
+
+            var q = cramQuestions[currentIndex];
+            var isCorrect = letter === q.correct;
+
+            if (isCorrect) {
+                correctCount++;
+                document.getElementById('score-correct').textContent = correctCount;
+            } else {
+                wrongCount++;
+                document.getElementById('score-wrong').textContent = wrongCount;
+                wrongItems.push({ q: q, chosen: letter });
+            }
+
+            // Color the buttons briefly
+            document.querySelectorAll('.choice-btn').forEach(function(btn) {
+                btn.classList.add('disabled');
+                if (btn.dataset.letter === q.correct) btn.classList.add('correct');
+                else if (btn.dataset.letter === letter && !isCorrect) btn.classList.add('wrong');
+                else btn.classList.add('dimmed');
+            });
+
+            // Flash feedback
+            var flash = document.getElementById('flash-feedback');
+            flash.textContent = isCorrect ? '✓ Correct!' : '✗ Wrong';
+            flash.className = 'flash-feedback show ' + (isCorrect ? 'correct-flash' : 'wrong-flash');
+
+            // Auto-advance after 700ms
+            setTimeout(function() {
+                currentIndex++;
+                if (currentIndex >= cramQuestions.length) {
+                    showResults();
+                } else {
+                    showQuestion();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 700);
+        }
+
+        // ========================
+        // RESULTS
+        // ========================
+        function showResults() {
+            stopTimer();
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+
+            var total = cramQuestions.length;
+            var pct = Math.round((correctCount / total) * 100);
+
+            document.getElementById('final-correct').textContent   = correctCount;
+            document.getElementById('final-total').textContent     = ' / ' + total;
+            document.getElementById('final-correct-2').textContent = correctCount;
+            document.getElementById('final-wrong').textContent     = wrongCount;
+            document.getElementById('final-pct').textContent       = pct + '%';
+            document.getElementById('cram-time-display').textContent = '⏱ Finished in ' + formatTime(elapsedSeconds);
+
+            var pctEl = document.getElementById('final-pct');
+            pctEl.style.color = pct >= 80 ? 'var(--accent-green)' : pct >= 60 ? 'var(--accent-gold)' : 'var(--accent-red)';
+
+            var barFill = document.getElementById('results-bar-fill');
+            barFill.style.background = pct >= 80
+                ? 'linear-gradient(90deg, var(--accent-green), #34d399)'
+                : pct >= 60
+                    ? 'linear-gradient(90deg, var(--accent-gold), #ffc845)'
+                    : 'linear-gradient(90deg, var(--accent-red), #ff6b6b)';
+            setTimeout(function() { barFill.style.width = pct + '%'; }, 100);
+
+            var emoji, title, subtitle;
+            if      (pct === 100) { emoji='🏆'; title='Perfect Cram!';    subtitle="Nothing can stop you now."; }
+            else if (pct >= 80)   { emoji='🔥'; title='Crushing It!';     subtitle='You\'re exam ready!'; }
+            else if (pct >= 60)   { emoji='💪'; title='Getting There!';   subtitle='Review the misses below.'; }
+            else if (pct >= 40)   { emoji='📚'; title='Keep Cramming!';   subtitle='Study the review below then go again.'; }
+            else                  { emoji='😤'; title='Grind Time!';      subtitle='Focus on the review — you\'ve got this.'; }
+
+            document.getElementById('results-emoji').textContent    = emoji;
+            document.getElementById('results-title').textContent    = title;
+            document.getElementById('results-subtitle').textContent = subtitle;
+
+            // Build wrong answer review
+            buildReview();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========================
+        // WRONG ANSWER REVIEW
+        // ========================
+        function buildReview() {
+            if (wrongItems.length === 0) {
+                document.getElementById('review-section').style.display = 'none';
+                return;
+            }
+
+            var explainMap = { A: 'explainA', B: 'explainB', C: 'explainC', D: 'explainD' };
+            var choiceTextMap = function(q, l) {
+                return { A: q.choiceA, B: q.choiceB, C: q.choiceC, D: q.choiceD }[l] || '';
+            };
+
+            var html = '';
+            wrongItems.forEach(function(item) {
+                var q = item.q;
+                var chosen = item.chosen;
+
+                html += '<div class="review-item">';
+                html += '<div class="review-period">Period ' + q.period + '</div>';
+                html += '<div class="review-q">' + q.question + '</div>';
+                html += '<div class="review-answers">';
+
+                // Show chosen (wrong) answer
+                html += '<div class="review-answer was-wrong">' +
+                    '<span class="ans-letter">' + chosen + '</span>' +
+                    '<span>✗ ' + choiceTextMap(q, chosen) + '</span>' +
+                    '</div>';
+
+                // Show correct answer
+                html += '<div class="review-answer is-correct">' +
+                    '<span class="ans-letter">' + q.correct + '</span>' +
+                    '<span>✓ ' + choiceTextMap(q, q.correct) + '</span>' +
+                    '</div>';
+
+                html += '</div>';
+                html += '<div class="review-exp">' + q.explanation + '</div>';
+                html += '</div>';
+            });
+
+            document.getElementById('review-list').innerHTML = html;
+            document.getElementById('review-section').style.display = 'block';
+        }
+
+        // ========================
+        // RETRY
+        // ========================
+        function retryCram() {
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('results-bar-fill').style.width = '0%';
+            document.getElementById('setup-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ========================
+        // KEYBOARD
+        // ========================
+        document.addEventListener('keydown', function(e) {
+            if (!answered && document.getElementById('quiz-screen').style.display !== 'none') {
+                if (e.key==='1'||e.key==='a'||e.key==='A') selectAnswer('A');
+                else if (e.key==='2'||e.key==='b'||e.key==='B') selectAnswer('B');
+                else if (e.key==='3'||e.key==='c'||e.key==='C') selectAnswer('C');
+                else if (e.key==='4'||e.key==='d'||e.key==='D') selectAnswer('D');
+            }
+        });
+
+        loadQuestions();
+    </script>
+</body>
+</html>
