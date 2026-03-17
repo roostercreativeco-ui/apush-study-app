@@ -7,9 +7,15 @@ export async function onRequestPost(context) {
         const { prompt, partA, partB, partC, period } = body;
 
         const apiKey = env['ANTHROPIC_API_KEY'];
-console.log('key length:', apiKey ? apiKey.length : 'undefined');
-       if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'API key not configured', keys: Object.keys(env).join(',') }), {
+const debugInfo = {
+    hasKey: 'ANTHROPIC_API_KEY' in env,
+    typeofEnv: typeof env,
+    typeofKey: typeof env['ANTHROPIC_API_KEY'],
+    valueIsNull: env['ANTHROPIC_API_KEY'] === null,
+    valueIsUndefined: env['ANTHROPIC_API_KEY'] === undefined,
+};
+if (!apiKey) {
+    return new Response(JSON.stringify({ error: 'API key not configured', debug: debugInfo }), {
         status: 500, headers: { 'Content-Type': 'application/json' }
     });
 }
