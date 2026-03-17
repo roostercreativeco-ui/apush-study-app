@@ -7,11 +7,11 @@ export async function onRequestPost(context) {
         const { prompt, partA, partB, partC, period } = body;
 
         const apiKey = env.ANTHROPIC_API_KEY;
-        if (!apiKey) {
-            return new Response(JSON.stringify({ error: 'API key not configured' }), {
-                status: 500, headers: { 'Content-Type': 'application/json' }
-            });
-        }
+       if (!apiKey) {
+    return new Response(JSON.stringify({ error: 'API key not configured', keys: Object.keys(env).join(',') }), {
+        status: 500, headers: { 'Content-Type': 'application/json' }
+    });
+}
 
         const systemPrompt = `You are an experienced AP US History teacher grading Short Answer Questions (SAQs).
 
