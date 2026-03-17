@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APUSH LEQ Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #121829;
+            --accent-blue: #4f8cff;
+            --accent-red: #ff4f4f;
+            --accent-gold: #ffc845;
+            --accent-green: #34d399;
+            --accent-teal: #2dd4bf;
+            --text-main: #f0f2ff;
+            --text-dim: #8892b0;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(45,212,191,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45,212,191,0.03) 1px, transparent 1px);
+            background-size: 60px 60px; z-index: 0;
+        }
+        .bg-glow {
+            position: fixed; width: 600px; height: 600px;
+            border-radius: 50%; filter: blur(120px); opacity: 0.2;
+            z-index: 0; pointer-events: none;
+        }
+        .bg-glow.teal { background: var(--accent-teal); top: -200px; right: -100px; }
+        .bg-glow.blue { background: var(--accent-blue); bottom: -300px; left: -200px; opacity: 0.15; }
+
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 24px;
+            background: rgba(10,14,26,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--text-main); text-decoration: none; }
+        .nav-logo span { color: var(--accent-teal); }
+        .nav-back { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+        .nav-back:hover { color: var(--accent-teal); }
+
+        .container {
+            position: relative; z-index: 1;
+            max-width: 680px; margin: 0 auto;
+            padding: 80px 24px 60px;
+        }
+
+        /* SETUP */
+        .setup-hero { text-align: center; margin-bottom: 28px; }
+        .setup-hero .leq-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+        .setup-hero h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
+        .setup-hero h2 span { color: var(--accent-teal); }
+        .setup-hero p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; max-width: 500px; margin: 0 auto; }
+
+        .source-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2);
+            border-radius: 100px; padding: 6px 16px;
+            font-size: 0.8rem; color: var(--accent-green); font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        /* RUBRIC CARD */
+        .rubric-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(45,212,191,0.15);
+            border-radius: var(--radius); padding: 20px 24px; margin-bottom: 24px;
+        }
+        .rubric-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .rubric-rows { display: flex; flex-direction: column; gap: 8px; }
+        .rubric-row { display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: var(--text-dim); line-height: 1.4; }
+        .rubric-pts { background: rgba(45,212,191,0.12); color: var(--accent-teal); font-weight: 700; font-size: 0.78rem; padding: 2px 8px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+
+        /* PROMPT SET SELECTOR */
+        .set-label { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); margin-bottom: 10px; display: block; }
+        .prompt-set {
+            background: var(--bg-card);
+            border: 2px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius); padding: 20px 22px; margin-bottom: 16px;
+        }
+        .prompt-set-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+        }
+        .set-title { font-size: 1rem; font-weight: 700; }
+        .set-year { font-size: 0.75rem; color: var(--accent-green); background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); padding: 3px 10px; border-radius: 100px; }
+        .set-instructions { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 12px; font-style: italic; }
+
+        .prompt-options { display: flex; flex-direction: column; gap: 8px; }
+        .prompt-option {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; cursor: pointer; transition: all 0.2s;
+        }
+        .prompt-option:hover { border-color: var(--accent-teal); }
+        .prompt-option.selected { border-color: var(--accent-teal); background: rgba(45,212,191,0.05); }
+        .prompt-option input[type="radio"] { display: none; }
+        .radio-dot {
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            flex-shrink: 0; margin-top: 2px; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .prompt-option.selected .radio-dot {
+            border-color: var(--accent-teal); background: var(--accent-teal);
+        }
+        .radio-dot::after {
+            content: ''; width: 6px; height: 6px;
+            border-radius: 50%; background: white;
+            display: none;
+        }
+        .prompt-option.selected .radio-dot::after { display: block; }
+        .prompt-text { font-size: 0.9rem; font-weight: 600; line-height: 1.4; flex: 1; }
+        .prompt-period-tag { font-size: 0.72rem; color: var(--accent-gold); font-weight: 600; margin-top: 3px; }
+
+        .timer-selector { margin-bottom: 20px; }
+        .timer-selector label { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); display: block; margin-bottom: 8px; }
+        .timer-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+        .timer-pill {
+            padding: 8px 16px; border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: var(--text-dim);
+            font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .timer-pill:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+        .timer-pill.active { background: var(--accent-teal); border-color: var(--accent-teal); color: #0a0e1a; }
+
+        .btn-start-leq {
+            width: 100%; padding: 18px;
+            background: linear-gradient(135deg, var(--accent-teal), #0d9488);
+            color: #0a0e1a; font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem; font-weight: 800;
+            border: none; border-radius: 14px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-start-leq:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(45,212,191,0.3); }
+
+        /* WRITING SCREEN */
+        .writing-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+        }
+        .writing-title { font-size: 1rem; font-weight: 700; }
+        .timer-display {
+            font-family: 'Space Mono', monospace; font-size: 1.1rem; font-weight: 700;
+            color: var(--accent-teal); background: rgba(45,212,191,0.1);
+            border: 1px solid rgba(45,212,191,0.2);
+            padding: 8px 16px; border-radius: 100px;
+        }
+        .timer-display.warning { color: var(--accent-gold); background: rgba(255,200,69,0.1); border-color: rgba(255,200,69,0.2); }
+        .timer-display.urgent { color: var(--accent-red); background: rgba(255,79,79,0.1); border-color: rgba(255,79,79,0.2); animation: pulse 1s ease-in-out infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+        .prompt-display {
+            background: var(--bg-card);
+            border: 1px solid rgba(45,212,191,0.15);
+            border-radius: var(--radius); padding: 20px 22px; margin-bottom: 16px;
+        }
+        .prompt-display .prompt-label { font-size: 0.78rem; font-weight: 700; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .prompt-display .prompt-text-main { font-size: 1rem; font-weight: 700; line-height: 1.5; margin-bottom: 10px; }
+        .prompt-display .requirements { font-size: 0.82rem; color: var(--text-dim); line-height: 1.6; }
+        .prompt-display .requirements li { margin-left: 16px; margin-bottom: 2px; }
+
+        .essay-area {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius); padding: 4px; margin-bottom: 16px;
+        }
+        .essay-area textarea {
+            width: 100%; min-height: 360px;
+            background: transparent;
+            border: none; outline: none;
+            color: var(--text-main); font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem; line-height: 1.7; padding: 18px 20px;
+            resize: vertical;
+        }
+        .essay-area textarea::placeholder { color: var(--text-dim); }
+        .essay-footer {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 16px; border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.8rem; color: var(--text-dim);
+        }
+
+        .btn-submit-leq {
+            width: 100%; padding: 16px;
+            background: linear-gradient(135deg, var(--accent-teal), #0d9488);
+            color: #0a0e1a; font-family: 'Outfit', sans-serif;
+            font-size: 1rem; font-weight: 800;
+            border: none; border-radius: 14px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-submit-leq:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(45,212,191,0.3); }
+
+        /* RESULTS */
+        .results-screen { display: none; }
+
+        .results-hero { text-align: center; margin-bottom: 28px; }
+        .results-hero h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; }
+        .results-hero p { color: var(--text-dim); font-size: 1rem; margin-bottom: 16px; }
+        .max-score {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: 'Space Mono', monospace; font-size: 0.9rem;
+            color: var(--accent-teal); background: rgba(45,212,191,0.08);
+            border: 1px solid rgba(45,212,191,0.2); padding: 6px 16px; border-radius: 100px;
+        }
+
+        /* Student essay display */
+        .student-essay-card {
+            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius); padding: 20px; margin-bottom: 24px;
+        }
+        .student-essay-label { font-size: 0.8rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .student-essay-text { font-size: 0.9rem; line-height: 1.7; color: var(--text-main); white-space: pre-wrap; }
+        .student-essay-empty { font-size: 0.88rem; color: var(--text-dim); font-style: italic; }
+
+        /* Rubric breakdown */
+        .rubric-breakdown { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+        .rubric-item {
+            background: var(--bg-card); border-radius: var(--radius); padding: 18px 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .rubric-item-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+        }
+        .rubric-item-title {
+            display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem;
+        }
+        .rubric-icon { font-size: 1.1rem; }
+        .pts-badge {
+            font-size: 0.78rem; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+            background: rgba(45,212,191,0.12); color: var(--accent-teal);
+        }
+
+        .rubric-what {
+            font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 10px;
+            padding: 10px 12px; background: rgba(255,255,255,0.03); border-radius: 8px;
+        }
+
+        .model-block {
+            background: rgba(45,212,191,0.05); border: 1px solid rgba(45,212,191,0.15);
+            border-radius: 10px; padding: 14px; margin-bottom: 10px;
+        }
+        .model-block-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+        .model-block-text { font-size: 0.88rem; line-height: 1.6; color: var(--text-dim); }
+
+        .evidence-list { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+        .evidence-list li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; display: flex; gap: 8px; }
+        .evidence-list li::before { content: "→"; color: var(--accent-teal); font-weight: 700; flex-shrink: 0; }
+
+        .mistake-block {
+            background: rgba(255,79,79,0.05); border: 1px solid rgba(255,79,79,0.12);
+            border-radius: 10px; padding: 12px 14px;
+        }
+        .mistake-block-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+        .mistake-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .mistake-list li { font-size: 0.84rem; color: var(--text-dim); line-height: 1.4; display: flex; gap: 6px; }
+        .mistake-list li::before { content: "✗"; color: var(--accent-red); font-weight: 700; flex-shrink: 0; }
+
+        /* Self check */
+        .self-check {
+            background: var(--bg-card); border: 1px solid rgba(255,200,69,0.2);
+            border-radius: var(--radius); padding: 20px; margin-bottom: 24px;
+        }
+        .self-check-title { font-size: 0.85rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .check-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.88rem; color: var(--text-dim); line-height: 1.4; cursor: pointer;
+        }
+        .check-item:last-child { border-bottom: none; }
+        .check-box {
+            width: 18px; height: 18px; border-radius: 4px;
+            border: 2px solid rgba(255,200,69,0.3); flex-shrink: 0; margin-top: 1px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .check-box.checked { background: var(--accent-gold); border-color: var(--accent-gold); color: #0a0e1a; font-size: 0.7rem; font-weight: 700; }
+
+        .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-new-leq {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--accent-teal), #0d9488);
+            color: #0a0e1a; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+            border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-new-leq:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(45,212,191,0.3); }
+        .btn-retry {
+            padding: 14px 28px; background: transparent;
+            border: 1px solid rgba(45,212,191,0.3); color: var(--accent-teal);
+            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-retry:hover { background: rgba(45,212,191,0.08); }
+        .btn-home {
+            padding: 14px 28px; background: transparent;
+            border: 1px solid rgba(255,255,255,0.12); color: var(--text-dim);
+            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s;
+            text-decoration: none; display: inline-flex; align-items: center;
+        }
+        .btn-home:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+        @media (max-width: 480px) {
+            .container { padding: 72px 16px 40px; }
+            .essay-area textarea { min-height: 280px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow teal"></div>
+    <div class="bg-glow blue"></div>
+
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">✍️ <span>LEQ Practice</span></a>
+        <a href="index.html" class="nav-back">← Back</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- SETUP -->
+        <div id="setup-screen">
+            <div class="setup-hero">
+                <span class="leq-icon">✍️</span>
+                <h2>LEQ <span>Practice</span></h2>
+                <p>The Long Essay Question is 15% of your AP score. Pick one of three prompts, set your timer, write your essay, then compare your response against the real College Board rubric and model answers.</p>
+            </div>
+
+            <div style="text-align:center; margin-bottom:20px;">
+                <span class="source-badge">✓ Real prompts from 2024 & 2025 College Board exams</span>
+            </div>
+
+            <div class="rubric-card">
+                <h3>📋 LEQ Rubric — 6 points total</h3>
+                <div class="rubric-rows">
+                    <div class="rubric-row"><span class="rubric-pts">Thesis — 1 pt</span><span>A historically defensible claim that establishes a line of reasoning (not just a restatement of the prompt)</span></div>
+                    <div class="rubric-row"><span class="rubric-pts">Context — 1 pt</span><span>Describe a broader historical situation relevant to the prompt — must be more than a passing phrase</span></div>
+                    <div class="rubric-row"><span class="rubric-pts">Evidence — 2 pts</span><span>1 pt: Two specific examples relevant to the topic. 2 pts: Use those examples to support an argument</span></div>
+                    <div class="rubric-row"><span class="rubric-pts">Reasoning — 1 pt</span><span>Use comparison, causation, or continuity/change over time to frame your argument</span></div>
+                    <div class="rubric-row"><span class="rubric-pts">Complexity — 1 pt</span><span>Explain multiple themes, causes/effects, or make connections across periods or regions</span></div>
+                </div>
+            </div>
+
+            <div class="timer-selector">
+                <label>Set your timer:</label>
+                <div class="timer-pills">
+                    <button class="timer-pill" data-mins="40" onclick="selectTimer(this)">40 min (real exam)</button>
+                    <button class="timer-pill active" data-mins="20" onclick="selectTimer(this)">20 min (practice)</button>
+                    <button class="timer-pill" data-mins="0" onclick="selectTimer(this)">No timer</button>
+                </div>
+            </div>
+
+            <div id="prompt-sets"></div>
+
+            <button class="btn-start-leq" onclick="startLEQ()">✍️ Start Writing</button>
+        </div>
+
+        <!-- WRITING SCREEN -->
+        <div id="writing-screen" style="display:none;">
+            <div class="writing-header">
+                <div class="writing-title" id="writing-title">LEQ — Period 6–7</div>
+                <div class="timer-display" id="timer-display">20:00</div>
+            </div>
+
+            <div class="prompt-display">
+                <div class="prompt-label">✍️ Your Prompt</div>
+                <div class="prompt-text-main" id="writing-prompt"></div>
+                <div class="requirements">
+                    <ul>
+                        <li>Write a historically defensible thesis that establishes a line of reasoning</li>
+                        <li>Describe a broader historical context relevant to the prompt</li>
+                        <li>Support your argument with at least two specific pieces of evidence</li>
+                        <li>Use historical reasoning (comparison, causation, or continuity/change) to frame your argument</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="essay-area">
+                <textarea id="essay-input" placeholder="Begin your essay here. Start with your thesis statement in the introduction..."></textarea>
+                <div class="essay-footer">
+                    <span id="word-count">0 words</span>
+                    <span style="color:var(--text-dim); font-size:0.78rem;">Aim for 4–6 paragraphs | Strong essays are ~400–600 words</span>
+                </div>
+            </div>
+
+            <button class="btn-submit-leq" onclick="submitLEQ()">📋 See Rubric & Model Answer</button>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div class="results-screen" id="results-screen">
+            <div class="results-hero">
+                <h2>Rubric Breakdown</h2>
+                <p>Compare your essay against the real AP scoring criteria</p>
+                <span class="max-score">Maximum score: 6 points</span>
+            </div>
+
+            <div class="student-essay-card" id="student-essay-card">
+                <div class="student-essay-label">Your Essay</div>
+                <div id="student-essay-display"></div>
+            </div>
+
+            <div class="rubric-breakdown" id="rubric-breakdown"></div>
+
+            <div class="self-check">
+                <div class="self-check-title">✅ Self-Scoring Checklist</div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span><strong>Thesis (1 pt):</strong> My thesis makes a specific, defensible claim and establishes a line of reasoning — it doesn't just restate the prompt.</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span><strong>Contextualization (1 pt):</strong> I described a broader historical situation from BEFORE, DURING, or AFTER the time period — more than a passing phrase.</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span><strong>Evidence — 1 pt:</strong> I used at least two specific, named historical examples relevant to my argument.</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span><strong>Evidence — 2 pts:</strong> I used those examples to actively SUPPORT my argument (not just mention them).</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span><strong>Reasoning (1 pt):</strong> I used comparison, causation, or continuity/change as the framework for my argument.</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span><strong>Complexity (1 pt):</strong> I explained multiple perspectives, causes/effects, or made connections across periods or regions.</span>
+                </div>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn-retry" onclick="retrySame()">🔄 Try Again</button>
+                <button class="btn-new-leq" onclick="newPrompt()">✍️ New Prompt</button>
+                <a href="index.html" class="btn-home">🏠 Home</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ========================
+        // REAL COLLEGE BOARD LEQ DATA
+        // Sources: 2025 Set 1, 2025 Set 2, 2024 Set 1
+        // Each set has 3 prompts — same format as the real exam
+        // ========================
+        const promptSets = [
+            {
+                id: 1,
+                year: "2025 AP Exam — Set 1",
+                reasoning: "causation",
+                prompts: [
+                    {
+                        id: 'a',
+                        period: "Periods 1–2 (1500–1754)",
+                        text: "Evaluate how Native American societies adapted to the presence of European colonists in North America from 1500 to 1754.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about HOW Native Americans adapted and WHY, establishing categories of argument.",
+                            model: "While some Native American groups sought alliances with Europeans to gain military and trade advantages, others adapted by selectively incorporating European goods and practices into their cultures while resisting colonization through armed conflict and diplomatic negotiation.",
+                            bad: "Native American societies adapted to Europeans in many ways. [Too vague — no line of reasoning or categories]"
+                        },
+                        context: {
+                            what: "Describe a broader historical situation relevant to Native American-European contact. Must be more than a phrase — describe it in 2+ sentences.",
+                            examples: [
+                                "Pre-contact Native American trade networks across the Americas (demonstrates existing inter-group relationships)",
+                                "European motivations for exploration — desire for trade routes, resources, and religious conversion",
+                                "The demographic catastrophe caused by European diseases after 1492 (Columbian Exchange)",
+                                "Spanish conquest of Aztec and Inca empires in Central and South America (context for North American events)"
+                            ],
+                            model: "Before European contact, many Native American societies in North America had complex political structures, long-distance trade networks, and diverse agricultural and hunting economies. The arrival of Europeans after 1492 disrupted these systems through the introduction of deadly diseases that killed up to 90% of some populations, fundamentally altering the balance of power between groups."
+                        },
+                        evidence: {
+                            examples: [
+                                "Fur trade — many Native groups engaged in trade with Europeans, exchanging furs for metal tools, firearms, and cloth",
+                                "Haudenosaunee (Iroquois) Confederacy's 'Covenant Chain' alliance with the British",
+                                "Pueblo Revolt (1680) — Pueblo peoples expelled Spanish colonizers from New Mexico",
+                                "Metacom's War (King Philip's War, 1675-76) — Wampanoag resistance to English expansion",
+                                "Mission system — some Native peoples converted to Christianity and adopted Spanish cultural practices",
+                                "Horse adoption — Plains peoples incorporated Spanish horses, transforming their buffalo-hunting culture",
+                                "Columbian Exchange — Native Americans adopted some European crops and animals (pigs, cattle)"
+                            ],
+                            model2pt: "Many Native American societies adapted to European presence by engaging in commercial relationships. The Haudenosaunee Confederacy maintained their political independence by strategically allying with the British through the 'Covenant Chain' agreement, using European trade goods and firearms to strengthen their position against rival Native nations. However, when European encroachment threatened their land, groups like the Wampanoag under Metacom launched armed resistance in King Philip's War (1675-76), demonstrating that adaptation could also mean organized military opposition to colonization."
+                        },
+                        reasoning: {
+                            type: "Causation",
+                            what: "Explain HOW or WHY European presence caused changes in Native American societies, or what caused different groups to adapt in different ways.",
+                            model: "The nature and extent of Native American adaptation to Europeans was largely caused by the specific colonial power they encountered and the economic opportunities available. Groups near French traders in the Great Lakes region adapted by becoming fur trade partners, while groups in Spanish-controlled areas faced the encomienda labor system, causing more violent resistance."
+                        },
+                        complexity: {
+                            options: [
+                                "Explain how Native American responses varied by region (Spanish colonies vs. French vs. English)",
+                                "Explain how adaptation changed over time as European populations grew",
+                                "Connect to later Native American history — how did colonial-era adaptation shape 19th century removal policies?",
+                                "Discuss how Native women's roles in trade and diplomacy shaped adaptation strategies"
+                            ]
+                        }
+                    },
+                    {
+                        id: 'b',
+                        period: "Periods 4–6 (1820–1900)",
+                        text: "Evaluate how different reform movements in the United States responded to industrialization from 1820 to 1900.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about how reform movements responded to industrialization and why, with categories of argument.",
+                            model: "While religious reformers inspired by the Second Great Awakening addressed industrialization's social disruptions through moral campaigns like temperance and abolitionism, labor activists and Progressive reformers took a more structural approach by organizing unions and demanding government regulation of industry.",
+                            bad: "Reform movements responded to industrialization in many ways. [Too vague — no line of reasoning]"
+                        },
+                        context: {
+                            what: "Describe a broader historical context relevant to industrialization or reform in the United States.",
+                            examples: [
+                                "The Market Revolution (early 1800s) — shift from subsistence farming to commercial, market-oriented economy",
+                                "Jacksonian democracy — expansion of suffrage to white men, rise of the 'common man' in politics",
+                                "The Second Great Awakening — religious revival that inspired perfectionism and social reform",
+                                "Gilded Age politics — political corruption, laissez-faire economics, and business dominance of government",
+                                "The Progressive Era (after 1900) as continuation of Gilded Age reform impulses"
+                            ],
+                            model: "The rapid industrialization of the United States following the Civil War created enormous wealth for a small number of industrialists while subjecting millions of workers to dangerous conditions, long hours, and poverty wages. The concentration of economic power in trusts and monopolies undermined competition and corrupted politics, creating the conditions that made reform movements both necessary and politically possible by the 1880s and 1890s."
+                        },
+                        evidence: {
+                            examples: [
+                                "Second Great Awakening — religious revival inspired temperance movement, abolition, women's rights",
+                                "Seneca Falls Convention (1848) — first women's rights convention demanding equality",
+                                "Knights of Labor and American Federation of Labor (AFL) — organized workers for better conditions",
+                                "Haymarket Square (1886) and Pullman Strike (1894) — labor conflict and government response",
+                                "Jane Addams / Hull House — settlement house movement addressing urban poverty",
+                                "Populist Party (1890s) — farmers organizing against railroads and banks",
+                                "Muckrakers — Upton Sinclair (The Jungle), Jacob Riis (How the Other Half Lives)",
+                                "Sherman Antitrust Act (1890) — first federal attempt to break up monopolies",
+                                "Gospel of Wealth — Carnegie's argument that wealthy had moral obligation to philanthropize"
+                            ],
+                            model2pt: "Religious reform inspired by the Second Great Awakening provided the moral framework for early responses to industrialization. Reformers argued that social problems like poverty, alcoholism, and exploitation of women and children in factories were moral failures that required individual and collective action. The temperance movement, embodied by organizations like the Women's Christian Temperance Union, directly linked industrial working-class culture to social problems. By the Gilded Age, however, reformers recognized that moral persuasion alone was insufficient, leading labor organizers to form unions like the Knights of Labor to address structural economic inequalities through collective action."
+                        },
+                        reasoning: {
+                            type: "Causation and Comparison",
+                            what: "Explain what caused different reform movements to take different approaches, OR compare how different groups responded to industrialization.",
+                            model: "The different approaches of reform movements were caused largely by their social base. Middle-class Protestant reformers, insulated from direct economic exploitation, focused on moral and cultural reform. Working-class laborers, experiencing industrialization directly in dangerous factories and company towns, focused on structural economic changes through unionization and political action."
+                        },
+                        complexity: {
+                            options: [
+                                "Explain tensions between different reform movements (e.g., some labor reformers opposed women's suffrage; some suffragists opposed immigration)",
+                                "Discuss how reform movements had different outcomes for different groups (women, immigrants, African Americans)",
+                                "Connect to Progressive Era (after 1900) to show how Gilded Age reform evolved",
+                                "Discuss the limits of reform — what industrialization problems did reform movements fail to address?"
+                            ]
+                        }
+                    },
+                    {
+                        id: 'c',
+                        period: "Periods 7–8 (1890–1930)",
+                        text: "Evaluate how United States foreign policy responded to changes in the world from 1890 to 1930.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about HOW US foreign policy responded to world changes and WHY, with a line of reasoning.",
+                            model: "From 1890 to 1930, the United States progressively abandoned its traditional isolationism in response to economic expansion and global instability, but the limits of this transformation were revealed by the Senate's rejection of the League of Nations and the return to isolationism in the 1920s.",
+                            bad: "The United States responded to world changes by becoming more involved in foreign affairs. [No line of reasoning — just repeats the prompt]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to US foreign policy in this era.",
+                            examples: [
+                                "Washington's Farewell Address warning against entangling alliances — foundation of American isolationism",
+                                "Westward continental expansion and closing of the frontier by 1890",
+                                "The Industrial Revolution creating need for new markets and raw materials",
+                                "European imperial competition in Africa, Asia, and the Pacific",
+                                "The Monroe Doctrine (1823) establishing US sphere of influence in the Western Hemisphere",
+                                "The Cold War (after 1945) as context for how WWI isolationism shaped later policy"
+                            ],
+                            model: "Throughout the nineteenth century, the United States had followed a foreign policy of relative isolationism rooted in Washington's Farewell Address warning against 'entangling alliances.' American expansion had focused on the North American continent through Manifest Destiny. By 1890, however, the completion of continental expansion and the rise of industrial capitalism created new pressures for overseas markets, resources, and strategic influence that challenged this tradition."
+                        },
+                        evidence: {
+                            examples: [
+                                "Spanish-American War (1898) — US gained Puerto Rico, Guam, Philippines from Spain",
+                                "Annexation of Hawaii (1898)",
+                                "Open Door Policy in China (1899-1900)",
+                                "Roosevelt Corollary to Monroe Doctrine (1904) — US as 'international police power' in Latin America",
+                                "Dollar Diplomacy under Taft — using US economic power to influence foreign governments",
+                                "Wilson and WWI — 'make the world safe for democracy'",
+                                "Fourteen Points and League of Nations proposal",
+                                "Senate rejection of Treaty of Versailles / League of Nations (1919-20)",
+                                "Washington Naval Conference (1921-22) — arms limitation treaties",
+                                "Kellogg-Briand Pact (1928) — outlawing war",
+                                "National Origins Act (1924) — restricting immigration showing domestic isolationist impulse"
+                            ],
+                            model2pt: "The Spanish-American War of 1898 marked a decisive turning point in US foreign policy, as the United States acquired an overseas empire for the first time, gaining Puerto Rico, Guam, and the Philippines. Theodore Roosevelt extended American interventionism further through the Roosevelt Corollary (1904), asserting the right to intervene militarily in Latin American nations to prevent European interference. However, American entry into World War I ultimately revealed the limits of this interventionist turn: after Wilson's idealistic vision for a new world order was rejected by the Senate, the United States retreated into the relative isolationism of the 1920s, demonstrating that expansion of foreign involvement was never a settled consensus."
+                        },
+                        reasoning: {
+                            type: "Continuity and Change Over Time",
+                            what: "Explain what changed in US foreign policy over this period and what stayed the same, and why those changes or continuities occurred.",
+                            model: "While US foreign policy changed significantly in becoming more interventionist after 1898, a fundamental continuity remained: Americans consistently debated whether involvement abroad served national interests. The cycle of intervention and retreat from 1898 to 1930 reflected an ongoing tension between economic and strategic imperatives that pushed outward and a democratic political culture skeptical of empire and war."
+                        },
+                        complexity: {
+                            options: [
+                                "Compare US imperialism to European imperialism — similarities and differences in motivations and methods",
+                                "Discuss domestic opposition to imperialism (Anti-Imperialist League, isolationists in Congress)",
+                                "Connect the failures of Wilsonian internationalism to the rise of WWII — how did 1920s isolationism contribute to later crises?",
+                                "Analyze how race shaped US foreign policy — attitudes toward peoples in Philippines, Latin America, China"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                id: 2,
+                year: "2025 AP Exam — Set 2",
+                reasoning: "causation",
+                prompts: [
+                    {
+                        id: 'a',
+                        period: "Periods 1–2 (1607–1754)",
+                        text: "Evaluate how British colonists in the Americas adapted to their environments from 1607 to 1754.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about HOW colonists adapted and WHY, with categories of argument.",
+                            model: "While British colonists in the Chesapeake adapted to their environment by developing a plantation economy based on tobacco and enslaved labor, New England colonists adapted through diversified economies centered on fishing, trade, and manufacturing, with these regional differences shaped largely by climate, geography, and available labor.",
+                            bad: "British colonists adapted to their environments in different ways. [Too vague — no line of reasoning]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to British colonial development.",
+                            examples: [
+                                "English economic theory of mercantilism — colonies existed to benefit the mother country",
+                                "The joint-stock company model (Virginia Company) used to finance colonization",
+                                "Native American populations already present and shaped colonial experiences",
+                                "English religious conflicts (Puritans, Catholics) drove migration patterns",
+                                "The transatlantic slave trade and development of colonial labor systems"
+                            ],
+                            model: "England's colonization of North America beginning in 1607 occurred within a mercantilist economic framework that expected colonies to provide raw materials and markets for English goods. Unlike Spanish colonization, which found wealthy indigenous empires to conquer, English settlers encountered diverse landscapes with no immediately extractable wealth, forcing them to experiment with different economic models. The diverse geography of North America — from the tropical-like Chesapeake to the rocky soil of New England — fundamentally shaped how each colonial region developed."
+                        },
+                        evidence: {
+                            examples: [
+                                "Jamestown — tobacco cultivation solved early economic crisis; headright system encouraged migration",
+                                "Indentured servitude then enslaved African labor in Chesapeake tobacco economy",
+                                "New England cod fishing, shipbuilding, and trade with Caribbean",
+                                "Puritan covenant communities — town meeting governance adapted to New England culture",
+                                "Middle colonies: diverse grain farming, religious diversity, port cities (Philadelphia, New York)",
+                                "Bacon's Rebellion (1676) — social tensions in Virginia leading to shift toward enslaved labor",
+                                "Navigation Acts — colonial trade regulations and colonial responses"
+                            ],
+                            model2pt: "The Chesapeake colonies adapted to their environment most significantly through the development of tobacco as a cash crop. After early failures, Virginia colonists discovered that the warm, humid climate was ideal for tobacco cultivation, creating enormous demand for labor that was initially met by indentured servants. When former indentured servants grew restless (exemplified by Bacon's Rebellion in 1676), planters shifted decisively toward enslaved African labor. In contrast, New England colonists adapted to poor, rocky soil and harsh winters by diversifying their economy through fishing in the Grand Banks, shipbuilding, and trade with Caribbean colonies, creating a more commercially integrated economy less dependent on a single crop."
+                        },
+                        reasoning: {
+                            type: "Causation and Comparison",
+                            what: "Explain what caused different colonial regions to adapt differently, OR compare regional adaptations.",
+                            model: "The different adaptations of British colonial regions were primarily caused by environmental factors, particularly climate and soil quality. The warm, fertile Chesapeake enabled plantation agriculture, while New England's harsh climate and poor soil forced colonists toward maritime and commercial economies. These environmental differences, in turn, caused profound social differences — plantation slavery in the South versus a more diverse, urban economy in the North."
+                        },
+                        complexity: {
+                            options: [
+                                "Discuss how Native American interactions shaped colonial adaptation differently by region",
+                                "Explain how gender roles adapted to different colonial environments",
+                                "Connect colonial regional differences to later sectionalism and the Civil War",
+                                "Discuss how religious differences between colonies shaped their economic and social adaptations"
+                            ]
+                        }
+                    },
+                    {
+                        id: 'b',
+                        period: "Periods 4–5 (1800–1848)",
+                        text: "Evaluate how sectional tensions shaped United States society from 1800 to 1848.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about HOW sectional tensions shaped society and WHY, with a line of reasoning.",
+                            model: "While sectional tensions over slavery increasingly divided Northern and Southern political culture from 1800 to 1848, these tensions paradoxically also shaped American society by fueling reform movements and political debates that expanded democratic participation even as they deepened national divisions.",
+                            bad: "Sectional tensions shaped society because the North and South disagreed about slavery. [Historically defensible but no line of reasoning]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to sectional tensions in this era.",
+                            examples: [
+                                "Constitutional compromises over slavery (Three-Fifths, Fugitive Slave Clause) built in sectional conflict",
+                                "The cotton gin (1793) increased slavery's profitability and expansion",
+                                "Missouri Compromise (1820) as first major sectional crisis",
+                                "The Civil War as outcome of unresolved sectional tensions",
+                                "Manifest Destiny and western expansion as catalyst for sectional conflict"
+                            ],
+                            model: "The United States Constitution had papered over deep divisions between free and slave states through compromises that left the fundamental question of slavery's expansion unresolved. As the nation expanded westward and the cotton economy transformed the South, the economic and political interests of the slaveholding South diverged increasingly from the industrializing North, setting the stage for a series of sectional crises that would ultimately lead to civil war."
+                        },
+                        evidence: {
+                            examples: [
+                                "Missouri Compromise (1820) — first national confrontation over slavery's expansion",
+                                "Nullification Crisis (1832) — South Carolina's defiance of federal tariff",
+                                "Abolitionism — Garrison's The Liberator, American Anti-Slavery Society founded 1833",
+                                "Gag Rule (1836-44) — Congress refused to consider anti-slavery petitions",
+                                "Texas annexation controversy — slavery's expansion into new territory",
+                                "Wilmot Proviso (1846) — attempt to ban slavery in Mexican Cession territory",
+                                "Underground Railroad and Fugitive Slave Act controversies",
+                                "Seneca Falls Convention (1848) — women's rights linked to anti-slavery movement"
+                            ],
+                            model2pt: "The Missouri Compromise of 1820 was a landmark event demonstrating how sectional tensions shaped national politics. Missouri's application for statehood threatened to upset the balance between free and slave states in Congress, triggering a national crisis that Thomas Jefferson compared to 'a firebell in the night.' The compromise temporarily resolved the immediate dispute but established the precedent that territorial expansion would continuously reopen sectional conflict. By 1846, when Congressman David Wilmot proposed banning slavery from all territory acquired from Mexico, sectional voting patterns had so hardened that the proposal passed the Northern-dominated House but failed in the Senate, showing how geography had come to define political identity."
+                        },
+                        reasoning: {
+                            type: "Causation",
+                            what: "Explain HOW sectional tensions caused changes in American society or political culture.",
+                            model: "Sectional tensions over slavery caused the transformation of American political culture by forcing citizens to take sides on an issue that was both economic and moral. The growth of abolitionism in the North was directly caused by Southerners' aggressive defense of slavery and demands that Northerners enforce the Fugitive Slave Act, creating Northern communities that increasingly identified slavery as incompatible with American democratic values."
+                        },
+                        complexity: {
+                            options: [
+                                "Discuss how sectional tensions affected groups beyond white men — women, free Black Americans, enslaved people",
+                                "Explain continuities — how constitutional compromises from the Founding shaped 1800-1848 debates",
+                                "Connect to the Civil War — how did the 1800-1848 period make war likely or inevitable?",
+                                "Compare Northern and Southern understandings of liberty and democracy"
+                            ]
+                        }
+                    },
+                    {
+                        id: 'c',
+                        period: "Periods 8–9 (1960–2000)",
+                        text: "Evaluate how United States society responded to economic changes from 1960 to 2000.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about how American society responded to economic changes and WHY, with categories.",
+                            model: "While the economic prosperity of the 1960s enabled an expansion of the federal government's role through Great Society programs, the economic crises of the 1970s and deindustrialization of the 1980s-90s provoked a conservative backlash that fundamentally shifted American politics toward free-market ideology and reduced government intervention.",
+                            bad: "American society responded to economic changes in different ways from 1960 to 2000. [No line of reasoning]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to US economic changes after 1960.",
+                            examples: [
+                                "Post-WWII economic boom and growth of suburban middle class",
+                                "New Deal legacy — expectation of active government role in economy",
+                                "Cold War competition with Soviet Union creating pressure for economic performance",
+                                "The Great Depression — living memory of economic catastrophe shaped responses",
+                                "Globalization and free trade agreements as context for deindustrialization"
+                            ],
+                            model: "The economic boom following World War II had created a broad American middle class, fueled by rising wages, union membership, and government programs like the GI Bill. By the 1960s, this prosperity had generated both the political will and the tax revenues to fund ambitious social programs. However, this postwar prosperity contained the seeds of its own disruption, as American industrial dominance began to erode in the face of competition from rebuilt European and Japanese economies."
+                        },
+                        evidence: {
+                            examples: [
+                                "Great Society programs (Medicare, Medicaid, War on Poverty) — expanding government in prosperous 1960s",
+                                "1970s stagflation and oil crisis — challenged Keynesian economics",
+                                "Deindustrialization — decline of Rust Belt manufacturing in 1970s-80s",
+                                "Reagan Revolution (1980) — tax cuts, deregulation, 'supply-side' economics",
+                                "Rise of the service economy and decline of union membership",
+                                "NAFTA (1994) — free trade and economic integration",
+                                "Tech boom and dot-com bubble of the 1990s",
+                                "Growing income inequality — widening gap between wealthy and working class",
+                                "Welfare reform (1996) — Clinton's 'end of welfare as we know it'"
+                            ],
+                            model2pt: "The economic transformations of the 1970s fundamentally reshaped American political culture. The combination of oil price shocks, stagflation, and growing competition from Japanese and German manufacturers created an economic crisis that discredited the Keynesian economics associated with the New Deal and Great Society. Ronald Reagan's election in 1980 represented a direct political response to this economic dislocation — his program of tax cuts for the wealthy, deregulation, and attacks on unions offered an alternative framework that blamed government intervention for economic problems. The decline of manufacturing in the Rust Belt simultaneously weakened labor unions, which had been the organizational backbone of the Democratic coalition, accelerating the political realignment."
+                        },
+                        reasoning: {
+                            type: "Continuity and Change Over Time",
+                            what: "Explain what changed in American society's responses to economic change over this period and what stayed the same.",
+                            model: "A fundamental continuity throughout this period was Americans' expectation that the federal government bore responsibility for economic wellbeing. What changed dramatically was the debate over HOW government should respond: from the Keynesian demand-management of the 1960s to the supply-side tax cuts of the 1980s, Americans consistently expected government action but profoundly disagreed about its form."
+                        },
+                        complexity: {
+                            options: [
+                                "Discuss how economic changes affected different groups differently — racial minorities, women, workers vs. professionals",
+                                "Explain connections between economic changes and cultural shifts (suburbanization, consumer culture)",
+                                "Compare American responses to economic change with responses in other nations",
+                                "Discuss how the Cold War shaped American responses to economic problems"
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                id: 3,
+                year: "2024 AP Exam — Set 1",
+                reasoning: "causation",
+                prompts: [
+                    {
+                        id: 'a',
+                        period: "Periods 1–2 (1500–1763)",
+                        text: "Evaluate the relative importance of the causes of conflict among Europeans and Native Americans from 1500 to 1763.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about which causes were MOST important and WHY.",
+                            model: "While competition for land and resources was a consistent cause of conflict between Europeans and Native Americans from 1500 to 1763, the most important cause was the devastating demographic collapse caused by European diseases, which fundamentally disrupted Native political structures and created the power vacuum that made sustained European colonization possible.",
+                            bad: "There were many causes of conflict between Europeans and Native Americans. [No line of reasoning — doesn't evaluate relative importance]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to European-Native American relations.",
+                            examples: [
+                                "Pre-contact Native American diversity — hundreds of distinct nations with different political systems",
+                                "European motivations for exploration and colonization — wealth, glory, religious conversion",
+                                "The Columbian Exchange — biological transfer of diseases, animals, plants",
+                                "Spanish conquest of Aztec and Inca empires as model for colonization",
+                                "European imperial competition (Spain vs. France vs. England vs. Netherlands)"
+                            ],
+                            model: "Before European contact, Native American societies in North America ranged from small nomadic bands to large confederacies like the Haudenosaunee, with complex political, economic, and spiritual systems. European expansion into the Americas beginning in 1492 brought not only soldiers and settlers but also diseases to which Native peoples had no immunity, beginning a demographic catastrophe that transformed the balance of power across the continent."
+                        },
+                        evidence: {
+                            examples: [
+                                "Disease — smallpox, measles killed 50-90% of some Native populations",
+                                "Land hunger — English colonial expansion into Native territories",
+                                "Fur trade competition — European powers competing through Native alliances",
+                                "Religious conversion — Spanish missions, French Jesuit missionaries",
+                                "Encomienda and forced labor system in Spanish colonies",
+                                "Metacom's War (King Philip's War 1675-76)",
+                                "Pueblo Revolt (1680)",
+                                "Pequot War (1636-38)",
+                                "French and Indian alliances vs. English colonists"
+                            ],
+                            model2pt: "Competition for land was a consistent and escalating cause of conflict, particularly in English colonies where growing settler populations demanded expansion into Native territories. Metacom's War (1675-76) was directly caused by English encroachment on Wampanoag lands, as colonial settlements expanded and Native peoples were forced to sell or surrender territory. However, the underlying reason English land hunger could succeed was the prior demographic devastation caused by disease. The same epidemic that had depopulated coastal New England before the Pilgrims arrived had also weakened political structures, eliminated potential resistance, and left land apparently 'empty' — making English colonization far easier than it would otherwise have been."
+                        },
+                        reasoning: {
+                            type: "Causation",
+                            what: "Evaluate the RELATIVE importance of different causes — which was most fundamental and why?",
+                            model: "Disease was the most fundamental cause of European-Native conflict because it was a necessary precondition for all other causes to operate. Without the demographic collapse caused by disease, Native Americans would have had the population to resist land seizure, maintain political independence, and negotiate from a position of strength. Land conflict, religious tensions, and trade competition all took place within a context already shaped by biological catastrophe."
+                        },
+                        complexity: {
+                            options: [
+                                "Distinguish between causes of initial conflict vs. causes of sustained colonization",
+                                "Compare how Spanish, French, and English conflicts with Native Americans differed in their causes",
+                                "Discuss Native American agency — how did Native peoples' decisions shape the causes and outcomes of conflict?",
+                                "Connect to later American-Native relations — did the same causes continue after 1763?"
+                            ]
+                        }
+                    },
+                    {
+                        id: 'b',
+                        period: "Periods 4–5 (1800–1848)",
+                        text: "Evaluate the relative importance of the causes of the growth of a national culture in the United States from 1800 to 1848.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about which causes were MOST important in creating national culture.",
+                            model: "While economic integration through the Market Revolution created material connections that bound Americans together, the most important cause of national cultural growth was the rise of mass communication through newspapers, magazines, and shared literature, which spread common ideas, stories, and values to create an 'imagined community' of Americans.",
+                            bad: "There were many causes of national cultural growth in this period. [No line of reasoning — doesn't evaluate relative importance]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to American national culture development.",
+                            examples: [
+                                "The American Revolution and founding documents created a national political identity",
+                                "The early republic's diversity — regional cultures, waves of immigration, persistence of slavery",
+                                "Transportation revolution (canals, steamboats, railroads) physically connecting the country",
+                                "The Second Great Awakening as a shared religious experience",
+                                "Civil War as test of whether national culture was strong enough to survive sectional conflict"
+                            ],
+                            model: "The United States in 1800 was a loose collection of distinct regional cultures — Yankee New England, the Southern plantation society, and the frontier West — with limited communication between them. The founders had created a shared political framework through the Constitution, but whether this would cohere into a genuine national culture remained uncertain. The next half-century would see extraordinary economic, technological, and social changes that both created national connections and simultaneously deepened regional differences."
+                        },
+                        evidence: {
+                            examples: [
+                                "Erie Canal (1825) and national transportation network connecting regions economically",
+                                "American literature — Washington Irving, James Fenimore Cooper, Ralph Waldo Emerson creating shared stories",
+                                "The penny press — cheap mass newspapers creating shared public conversation",
+                                "Second Great Awakening — national religious revivals creating shared Protestant culture",
+                                "Market Revolution — commercialization creating shared consumer culture",
+                                "National political parties — Jacksonian Democracy mobilizing voters across regions",
+                                "American education reform — Horace Mann's common schools creating shared curriculum",
+                                "Manifest Destiny ideology — shared belief in continental expansion"
+                            ],
+                            model2pt: "The transportation and communication revolutions were crucial in building national culture by physically and informationally connecting previously isolated regions. The Erie Canal (1825) linked the Great Lakes to New York City, creating an economic corridor that bound Midwestern farmers to Eastern markets and cities. The simultaneous rise of the penny press created a shared national conversation — cheap newspapers reporting on the same political events, reform movements, and cultural debates reached citizens from Maine to Georgia. These material connections were reinforced by cultural products: novels like James Fenimore Cooper's Leatherstocking Tales and the poetry of Walt Whitman created shared narratives of American identity that transcended regional differences."
+                        },
+                        reasoning: {
+                            type: "Causation",
+                            what: "Evaluate which causes were MOST important in creating national culture and why.",
+                            model: "Economic integration through the Market Revolution may have been the most important cause because it created the material preconditions for everything else. Without economic growth, there would be no surplus to fund newspapers, schools, and cultural institutions. Without transportation infrastructure, ideas and goods could not spread. The Market Revolution created the interconnected economy that made a shared national culture both possible and profitable."
+                        },
+                        complexity: {
+                            options: [
+                                "Discuss the paradox — national culture grew while sectional tensions also deepened in the same period",
+                                "Analyze who was excluded from national culture — enslaved people, women, immigrants, Native Americans",
+                                "Compare US national culture-building to European nationalism in the same period",
+                                "Discuss how reform movements both reflected and shaped national cultural values"
+                            ]
+                        }
+                    },
+                    {
+                        id: 'c',
+                        period: "Periods 8–9 (1945–1980)",
+                        text: "Evaluate the relative importance of the effects of movements for social change from 1945 to 1980.",
+                        thesis: {
+                            what: "A thesis must make a defensible claim about which effects were MOST important.",
+                            model: "While the civil rights movement produced the most legally significant effects through landmark legislation like the Civil Rights Act of 1964 and Voting Rights Act of 1965, its most important effect was its role as a model and inspiration for subsequent movements — the women's liberation movement, anti-war movement, and environmental movement all adopted its tactics and moral framework.",
+                            bad: "Social change movements had many important effects from 1945 to 1980. [No line of reasoning — doesn't evaluate relative importance]"
+                        },
+                        context: {
+                            what: "Describe broader historical context relevant to social movements in this era.",
+                            examples: [
+                                "Post-WWII prosperity and emergence of the baby boom suburban culture",
+                                "Cold War — contradiction between American democracy and racial segregation",
+                                "New Deal coalition — Democratic Party aligned with labor, urban, and minority voters",
+                                "Television — new medium spreading civil rights images nationally",
+                                "Reagan Revolution (1980) as backlash against social movements"
+                            ],
+                            model: "The post-World War II United States was simultaneously a prosperous democracy and a deeply unequal society. African Americans who had fought for democracy abroad returned home to Jim Crow segregation, while women who had worked in wartime factories were pushed back into domestic roles. The contradiction between American democratic ideals and the reality of racial and gender discrimination created the tensions that would fuel decades of social movement activism."
+                        },
+                        evidence: {
+                            examples: [
+                                "Civil Rights movement — Brown v. Board (1954), Montgomery Bus Boycott, sit-ins, March on Washington",
+                                "Civil Rights Act (1964), Voting Rights Act (1965), Fair Housing Act (1968)",
+                                "Women's liberation — NOW (1966), Roe v. Wade (1973), Title IX (1972)",
+                                "Anti-Vietnam War movement — Kent State, moratoria, end of the draft",
+                                "Environmental movement — Earth Day (1970), EPA created, Clean Air Act",
+                                "American Indian Movement (AIM) — Wounded Knee occupation (1973)",
+                                "LGBTQ rights — Stonewall Riots (1969), beginning of gay rights movement",
+                                "Great Society programs inspired by civil rights movement"
+                            ],
+                            model2pt: "The civil rights movement produced transformative legal effects that permanently altered American society. The Civil Rights Act of 1964 banned discrimination in employment and public accommodations, dismantling the legal structure of Jim Crow. The Voting Rights Act of 1965 directly addressed Southern disenfranchisement, enabling millions of Black Americans to vote for the first time since Reconstruction. These legal victories had immediate practical effects — the number of Black elected officials in the South rose from fewer than 100 in 1965 to over 1,000 by 1970. The movement's tactics of nonviolent direct action also proved to be its most important long-term effect, as the women's liberation movement, anti-war movement, and environmental movement all adopted civil rights strategies of marches, sit-ins, and moral appeals to American democratic values."
+                        },
+                        reasoning: {
+                            type: "Causation — Effects",
+                            what: "Evaluate the RELATIVE importance of different effects — which were most transformative and why?",
+                            model: "The legislative effects of the civil rights movement were the most immediately important, but their long-term importance was surpassed by the movement's effect on American political culture. By demonstrating that organized grassroots activism could force legal change, the civil rights movement caused a permanent transformation in how Americans understood democratic participation — inspiring not only progressive movements but eventually conservative mobilization as well."
+                        },
+                        complexity: {
+                            options: [
+                                "Discuss how social movements produced both intended and unintended effects — including conservative backlash",
+                                "Compare the effects of different movements — civil rights vs. women's liberation vs. environmental",
+                                "Discuss limitations — what did social movements NOT achieve despite significant effort?",
+                                "Connect to Reagan Revolution — how did social movement successes help produce the conservative backlash of the 1980s?"
+                            ]
+                        }
+                    }
+                ]
+            }
+        ];
+
+        let selectedSetId = 1;
+        let selectedPromptId = 'b';
+        let selectedMins = 20;
+        let currentPrompt = null;
+        let currentSet = null;
+        let timerInterval = null;
+        let secondsLeft = 0;
+
+        // ========================
+        // BUILD PROMPT SETS
+        // ========================
+        function buildPromptSets() {
+            var html = '';
+            promptSets.forEach(function(set) {
+                html += '<div class="prompt-set">';
+                html += '<div class="prompt-set-header">';
+                html += '<span class="set-title">Choose one of three prompts:</span>';
+                html += '<span class="set-year">' + set.year + '</span>';
+                html += '</div>';
+                html += '<div class="set-instructions">On the real exam, all three prompts test the same reasoning skill but cover different time periods. Choose the one you know best.</div>';
+                html += '<div class="prompt-options">';
+                set.prompts.forEach(function(p) {
+                    var sel = (set.id === selectedSetId && p.id === selectedPromptId) ? 'selected' : '';
+                    html += '<div class="prompt-option ' + sel + '" onclick="selectPrompt(' + set.id + ',\'' + p.id + '\')" id="po-' + set.id + '-' + p.id + '">';
+                    html += '<div class="radio-dot"></div>';
+                    html += '<div><div class="prompt-text">' + p.text + '</div><div class="prompt-period-tag">' + p.period + '</div></div>';
+                    html += '</div>';
+                });
+                html += '</div></div>';
+            });
+            document.getElementById('prompt-sets').innerHTML = html;
+        }
+
+        function selectPrompt(setId, promptId) {
+            selectedSetId = setId;
+            selectedPromptId = promptId;
+            document.querySelectorAll('.prompt-option').forEach(function(el) { el.classList.remove('selected'); });
+            var el = document.getElementById('po-' + setId + '-' + promptId);
+            if (el) el.classList.add('selected');
+        }
+
+        function selectTimer(btn) {
+            document.querySelectorAll('.timer-pill').forEach(function(p) { p.classList.remove('active'); });
+            btn.classList.add('active');
+            selectedMins = parseInt(btn.dataset.mins);
+        }
+
+        // ========================
+        // START LEQ
+        // ========================
+        function startLEQ() {
+            currentSet = promptSets.find(function(s) { return s.id === selectedSetId; });
+            currentPrompt = currentSet.prompts.find(function(p) { return p.id === selectedPromptId; });
+            if (!currentPrompt) return;
+
+            document.getElementById('writing-title').textContent = currentSet.year + ' — ' + currentPrompt.period;
+            document.getElementById('writing-prompt').textContent = currentPrompt.text;
+            document.getElementById('essay-input').value = '';
+            document.getElementById('word-count').textContent = '0 words';
+
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('writing-screen').style.display = 'block';
+            document.getElementById('results-screen').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (selectedMins > 0) {
+                secondsLeft = selectedMins * 60;
+                updateTimerDisplay();
+                timerInterval = setInterval(tickTimer, 1000);
+            } else {
+                document.getElementById('timer-display').textContent = 'No timer';
+                document.getElementById('timer-display').className = 'timer-display';
+            }
+        }
+
+        function tickTimer() {
+            secondsLeft--;
+            updateTimerDisplay();
+            if (secondsLeft <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer-display').textContent = "TIME'S UP";
+                document.getElementById('timer-display').className = 'timer-display urgent';
+            }
+        }
+
+        function updateTimerDisplay() {
+            var m = Math.floor(secondsLeft / 60);
+            var s = secondsLeft % 60;
+            var text = m + ':' + (s < 10 ? '0' : '') + s;
+            var el = document.getElementById('timer-display');
+            el.textContent = text;
+            if (secondsLeft <= 300) el.className = 'timer-display urgent';
+            else if (secondsLeft <= 600) el.className = 'timer-display warning';
+            else el.className = 'timer-display';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('essay-input').addEventListener('input', function() {
+                var words = this.value.trim() === '' ? 0 : this.value.trim().split(/\s+/).length;
+                document.getElementById('word-count').textContent = words + ' word' + (words !== 1 ? 's' : '');
+            });
+        });
+
+        // ========================
+        // SUBMIT LEQ
+        // ========================
+        function submitLEQ() {
+            clearInterval(timerInterval);
+            var essay = document.getElementById('essay-input').value.trim();
+            var p = currentPrompt;
+
+            // Student essay
+            var essayHtml;
+            if (essay) {
+                essayHtml = '<div class="student-essay-text">' + escapeHtml(essay) + '</div>';
+            } else {
+                essayHtml = '<div class="student-essay-empty">No essay written — review the model answers below and try again.</div>';
+            }
+            document.getElementById('student-essay-display').innerHTML = essayHtml;
+
+            // Build rubric breakdown
+            var html = '';
+
+            // THESIS
+            html += buildRubricItem('📌', 'Thesis / Claim', '1 pt',
+                'Make a historically defensible claim that establishes a line of reasoning. Must go beyond restating the prompt.',
+                [{ label: 'Model Thesis', text: p.thesis.model }],
+                ['Restating the prompt: "' + p.thesis.bad + '"',
+                 'Making a claim without explaining WHY or establishing categories of argument.',
+                 'Writing a thesis at the end of the essay instead of the introduction or conclusion.']
+            );
+
+            // CONTEXTUALIZATION
+            html += buildRubricItem('🌍', 'Contextualization', '1 pt',
+                'Describe a broader historical situation relevant to the prompt. Must be more than a passing phrase — needs 2+ sentences with elaboration.',
+                [{ label: 'Model Contextualization', text: p.context.model },
+                 { label: 'Other acceptable examples', text: p.context.examples.join(' | ') }],
+                ['Writing only one sentence — "The Columbian Exchange happened before this period." (passing phrase)',
+                 'Describing context irrelevant to the prompt.',
+                 'Confusing contextualization with your thesis.']
+            );
+
+            // EVIDENCE
+            html += buildRubricItem('📚', 'Evidence', '0–2 pts',
+                '1 pt: Name at least two specific pieces of evidence relevant to the prompt. 2 pts: Use that evidence to actively support an argument.',
+                [{ label: 'Examples that earn points', text: p.evidence.examples.slice(0, 6).join(' | ') },
+                 { label: 'Model Evidence (2 pts)', text: p.evidence.model2pt }],
+                ['Naming evidence without connecting it to your argument.',
+                 'Using evidence outside the time period specified.',
+                 'Only providing one piece of evidence.',
+                 'Repeating information already in the prompt.']
+            );
+
+            // ANALYSIS AND REASONING
+            html += buildRubricItem('🔍', 'Analysis & Reasoning', '1 pt',
+                'Use ' + p.reasoning.type + ' to frame or structure your argument. The reasoning must be explicit — don\'t just imply it.',
+                [{ label: 'What this looks like (' + p.reasoning.type + ')', text: p.reasoning.model }],
+                ['Using evidence without explaining the reasoning connecting it to your argument.',
+                 'Asserting a reasoning category without actually using it to structure your argument.',
+                 'Describing what happened without explaining HOW or WHY.']
+            );
+
+            // COMPLEXITY
+            html += buildRubricItem('💡', 'Complexity', '1 pt',
+                'Demonstrate sophisticated understanding through: multiple perspectives, multiple causes/effects, connections across periods/regions, or explaining both continuity AND change.',
+                [{ label: 'Ways to earn this point', text: p.complexity.options.join(' | ') }],
+                ['Just having a long essay — complexity must be demonstrated through sophistication of argument, not length.',
+                 'Tacking on a complexity point at the end without integrating it into your argument.',
+                 'This is the hardest point to earn — focus on getting the other 5 first.']
+            );
+
+            document.getElementById('rubric-breakdown').innerHTML = html;
+
+            // Reset checkboxes
+            document.querySelectorAll('.check-box').forEach(function(cb) { cb.className = 'check-box'; cb.textContent = ''; });
+
+            document.getElementById('writing-screen').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function buildRubricItem(icon, title, pts, what, models, mistakes) {
+            var html = '<div class="rubric-item">';
+            html += '<div class="rubric-item-header">';
+            html += '<div class="rubric-item-title"><span class="rubric-icon">' + icon + '</span>' + title + '</div>';
+            html += '<span class="pts-badge">' + pts + '</span>';
+            html += '</div>';
+            html += '<div class="rubric-what">' + escapeHtml(what) + '</div>';
+
+            models.forEach(function(m) {
+                html += '<div class="model-block"><div class="model-block-label">' + escapeHtml(m.label) + '</div>';
+                html += '<div class="model-block-text">' + escapeHtml(m.text) + '</div></div>';
+            });
+
+            html += '<div class="mistake-block"><div class="mistake-block-label">Common mistakes that lose this point</div>';
+            html += '<ul class="mistake-list">';
+            mistakes.forEach(function(m) { html += '<li>' + escapeHtml(m) + '</li>'; });
+            html += '</ul></div>';
+            html += '</div>';
+            return html;
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function toggleCheck(item) {
+            var box = item.querySelector('.check-box');
+            if (box.classList.contains('checked')) {
+                box.classList.remove('checked');
+                box.textContent = '';
+            } else {
+                box.classList.add('checked');
+                box.textContent = '✓';
+            }
+        }
+
+        function retrySame() {
+            clearInterval(timerInterval);
+            document.getElementById('results-screen').style.display = 'none';
+            startLEQ();
+        }
+
+        function newPrompt() {
+            clearInterval(timerInterval);
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('setup-screen').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        buildPromptSets();
+    </script>
+</body>
+</html>
