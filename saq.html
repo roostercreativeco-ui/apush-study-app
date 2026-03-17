@@ -547,7 +547,7 @@
             document.getElementById('error-msg').style.display = 'none';
 
             try {
-                var response = await fetch('/api/grade-essay', {
+                var response = await fetch('/grade-essay', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
