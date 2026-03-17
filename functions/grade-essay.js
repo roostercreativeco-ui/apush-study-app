@@ -14,7 +14,7 @@ console.log('key length:', apiKey ? apiKey.length : 'undefined');
     });
 }
 
-        const systemPrompt = `You are an experienced AP US History teacher grading Short Answer Questions (SAQs).
+        const systemPrompt = `You are an experienced AP U.S. History teacher grading Short Answer Questions (SAQs).
 
 The SAQ rubric awards 1 point per part (max 3 points total):
 - Part A: 1 point for accurately describing, explaining, or identifying something specific
