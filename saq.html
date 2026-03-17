@@ -59,31 +59,38 @@
 
         .container {
             position: relative; z-index: 1;
-            max-width: 600px; margin: 0 auto;
+            max-width: 620px; margin: 0 auto;
             padding: 80px 24px 60px;
         }
 
-        /* ── SETUP ── */
-        .setup-hero { text-align: center; margin-bottom: 32px; }
+        /* SETUP */
+        .setup-hero { text-align: center; margin-bottom: 28px; }
         .setup-hero .saq-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
         .setup-hero h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
         .setup-hero h2 span { color: var(--accent-purple); }
-        .setup-hero p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; max-width: 440px; margin: 0 auto; }
+        .setup-hero p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.5; max-width: 480px; margin: 0 auto; }
+
+        .source-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2);
+            border-radius: 100px; padding: 6px 16px;
+            font-size: 0.8rem; color: var(--accent-green); font-weight: 600;
+            margin-bottom: 24px;
+        }
 
         .rubric-card {
             background: var(--bg-card);
             border: 1px solid rgba(167,139,250,0.15);
             border-radius: var(--radius); padding: 20px 24px;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
         .rubric-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .rubric-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 0.88rem; color: var(--text-dim); line-height: 1.4; }
         .rubric-row:last-child { margin-bottom: 0; }
         .rubric-point { background: rgba(167,139,250,0.15); color: var(--accent-purple); font-weight: 700; font-size: 0.78rem; padding: 2px 8px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
 
-        .prompt-selector { margin-bottom: 24px; }
         .prompt-selector label { font-size: 0.9rem; font-weight: 600; color: var(--text-dim); display: block; margin-bottom: 10px; }
-        .prompt-cards { display: flex; flex-direction: column; gap: 10px; }
+        .prompt-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
         .prompt-card {
             padding: 16px 18px;
             background: var(--bg-card);
@@ -92,9 +99,11 @@
         }
         .prompt-card:hover { border-color: var(--accent-purple); }
         .prompt-card.selected { border-color: var(--accent-purple); background: rgba(167,139,250,0.05); }
-        .prompt-card .prompt-period { font-size: 0.75rem; font-weight: 600; color: var(--accent-gold); margin-bottom: 6px; }
-        .prompt-card .prompt-text { font-size: 0.92rem; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
-        .prompt-card .prompt-parts { font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; }
+        .prompt-card .prompt-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .prompt-card .prompt-period { font-size: 0.75rem; font-weight: 600; color: var(--accent-gold); }
+        .prompt-card .prompt-year { font-size: 0.72rem; color: var(--text-dim); background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 100px; }
+        .prompt-card .prompt-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+        .prompt-card .prompt-preview { font-size: 0.82rem; color: var(--text-dim); line-height: 1.4; }
 
         .btn-start-saq {
             width: 100%; padding: 18px;
@@ -105,43 +114,47 @@
         }
         .btn-start-saq:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(167,139,250,0.3); }
 
-        /* ── WRITING SCREEN ── */
-        .saq-header { margin-bottom: 24px; }
+        /* WRITING SCREEN */
+        .saq-header { margin-bottom: 20px; }
         .saq-header .period-tag {
             font-size: 0.75rem; font-weight: 600; color: var(--accent-gold);
             background: rgba(255,200,69,0.1);
             padding: 4px 12px; border-radius: 100px;
-            display: inline-block; margin-bottom: 12px;
+            display: inline-block; margin-bottom: 8px;
         }
+        .saq-header .exam-tag {
+            font-size: 0.72rem; color: var(--accent-green);
+            background: rgba(52,211,153,0.08);
+            border: 1px solid rgba(52,211,153,0.2);
+            padding: 3px 10px; border-radius: 100px;
+            display: inline-block; margin-left: 6px;
+        }
+
         .saq-prompt-box {
             background: var(--bg-card);
             border: 1px solid rgba(167,139,250,0.15);
             border-radius: var(--radius); padding: 20px 24px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .saq-prompt-box .prompt-label { font-size: 0.8rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .saq-prompt-box .prompt-body { font-size: 1rem; font-weight: 600; line-height: 1.6; }
 
-        .saq-parts { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+        .saq-parts { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
         .saq-part {
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: var(--radius); padding: 20px;
+            border-radius: var(--radius); padding: 18px;
         }
-        .saq-part .part-label {
-            display: flex; align-items: center; gap: 10px;
-            margin-bottom: 10px;
-        }
+        .saq-part .part-label { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
         .saq-part .part-letter {
             width: 28px; height: 28px; border-radius: 7px;
-            background: rgba(167,139,250,0.15);
-            color: var(--accent-purple); font-weight: 800; font-size: 0.9rem;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
+            background: rgba(167,139,250,0.15); color: var(--accent-purple);
+            font-weight: 800; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
         .saq-part .part-question { font-size: 0.9rem; font-weight: 600; color: var(--text-main); line-height: 1.4; flex: 1; }
         .saq-part textarea {
-            width: 100%; min-height: 100px;
+            width: 100%; min-height: 90px;
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 10px; padding: 12px 14px;
@@ -159,99 +172,100 @@
             color: white; font-family: 'Outfit', sans-serif;
             font-size: 1.1rem; font-weight: 800;
             border: none; border-radius: 14px; cursor: pointer; transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .btn-submit-saq:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(167,139,250,0.3); }
-        .btn-submit-saq:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-submit-saq:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(167,139,250,0.3); }
 
-        .grading-spinner {
-            width: 20px; height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%; animation: spin 0.7s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ── RESULTS ── */
+        /* RESULTS */
         .results-screen { display: none; }
 
         .score-hero { text-align: center; margin-bottom: 28px; }
         .score-hero .score-emoji { font-size: 3.5rem; display: block; margin-bottom: 10px; }
         .score-hero h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; }
         .score-hero .score-subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 20px; }
-
         .score-badge {
             display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 28px;
-            background: var(--bg-card);
-            border: 2px solid rgba(167,139,250,0.3);
-            border-radius: 100px;
-            font-family: 'Space Mono', monospace;
-            font-size: 1.5rem; font-weight: 700;
+            padding: 12px 28px; background: var(--bg-card);
+            border: 2px solid rgba(167,139,250,0.3); border-radius: 100px;
+            font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700;
             color: var(--accent-purple);
         }
 
-        .part-results { display: flex; flex-direction: column; gap: 16px; margin-bottom: 28px; }
+        .part-results { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+
         .part-result-card {
-            background: var(--bg-card);
-            border-radius: var(--radius); padding: 20px;
+            background: var(--bg-card); border-radius: var(--radius); padding: 20px;
             border: 1px solid rgba(255,255,255,0.06);
         }
-        .part-result-card.earned { border-color: rgba(52,211,153,0.25); }
-        .part-result-card.missed { border-color: rgba(255,79,79,0.2); }
 
         .part-result-header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
         }
-        .part-result-header .part-id {
-            display: flex; align-items: center; gap: 8px;
-            font-weight: 700; font-size: 0.95rem;
-        }
-        .part-result-header .part-id .pl {
+        .part-id { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.95rem; }
+        .pl {
             width: 26px; height: 26px; border-radius: 6px;
             display: flex; align-items: center; justify-content: center;
             font-weight: 800; font-size: 0.82rem;
+            background: rgba(167,139,250,0.15); color: var(--accent-purple);
         }
-        .earned .pl { background: rgba(52,211,153,0.15); color: var(--accent-green); }
-        .missed  .pl { background: rgba(255,79,79,0.15);  color: var(--accent-red); }
 
-        .score-pill {
-            padding: 3px 12px; border-radius: 100px;
-            font-size: 0.8rem; font-weight: 700;
-        }
-        .earned .score-pill { background: rgba(52,211,153,0.12); color: var(--accent-green); }
-        .missed .score-pill  { background: rgba(255,79,79,0.1);   color: var(--accent-red); }
-
-        .student-answer-label { font-size: 0.75rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-        .student-answer-text {
+        /* Student answer */
+        .student-ans-section { margin-bottom: 14px; }
+        .section-label { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+        .student-ans-text {
             font-size: 0.88rem; line-height: 1.5; color: var(--text-main);
             background: rgba(255,255,255,0.03); border-radius: 8px; padding: 10px 12px;
-            margin-bottom: 12px; font-style: italic;
+            font-style: italic;
         }
+        .student-ans-empty { font-size: 0.85rem; color: var(--text-dim); font-style: italic; padding: 8px 0; }
 
-        .feedback-box {
-            font-size: 0.88rem; line-height: 1.5; color: var(--text-dim);
-            margin-bottom: 12px;
+        /* What earns the point */
+        .earns-section {
+            background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.15);
+            border-radius: 10px; padding: 14px; margin-bottom: 12px;
         }
-        .feedback-box strong { color: var(--text-main); }
+        .earns-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .earns-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+        .earns-list li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; display: flex; gap: 6px; }
+        .earns-list li::before { content: "✓"; color: var(--accent-green); font-weight: 700; flex-shrink: 0; }
 
-        .model-answer {
-            background: rgba(167,139,250,0.06);
-            border: 1px solid rgba(167,139,250,0.15);
-            border-radius: 10px; padding: 12px 14px;
+        /* Model answer */
+        .model-section {
+            background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.15);
+            border-radius: 10px; padding: 14px; margin-bottom: 12px;
         }
-        .model-answer .model-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-        .model-answer .model-text { font-size: 0.88rem; line-height: 1.5; color: var(--text-dim); }
+        .model-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+        .model-text { font-size: 0.88rem; line-height: 1.6; color: var(--text-dim); }
 
-        .overall-tip {
-            background: var(--bg-card);
-            border: 1px solid rgba(255,200,69,0.2);
-            border-radius: var(--radius); padding: 18px 20px;
-            margin-bottom: 28px;
+        /* Common mistakes */
+        .mistakes-section {
+            background: rgba(255,79,79,0.05); border: 1px solid rgba(255,79,79,0.12);
+            border-radius: 10px; padding: 14px;
         }
-        .overall-tip .tip-label { font-size: 0.78rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .overall-tip .tip-text { font-size: 0.92rem; color: var(--text-dim); line-height: 1.5; }
+        .mistakes-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+        .mistakes-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+        .mistakes-list li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.4; display: flex; gap: 6px; }
+        .mistakes-list li::before { content: "✗"; color: var(--accent-red); font-weight: 700; flex-shrink: 0; }
+
+        /* Self check */
+        .self-check-card {
+            background: var(--bg-card); border: 1px solid rgba(255,200,69,0.2);
+            border-radius: var(--radius); padding: 20px; margin-bottom: 24px;
+        }
+        .self-check-title { font-size: 0.85rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        .check-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.88rem; color: var(--text-dim); line-height: 1.4;
+        }
+        .check-item:last-child { border-bottom: none; }
+        .check-box {
+            width: 18px; height: 18px; border-radius: 4px;
+            border: 2px solid rgba(255,200,69,0.3);
+            flex-shrink: 0; margin-top: 1px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+        .check-box.checked { background: var(--accent-gold); border-color: var(--accent-gold); color: #0a0e1a; font-size: 0.7rem; font-weight: 700; }
 
         .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
         .btn-new-prompt {
@@ -277,12 +291,6 @@
         }
         .btn-home:hover { border-color: var(--accent-purple); color: var(--accent-purple); }
 
-        .error-msg {
-            background: rgba(255,79,79,0.08); border: 1px solid rgba(255,79,79,0.2);
-            border-radius: 12px; padding: 16px; color: var(--accent-red);
-            font-size: 0.9rem; margin-bottom: 16px; display: none;
-        }
-
         @media (max-width: 480px) {
             .container { padding: 72px 16px 40px; }
         }
@@ -305,22 +313,26 @@
             <div class="setup-hero">
                 <span class="saq-icon">📝</span>
                 <h2>SAQ <span>Practice</span></h2>
-                <p>Short Answer Questions are 20% of your score. Practice writing precise, evidence-based responses — then get instant AI feedback scored against the real AP rubric.</p>
+                <p>Write your response, then compare it against the real College Board scoring guidelines and model answers from actual AP exams.</p>
+            </div>
+
+            <div style="text-align:center; margin-bottom:20px;">
+                <span class="source-badge">✓ Based on real 2024 & 2025 College Board SAQs</span>
             </div>
 
             <div class="rubric-card">
                 <h3>📋 SAQ Rubric — 3 points total</h3>
                 <div class="rubric-row">
                     <span class="rubric-point">Part A — 1 pt</span>
-                    <span>Describe, explain, or identify something specific using historical evidence</span>
+                    <span>Describe or identify something specific — more than just a term or phrase</span>
                 </div>
                 <div class="rubric-row">
                     <span class="rubric-point">Part B — 1 pt</span>
-                    <span>Explain a cause, effect, or historical development with specific evidence</span>
+                    <span>Explain HOW or WHY — a cause, effect, or historical development</span>
                 </div>
                 <div class="rubric-row">
                     <span class="rubric-point">Part C — 1 pt</span>
-                    <span>Explain a similarity, difference, change, continuity, or make a claim with evidence</span>
+                    <span>Explain a similarity, difference, continuation, or change with specific evidence</span>
                 </div>
             </div>
 
@@ -336,6 +348,7 @@
         <div id="writing-screen" style="display:none;">
             <div class="saq-header">
                 <span class="period-tag" id="w-period">Period 3</span>
+                <span class="exam-tag" id="w-year">2025 AP Exam</span>
             </div>
 
             <div class="saq-prompt-box">
@@ -349,53 +362,62 @@
                         <div class="part-letter">A</div>
                         <div class="part-question" id="q-partA"></div>
                     </div>
-                    <textarea id="ans-partA" placeholder="Write your answer here (2–4 sentences)..." oninput="updateWordCount(this, 'wc-a')"></textarea>
+                    <textarea id="ans-partA" placeholder="Write 2–3 sentences with a specific historical example..." oninput="updateWordCount(this,'wc-a')"></textarea>
                     <div class="word-count" id="wc-a">0 words</div>
                 </div>
-
                 <div class="saq-part">
                     <div class="part-label">
                         <div class="part-letter">B</div>
                         <div class="part-question" id="q-partB"></div>
                     </div>
-                    <textarea id="ans-partB" placeholder="Write your answer here (2–4 sentences)..." oninput="updateWordCount(this, 'wc-b')"></textarea>
+                    <textarea id="ans-partB" placeholder="Write 2–3 sentences explaining HOW or WHY..." oninput="updateWordCount(this,'wc-b')"></textarea>
                     <div class="word-count" id="wc-b">0 words</div>
                 </div>
-
                 <div class="saq-part">
                     <div class="part-label">
                         <div class="part-letter">C</div>
                         <div class="part-question" id="q-partC"></div>
                     </div>
-                    <textarea id="ans-partC" placeholder="Write your answer here (2–4 sentences)..." oninput="updateWordCount(this, 'wc-c')"></textarea>
+                    <textarea id="ans-partC" placeholder="Write 2–3 sentences with specific evidence..." oninput="updateWordCount(this,'wc-c')"></textarea>
                     <div class="word-count" id="wc-c">0 words</div>
                 </div>
             </div>
 
-            <div class="error-msg" id="error-msg">Something went wrong with grading. Please try again.</div>
-
-            <button class="btn-submit-saq" id="btn-submit" onclick="submitSAQ()">
-                <span id="submit-label">✨ Submit for AI Grading</span>
-            </button>
+            <button class="btn-submit-saq" onclick="showResults()">📋 Compare with College Board Answer Key</button>
         </div>
 
         <!-- RESULTS SCREEN -->
         <div class="results-screen" id="results-screen">
-
             <div class="score-hero">
-                <span class="score-emoji" id="score-emoji">🎉</span>
-                <h2 id="score-title">Nice work!</h2>
-                <p class="score-subtitle" id="score-subtitle">Here's your breakdown</p>
-                <div class="score-badge">
-                    <span id="total-score">0</span><span style="color:var(--text-dim); font-size:1.1rem;"> / 3</span>
-                </div>
+                <span class="score-emoji">📋</span>
+                <h2>Answer Key</h2>
+                <p class="score-subtitle">Compare your response against the real AP scoring guidelines</p>
             </div>
 
             <div class="part-results" id="part-results"></div>
 
-            <div class="overall-tip" id="overall-tip" style="display:none;">
-                <div class="tip-label">💡 Pro Tip</div>
-                <div class="tip-text" id="tip-text"></div>
+            <div class="self-check-card">
+                <div class="self-check-title">✅ Self-Assessment Checklist</div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Did I use a specific historical example (not just a general statement)?</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Did I explain HOW or WHY, not just describe WHAT happened?</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Did I write complete sentences (not bullet points or outlines)?</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Is my historical content accurate?</span>
+                </div>
+                <div class="check-item" onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Did I address ALL parts of the question?</span>
+                </div>
             </div>
 
             <div class="results-actions">
@@ -409,73 +431,347 @@
 
     <script>
         // ========================
-        // SAQ PROMPTS
+        // REAL COLLEGE BOARD SAQ DATA
+        // Sources: 2025 Set 1, 2024 Set 1, 2025 Set 2
         // ========================
         const prompts = [
             {
-                id: 1, period: 3,
-                title: "The American Revolution",
-                prompt: "Use your knowledge of the period 1754–1800 to answer parts A, B, and C.",
-                partA: "Briefly describe ONE way British policies after 1763 increased tensions with the American colonies.",
-                partB: "Briefly explain ONE cause of growing colonial resistance to British rule in the decade before the Revolution.",
-                partC: "Briefly explain ONE way the American Revolution changed political ideas in the new United States after 1776."
+                id: 1,
+                period: "Period 2–3",
+                year: "2025 AP Exam (Q3)",
+                title: "British North America & the Revolution",
+                prompt: "Use your knowledge of the period 1607–1783 to answer parts A, B, and C.",
+                partA: "Briefly describe one political development in British North America from 1607 to 1753.",
+                partB: "Briefly describe one effect of the Seven Years' War from 1754 to 1765.",
+                partC: "Briefly explain how one group responded to debates about the rights of British colonists from 1765 to 1783.",
+                scoringA: {
+                    earns: [
+                        "British American colonies established self-governing institutions such as the Virginia House of Burgesses.",
+                        "In New England, political power was based on participatory town meetings.",
+                        "Colonists' desire for more land prompted conflicts with Native Americans.",
+                        "Many proprietary and corporate colonies transitioned to direct royal government.",
+                        "British officials did not consistently enforce mercantilist policies (salutary neglect)."
+                    ],
+                    model: "During the colonial period, British North American colonies developed traditions of self-governance. The Virginia House of Burgesses (1619) was the first representative assembly in colonial America, establishing the principle that colonists had the right to participate in their own government.",
+                    mistakes: [
+                        "Simply naming the House of Burgesses without describing what it was or why it mattered.",
+                        "Discussing events after 1753 (that's Part B and C territory).",
+                        "Making an overgeneralized statement like 'colonists wanted freedom.'"
+                    ]
+                },
+                scoringB: {
+                    earns: [
+                        "Great Britain further taxed its North American colonies to pay for the Seven Years' War.",
+                        "The Seven Years' War led to the end of French colonies in North America.",
+                        "The Seven Years' War heightened tensions between colonists, British officials, and Native Americans.",
+                        "The Proclamation of 1763 prevented colonists from settling west of the Appalachians."
+                    ],
+                    model: "The Seven Years' War dramatically increased Britain's national debt, prompting Parliament to impose new taxes on the colonies such as the Stamp Act (1765). Colonists who had grown accustomed to self-governance under salutary neglect resisted these taxes, arguing they violated the principle of no taxation without representation.",
+                    mistakes: [
+                        "Describing the war itself rather than explaining one of its EFFECTS.",
+                        "Confusing the Seven Years' War with the American Revolution.",
+                        "Saying Britain 'was mean to colonists' without specific evidence."
+                    ]
+                },
+                scoringC: {
+                    earns: [
+                        "American Patriots rejected British taxation, leading to protests and eventually declaring independence.",
+                        "Loyalists attempted to defend the British Crown against Patriots who claimed British violations of rights.",
+                        "Patriots believed government violations of natural rights justified declaring independence.",
+                        "British officials asserted their right to govern the colonies and sent soldiers to suppress the rebellion.",
+                        "Native Americans chose sides, with some allying with the British and others with the Patriots."
+                    ],
+                    model: "American Patriots responded to debates about colonial rights by increasingly arguing that British taxation without colonial representation violated their natural rights as Englishmen. Groups like the Sons of Liberty organized boycotts and protests, culminating in the First Continental Congress (1774) which coordinated colonial resistance to British policies.",
+                    mistakes: [
+                        "Not naming a SPECIFIC group — must identify Patriots, Loyalists, British officials, Native Americans, or enslaved people.",
+                        "Describing the group without explaining HOW they responded.",
+                        "Going beyond 1783 (the prompt ends there)."
+                    ]
+                }
             },
             {
-                id: 2, period: 4,
-                title: "Jacksonian Democracy",
-                prompt: "Use your knowledge of the period 1820–1845 to answer parts A, B, and C.",
-                partA: "Briefly describe ONE way Andrew Jackson expanded democracy for some Americans during his presidency (1829–1837).",
-                partB: "Briefly explain ONE cause of the forced removal of Native Americans from the Southeast during the 1830s.",
-                partC: "Briefly explain ONE way Jacksonian policies limited democracy or rights for a specific group of Americans."
+                id: 2,
+                period: "Period 5–6",
+                year: "2025 AP Exam (Q4)",
+                title: "Reconstruction and Its Legacy",
+                prompt: "Use your knowledge of the period 1865–1945 to answer parts A, B, and C.",
+                partA: "Briefly describe one political development during Reconstruction from 1865 to 1877.",
+                partB: "Briefly describe one effect of the end of Reconstruction from 1877 to 1900.",
+                partC: "Briefly explain how one group responded to debates about the federal government from 1900 to 1945.",
+                scoringA: {
+                    earns: [
+                        "Congress ratified the 13th, 14th, and 15th Amendments during Reconstruction.",
+                        "African American men held political office during Reconstruction, including in Congress.",
+                        "Reconstruction resulted in debates over the process of readmitting Confederate states to the Union.",
+                        "The Compromise of 1877 resulted in the end of Reconstruction.",
+                        "Congress established the Freedmen's Bureau to assist formerly enslaved people."
+                    ],
+                    model: "During Reconstruction, Congress ratified the 14th Amendment (1868), which granted citizenship to all people born in the United States and guaranteed equal protection under the law. This represented a significant expansion of federal power to protect the rights of formerly enslaved African Americans in the South.",
+                    mistakes: [
+                        "Describing what Reconstruction was without identifying a specific political development.",
+                        "Confusing Reconstruction-era amendments (13th abolished slavery, 14th citizenship, 15th voting rights).",
+                        "Going beyond 1877 in your answer for Part A."
+                    ]
+                },
+                scoringB: {
+                    earns: [
+                        "The end of Reconstruction resulted in the passage of Jim Crow segregation laws throughout the South.",
+                        "The Democratic Party regained political power in the South as African Americans were disenfranchised.",
+                        "Sharecropping remained the dominant agricultural system as African Americans' access to land decreased.",
+                        "Plessy v. Ferguson (1896) upheld 'separate but equal,' legitimizing racial segregation.",
+                        "Literacy tests, poll taxes, and violence were used to prevent Black men from voting."
+                    ],
+                    model: "After Reconstruction ended and federal troops withdrew from the South, Southern states passed Jim Crow laws that mandated racial segregation in public spaces. The Supreme Court's decision in Plessy v. Ferguson (1896) upheld 'separate but equal,' providing legal justification for a system of racial oppression that would persist for decades.",
+                    mistakes: [
+                        "Simply saying 'things got worse for Black people' without specific evidence.",
+                        "Confusing the cause (end of Reconstruction) with the effect (Jim Crow, disenfranchisement).",
+                        "Jumping ahead to 1900 in your Part B answer."
+                    ]
+                },
+                scoringC: {
+                    earns: [
+                        "Progressives argued for the federal government to regulate big business and address corruption.",
+                        "The NAACP believed the federal government should provide more protection for African Americans' civil rights.",
+                        "Labor unions called for the federal government to better protect workers during the New Deal.",
+                        "Women suffragists argued the federal government should pass an amendment granting women the vote.",
+                        "Conservationists believed the federal government had a responsibility to protect natural resources."
+                    ],
+                    model: "Progressive reformers responded to debates about government power by arguing that the federal government needed to actively regulate the economy. Muckraking journalists like Upton Sinclair exposed unsafe conditions in industries, leading to legislation such as the Pure Food and Drug Act (1906), which expanded federal oversight of business practices.",
+                    mistakes: [
+                        "Not identifying a specific group — must name Progressives, NAACP, labor unions, women suffragists, etc.",
+                        "Describing the group without explaining what they wanted the government to DO.",
+                        "Using examples outside 1900–1945."
+                    ]
+                }
             },
             {
-                id: 3, period: 5,
-                title: "Civil War & Reconstruction",
-                prompt: "Use your knowledge of the period 1860–1877 to answer parts A, B, and C.",
-                partA: "Briefly describe ONE cause of Southern secession in 1860–1861.",
-                partB: "Briefly explain ONE way the Emancipation Proclamation (1863) changed the goals or character of the Civil War.",
-                partC: "Briefly explain ONE reason Reconstruction failed to secure lasting equality for formerly enslaved people."
+                id: 3,
+                period: "Period 3–4",
+                year: "2024 AP Exam (Q3)",
+                title: "British Colonial Policies & American Independence",
+                prompt: "Use your knowledge of the period 1763–1783 to answer parts A, B, and C.",
+                partA: "Briefly describe one British government policy enacted in colonial North America from 1763 to 1776.",
+                partB: "Briefly explain one similarity OR difference in how TWO groups in North America responded to a British policy from 1763 to 1783.",
+                partC: "Briefly explain how one specific historical development contributed to the American colonists' victory over Great Britain from 1775 to 1783.",
+                scoringA: {
+                    earns: [
+                        "The Stamp Act (1765) taxed printed materials, which colonists argued violated their rights since they had no representation in Parliament.",
+                        "The Proclamation of 1763 prohibited settlement west of the Appalachians to prevent conflict with Native Americans.",
+                        "The Townshend Acts (1767) imposed duties on imported goods, further angering colonists.",
+                        "The Quartering Act required colonists to house British soldiers.",
+                        "The Tea Act (1773) gave the East India Company a monopoly on tea sales in the colonies."
+                    ],
+                    model: "The Stamp Act of 1765 was the first direct tax imposed by Parliament on the colonies, requiring a stamp on all legal documents, newspapers, and other printed materials. Colonists argued this violated their rights as British subjects because they had no elected representatives in Parliament who could consent to the tax on their behalf.",
+                    mistakes: [
+                        "Describing colonial REACTIONS to British policy rather than the British policy itself.",
+                        "Naming a policy without describing what it actually did.",
+                        "Using policies from before 1763 or after 1776."
+                    ]
+                },
+                scoringB: {
+                    earns: [
+                        "Both Patriots and Loyalists responded to British policies by making arguments based on rights, but Patriots argued for independence while Loyalists argued for maintaining ties to Britain.",
+                        "Native Americans and colonists responded differently — many Native Americans allied with Britain to limit colonial expansion, while most colonists resisted British authority.",
+                        "Enslaved people responded differently from white Patriots — some enslaved people fled to British lines after Lord Dunmore's Proclamation, while Patriots fought for their own freedom but not for enslaved people's."
+                    ],
+                    model: "Patriots and Loyalists both responded to British taxation policies by making arguments about rights and the proper relationship between Britain and the colonies. However, Patriots argued that Parliament had no right to tax the colonies without representation and ultimately declared independence, while Loyalists maintained that Parliament had the authority to govern the colonies and that separation from Britain would be dangerous and illegal.",
+                    mistakes: [
+                        "Identifying only ONE group instead of comparing TWO groups.",
+                        "Describing what the groups thought without explaining similarity OR difference.",
+                        "Treating all colonists as Patriots — Loyalists were a significant portion of the population."
+                    ]
+                },
+                scoringC: {
+                    earns: [
+                        "The French alliance (1778) provided crucial military support, naval power, and supplies that helped turn the tide against Britain.",
+                        "The Battle of Saratoga (1777) was a turning point that convinced France to formally ally with the Americans.",
+                        "George Washington's strategy of avoiding decisive defeats kept the Continental Army intact.",
+                        "British overextension across a vast territory made it difficult to suppress the rebellion.",
+                        "International support from Spain and the Netherlands weakened Britain's global position."
+                    ],
+                    model: "The French alliance of 1778 was a crucial development that contributed significantly to American victory. After the Battle of Saratoga demonstrated American military capability, France formally allied with the United States, providing substantial military forces, naval power, and financial support. French naval intervention at Yorktown (1781) prevented British evacuation and led directly to Cornwallis's surrender, ending major combat operations.",
+                    mistakes: [
+                        "Naming a development without explaining HOW it contributed to victory.",
+                        "Using events after 1783.",
+                        "Describing an American failure rather than something that contributed to victory."
+                    ]
+                }
             },
             {
-                id: 4, period: 7,
-                title: "The New Deal",
-                prompt: "Use your knowledge of the period 1929–1941 to answer parts A, B, and C.",
-                partA: "Briefly describe ONE cause of the Great Depression that began in 1929.",
-                partB: "Briefly explain ONE specific New Deal program and how it addressed the Depression.",
-                partC: "Briefly explain ONE way the New Deal changed the relationship between the federal government and American citizens."
+                id: 4,
+                period: "Period 7–8",
+                year: "2024 AP Exam (Q4)",
+                title: "The Cold War at Home and Abroad",
+                prompt: "Use your knowledge of the period 1945–1991 to answer parts A, B, and C.",
+                partA: "Briefly describe one United States Cold War policy from 1945 to 1991.",
+                partB: "Briefly explain one similarity OR difference in how TWO groups in the United States responded to a Cold War policy from 1945 to 1991.",
+                partC: "Briefly explain how one specific historical development after 1980 contributed to the end of the Cold War.",
+                scoringA: {
+                    earns: [
+                        "The Truman Doctrine (1947) pledged US support for nations resisting communist expansion.",
+                        "The Marshall Plan (1948) provided economic aid to rebuild Western Europe and prevent the spread of communism.",
+                        "Containment was the overall US strategy of preventing the spread of communism beyond its existing borders.",
+                        "Détente in the 1970s was Nixon's policy of easing Cold War tensions through diplomacy with the USSR and China.",
+                        "The Reagan Doctrine increased support for anti-communist movements around the world in the 1980s."
+                    ],
+                    model: "The Truman Doctrine (1947) established the United States' commitment to containing Soviet expansion by pledging military and economic support to nations threatened by communist takeover. This policy was first applied to Greece and Turkey and became the foundation of US Cold War foreign policy for decades, justifying American involvement in conflicts from Korea to Vietnam.",
+                    mistakes: [
+                        "Describing the Cold War generally without identifying a SPECIFIC policy.",
+                        "Confusing domestic anti-communist activities (McCarthyism) with foreign policy.",
+                        "Naming a policy without explaining what it actually was or did."
+                    ]
+                },
+                scoringB: {
+                    earns: [
+                        "Both anti-war protesters and government officials responded to Vietnam War policy, but protesters argued the US should withdraw while officials argued the war was necessary to contain communism.",
+                        "African Americans and white Americans responded differently to Cold War civil rights contradictions — civil rights leaders pointed out that American racism undermined Cold War credibility, while many white Southerners resisted civil rights changes.",
+                        "Hawks and doves in Congress both responded to containment policy, but hawks supported aggressive military intervention while doves argued for diplomatic solutions."
+                    ],
+                    model: "Anti-war protesters and government officials both responded to the escalation of the Vietnam War, but in fundamentally different ways. Anti-war protesters, including students and civil rights leaders like Martin Luther King Jr., argued that the war was immoral and counterproductive, organizing mass demonstrations. Government officials such as President Johnson and Secretary of Defense McNamara maintained that US involvement was necessary to prevent the spread of communism in Southeast Asia.",
+                    mistakes: [
+                        "Only describing ONE group's response.",
+                        "Not clearly identifying the SIMILARITY or DIFFERENCE.",
+                        "Forgetting to name specific groups — 'some people' is not specific enough."
+                    ]
+                },
+                scoringC: {
+                    earns: [
+                        "Reagan's military buildup and the Strategic Defense Initiative (SDI) strained the Soviet economy, which could not keep pace with US defense spending.",
+                        "Mikhail Gorbachev's reforms (glasnost and perestroika) loosened Soviet control and allowed democratic movements to emerge in Eastern Europe.",
+                        "The fall of the Berlin Wall (1989) symbolized the collapse of communist governments across Eastern Europe.",
+                        "The Soviet economy's inability to compete with Western capitalism contributed to internal collapse.",
+                        "Nationalist movements within Soviet republics broke up the USSR from within."
+                    ],
+                    model: "Mikhail Gorbachev's reforms of glasnost (openness) and perestroika (restructuring) contributed significantly to the end of the Cold War after 1985. By loosening censorship and allowing greater political freedoms, these reforms unleashed democratic movements across Eastern Europe that the Soviet Union could no longer suppress. The domino effect of communist governments falling throughout Eastern Europe ultimately led to the dissolution of the Soviet Union in 1991.",
+                    mistakes: [
+                        "Using a development before 1980.",
+                        "Saying 'communism collapsed' without explaining HOW or WHY.",
+                        "Confusing the fall of the Berlin Wall (1989) with the dissolution of the USSR (1991) — both are valid but need to be explained correctly."
+                    ]
+                }
             },
             {
-                id: 5, period: 8,
-                title: "The Civil Rights Movement",
-                prompt: "Use your knowledge of the period 1950–1968 to answer parts A, B, and C.",
-                partA: "Briefly describe ONE strategy used by civil rights activists in the 1950s–1960s to challenge racial segregation.",
-                partB: "Briefly explain ONE cause of the Civil Rights Act of 1964 being passed by Congress.",
-                partC: "Briefly explain ONE limitation of the Civil Rights Act of 1964 or Voting Rights Act of 1965 in achieving full equality."
+                id: 5,
+                period: "Period 6–7",
+                year: "2024 AP Exam (Q2, adapted)",
+                title: "The New Deal & Role of Government",
+                prompt: "Use your knowledge of the period 1877–1945 to answer parts A, B, and C.",
+                partA: "Briefly describe one historical situation that led to the creation of New Deal programs in the 1930s.",
+                partB: "Briefly explain how the New Deal reflected a change in ideas about the role of government from 1877 to 1936.",
+                partC: "Briefly explain how beliefs about an active role for the federal government continued after 1945.",
+                scoringA: {
+                    earns: [
+                        "The Great Depression caused mass unemployment, with 25% of workers unemployed by 1933.",
+                        "The stock market crash of 1929 wiped out savings and triggered bank failures across the country.",
+                        "Herbert Hoover's reluctance to use federal power to directly aid citizens left millions without relief.",
+                        "Widespread poverty and Hoovervilles demonstrated the failure of voluntary charitable efforts.",
+                        "The collapse of industrial production and agricultural prices devastated workers and farmers."
+                    ],
+                    model: "The Great Depression created a national emergency that demanded federal action. By 1933, approximately 25% of American workers were unemployed, millions had lost their savings in bank failures, and the agricultural sector had collapsed. Herbert Hoover's belief in voluntary relief rather than direct federal aid had proven insufficient, creating pressure for the government to take an active role in economic recovery.",
+                    mistakes: [
+                        "Describing the New Deal itself rather than the SITUATION that led to it.",
+                        "Making a vague statement like 'the economy was bad' without specific details.",
+                        "Confusing the stock market crash (1929) with the Depression's worst years (1932-33)."
+                    ]
+                },
+                scoringB: {
+                    earns: [
+                        "In 1877, laissez-faire economics dominated — government should not interfere in the economy; by 1936 the government directly employed millions through programs like the WPA.",
+                        "During the Progressive Era, some Americans had begun arguing for a more active government, and the Depression accelerated this shift.",
+                        "The stock market crash convinced many Americans that unregulated capitalism was dangerous and government oversight was necessary."
+                    ],
+                    model: "The New Deal represented a dramatic shift from the laissez-faire economic policies that dominated from 1877 to the 1920s, when the federal government largely avoided direct intervention in the economy. By 1936, programs like the Works Progress Administration (WPA) directly employed millions of Americans, Social Security created a federal safety net, and new regulations like the Securities Exchange Act imposed government oversight on financial markets — all marking a fundamental change in the government's economic role.",
+                    mistakes: [
+                        "Describing what New Deal programs did without connecting to the CHANGE in government philosophy.",
+                        "Forgetting to contrast 1877 policy (laissez-faire) with 1936 policy (active intervention).",
+                        "Saying only that the New Deal 'helped people' without explaining the shift in ideology."
+                    ]
+                },
+                scoringC: {
+                    earns: [
+                        "Lyndon Johnson's Great Society programs including Medicare, Medicaid, and the War on Poverty extended New Deal-era belief in active government.",
+                        "The GI Bill (1944) extended federal benefits to veterans for education and housing, continuing government activism.",
+                        "Environmental regulations in the 1970s such as the EPA showed continued belief in federal oversight of the economy.",
+                        "Social Security remained popular and was expanded after 1945, showing continuity in government's social safety net role."
+                    ],
+                    model: "Lyndon Johnson's Great Society programs of the 1960s continued the New Deal belief in an active federal government. Programs such as Medicare and Medicaid extended federal involvement in healthcare for the elderly and poor, while the War on Poverty created programs like Head Start aimed at addressing economic inequality. These expansions demonstrated that after 1945 many Americans accepted and even demanded an active federal role in addressing social and economic problems.",
+                    mistakes: [
+                        "Using examples from before 1945.",
+                        "Naming a program without explaining how it CONTINUED the belief in active government.",
+                        "Forgetting the word 'continued' — this part asks for continuity, not change."
+                    ]
+                }
             },
             {
-                id: 6, period: 6,
-                title: "Industrialization & Labor",
-                prompt: "Use your knowledge of the period 1865–1900 to answer parts A, B, and C.",
-                partA: "Briefly describe ONE way industrialization changed working conditions for American workers in the Gilded Age.",
-                partB: "Briefly explain ONE cause of the rise of labor unions in the late nineteenth century.",
-                partC: "Briefly explain ONE reason labor unions had limited success in achieving their goals during this period."
+                id: 6,
+                period: "Period 3–4",
+                year: "2025 AP Exam (Q1, adapted)",
+                title: "Early American Democracy & Politics",
+                prompt: "Use your knowledge of the period 1789–1848 to answer parts A, B, and C.",
+                partA: "Briefly describe one way in which the political system of the United States expanded democratic participation from 1789 to 1820.",
+                partB: "Briefly explain one development from 1820 to 1848 that increased sectional tensions between the North and South.",
+                partC: "Briefly explain how one political debate from 1820 to 1848 was similar to debates about federal power during the 1790s.",
+                scoringA: {
+                    earns: [
+                        "The passage of the Bill of Rights protected individual liberties and helped legitimize the new government.",
+                        "States gradually removed property requirements for voting, expanding suffrage to more white men.",
+                        "The rise of political parties like the Democratic-Republicans gave more Americans a way to participate in politics.",
+                        "The two-party system created competition for votes, encouraging politicians to appeal to broader audiences."
+                    ],
+                    model: "In the years following ratification of the Constitution, states gradually eliminated property requirements for voting, which had excluded many white men from political participation. By the 1820s, most states had extended suffrage to virtually all adult white men, dramatically expanding the electorate and ushering in what historians call the era of mass democracy.",
+                    mistakes: [
+                        "Discussing the Constitution itself — the prompt asks about democratic expansion after 1789.",
+                        "Confusing expansion of democracy with the limitations on democracy (women, enslaved people, and Native Americans still excluded).",
+                        "Going beyond 1820 in your Part A answer."
+                    ]
+                },
+                scoringB: {
+                    earns: [
+                        "The Missouri Compromise (1820) temporarily settled but also revealed deep divisions over slavery's expansion.",
+                        "The growth of an antislavery movement in the North intensified regional differences.",
+                        "The Nullification Crisis (1832) showed South Carolina's willingness to defy federal authority over tariff policy.",
+                        "The Mexican-American War (1846-48) intensified debates over whether slavery should expand into new territories.",
+                        "The market revolution created economic differences between the industrial North and agrarian South."
+                    ],
+                    model: "The Missouri Compromise of 1820 temporarily resolved the question of slavery's expansion but revealed deep sectional divisions. Missouri's application for statehood as a slave state threatened to upset the balance between free and slave states in Congress. The compromise — admitting Missouri as a slave state and Maine as a free state while prohibiting slavery north of 36°30' — showed that slavery was an increasingly divisive issue that threatened national unity.",
+                    mistakes: [
+                        "Describing what the Missouri Compromise said without explaining HOW it INCREASED tensions.",
+                        "Using events outside 1820-1848.",
+                        "Claiming the Missouri Compromise resolved tensions permanently — Jefferson called it 'a firebell in the night.'"
+                    ]
+                },
+                scoringC: {
+                    earns: [
+                        "Debates over tariffs in the 1820s-30s (Nullification Crisis) were similar to debates over the Alien and Sedition Acts in the 1790s because both raised questions about states' rights vs. federal power.",
+                        "Debates over whether Congress could ban slavery in territories echoed 1790s debates about implied powers of the federal government.",
+                        "The Second Bank of the United States debate under Jackson was similar to debates over Hamilton's First National Bank because both raised questions about federal economic power."
+                    ],
+                    model: "The debate over the Second Bank of the United States in the 1830s was similar to debates about federal power in the 1790s because both centered on whether the federal government had the constitutional authority to charter a national bank. Jefferson had opposed Hamilton's First National Bank on strict constructionist grounds, arguing the Constitution didn't explicitly grant that power. Jackson made similar arguments against the Second Bank, showing how debates about the proper scope of federal economic power persisted across decades.",
+                    mistakes: [
+                        "Not identifying a SPECIFIC debate from both time periods.",
+                        "Describing the similarity without explaining WHY the debates were similar.",
+                        "Using different time periods than specified."
+                    ]
+                }
             }
         ];
 
         let selectedPromptId = 1;
         let currentPrompt = null;
+        let studentAnswers = {};
 
-        // ========================
         // BUILD PROMPT CARDS
-        // ========================
         function buildPromptCards() {
             var html = '';
             prompts.forEach(function(p) {
-                var selected = p.id === selectedPromptId ? 'selected' : '';
-                html += '<div class="prompt-card ' + selected + '" onclick="selectPrompt(' + p.id + ')" id="prompt-card-' + p.id + '">' +
-                    '<div class="prompt-period">Period ' + p.period + ' — ' + p.title + '</div>' +
-                    '<div class="prompt-text">' + p.prompt + '</div>' +
-                    '<div class="prompt-parts">A: ' + p.partA.substring(0,60) + '...<br>B: ' + p.partB.substring(0,60) + '...<br>C: ' + p.partC.substring(0,60) + '...</div>' +
+                var sel = p.id === selectedPromptId ? 'selected' : '';
+                html += '<div class="prompt-card ' + sel + '" onclick="selectPrompt(' + p.id + ')" id="pc-' + p.id + '">' +
+                    '<div class="prompt-meta">' +
+                    '<span class="prompt-period">' + p.period + '</span>' +
+                    '<span class="prompt-year">' + p.year + '</span>' +
+                    '</div>' +
+                    '<div class="prompt-title">' + p.title + '</div>' +
+                    '<div class="prompt-preview">' + p.partA.substring(0, 70) + '...</div>' +
                     '</div>';
             });
             document.getElementById('prompt-cards').innerHTML = html;
@@ -484,32 +780,22 @@
         function selectPrompt(id) {
             selectedPromptId = id;
             document.querySelectorAll('.prompt-card').forEach(function(c) { c.classList.remove('selected'); });
-            document.getElementById('prompt-card-' + id).classList.add('selected');
+            document.getElementById('pc-' + id).classList.add('selected');
         }
 
-        // ========================
-        // START SAQ
-        // ========================
         function startSAQ() {
             currentPrompt = prompts.find(function(p) { return p.id === selectedPromptId; });
             if (!currentPrompt) return;
 
-            document.getElementById('w-period').textContent = 'Period ' + currentPrompt.period + ' — ' + currentPrompt.title;
+            document.getElementById('w-period').textContent = currentPrompt.period + ' — ' + currentPrompt.title;
+            document.getElementById('w-year').textContent = currentPrompt.year;
             document.getElementById('w-prompt').textContent = currentPrompt.prompt;
             document.getElementById('q-partA').textContent = currentPrompt.partA;
             document.getElementById('q-partB').textContent = currentPrompt.partB;
             document.getElementById('q-partC').textContent = currentPrompt.partC;
 
-            // Clear answers
-            ['ans-partA', 'ans-partB', 'ans-partC'].forEach(function(id) {
-                document.getElementById(id).value = '';
-            });
-            ['wc-a', 'wc-b', 'wc-c'].forEach(function(id) {
-                document.getElementById(id).textContent = '0 words';
-            });
-
-            document.getElementById('error-msg').style.display = 'none';
-            resetSubmitBtn();
+            ['ans-partA','ans-partB','ans-partC'].forEach(function(id) { document.getElementById(id).value = ''; });
+            ['wc-a','wc-b','wc-c'].forEach(function(id) { document.getElementById(id).textContent = '0 words'; });
 
             document.getElementById('setup-screen').style.display = 'none';
             document.getElementById('writing-screen').style.display = 'block';
@@ -517,146 +803,89 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ========================
-        // WORD COUNT
-        // ========================
         function updateWordCount(textarea, wcId) {
             var words = textarea.value.trim() === '' ? 0 : textarea.value.trim().split(/\s+/).length;
             document.getElementById(wcId).textContent = words + ' word' + (words !== 1 ? 's' : '');
         }
 
-        // ========================
-        // SUBMIT FOR GRADING
-        // ========================
-        async function submitSAQ() {
-            var partA = document.getElementById('ans-partA').value.trim();
-            var partB = document.getElementById('ans-partB').value.trim();
-            var partC = document.getElementById('ans-partC').value.trim();
+        function showResults() {
+            studentAnswers = {
+                A: document.getElementById('ans-partA').value.trim(),
+                B: document.getElementById('ans-partB').value.trim(),
+                C: document.getElementById('ans-partC').value.trim()
+            };
 
-            if (!partA && !partB && !partC) {
-                document.getElementById('error-msg').textContent = 'Please write at least one answer before submitting.';
-                document.getElementById('error-msg').style.display = 'block';
-                return;
-            }
-
-            // Show loading state
-            var btn = document.getElementById('btn-submit');
-            var label = document.getElementById('submit-label');
-            btn.disabled = true;
-            label.innerHTML = '<div class="grading-spinner"></div> Grading your response...';
-            document.getElementById('error-msg').style.display = 'none';
-
-            try {
-                var response = await fetch('/grade-essay', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        essayType: 'saq',
-                        prompt: currentPrompt.prompt,
-                        period: currentPrompt.period,
-                        partA: currentPrompt.partA + '\n\nStudent answer: ' + partA,
-                        partB: currentPrompt.partB + '\n\nStudent answer: ' + partB,
-                        partC: currentPrompt.partC + '\n\nStudent answer: ' + partC
-                    })
-                });
-
-                if (!response.ok) throw new Error('Grading failed');
-
-                var result = await response.json();
-                if (result.error) throw new Error(result.error);
-
-                showResults(result, { partA, partB, partC });
-
-            } catch(e) {
-                console.error(e);
-                document.getElementById('error-msg').textContent = 'Grading failed — please check your connection and try again.';
-                document.getElementById('error-msg').style.display = 'block';
-                resetSubmitBtn();
-            }
-        }
-
-        function resetSubmitBtn() {
-            var btn = document.getElementById('btn-submit');
-            btn.disabled = false;
-            document.getElementById('submit-label').innerHTML = '✨ Submit for AI Grading';
-        }
-
-        // ========================
-        // SHOW RESULTS
-        // ========================
-        function showResults(result, answers) {
-            document.getElementById('writing-screen').style.display = 'none';
-            document.getElementById('results-screen').style.display = 'block';
-
-            var total = result.totalScore || (result.scoreA + result.scoreB + result.scoreC);
-            document.getElementById('total-score').textContent = total;
-
-            var emoji, title, subtitle;
-            if      (total === 3) { emoji='🏆'; title='Perfect Score!';    subtitle='Excellent SAQ technique.'; }
-            else if (total === 2) { emoji='🔥'; title='Strong Work!';      subtitle='Almost there — check the feedback below.'; }
-            else if (total === 1) { emoji='💪'; title='Getting There!';    subtitle='Review the model answers and try again.'; }
-            else                  { emoji='📚'; title='Keep Practicing!';  subtitle='Study the model answers below carefully.'; }
-
-            document.getElementById('score-emoji').textContent  = emoji;
-            document.getElementById('score-title').textContent  = title;
-            document.getElementById('score-subtitle').textContent = subtitle;
-
-            // Build part result cards
             var parts = [
-                { letter: 'A', score: result.scoreA, feedback: result.feedbackA, model: result.modelA, answer: answers.partA },
-                { letter: 'B', score: result.scoreB, feedback: result.feedbackB, model: result.modelB, answer: answers.partB },
-                { letter: 'C', score: result.scoreC, feedback: result.feedbackC, model: result.modelC, answer: answers.partC }
+                { letter: 'A', q: currentPrompt.partA, ans: studentAnswers.A, scoring: currentPrompt.scoringA },
+                { letter: 'B', q: currentPrompt.partB, ans: studentAnswers.B, scoring: currentPrompt.scoringB },
+                { letter: 'C', q: currentPrompt.partC, ans: studentAnswers.C, scoring: currentPrompt.scoringC }
             ];
 
             var html = '';
             parts.forEach(function(p) {
-                var earned = p.score === 1;
-                var cls = earned ? 'earned' : 'missed';
-                var scoreLabel = earned ? '✓ 1 / 1' : '✗ 0 / 1';
+                html += '<div class="part-result-card">';
+                html += '<div class="part-result-header"><div class="part-id"><div class="pl">' + p.letter + '</div>Part ' + p.letter + '</div></div>';
 
-                html += '<div class="part-result-card ' + cls + '">';
-                html += '<div class="part-result-header">';
-                html += '<div class="part-id"><div class="pl">' + p.letter + '</div> Part ' + p.letter + '</div>';
-                html += '<div class="score-pill">' + scoreLabel + '</div>';
-                html += '</div>';
-
-                if (p.answer) {
-                    html += '<div class="student-answer-label">Your answer</div>';
-                    html += '<div class="student-answer-text">' + escapeHtml(p.answer) + '</div>';
+                // Student's answer
+                html += '<div class="student-ans-section">';
+                html += '<div class="section-label">Your Answer</div>';
+                if (p.ans) {
+                    html += '<div class="student-ans-text">' + escapeHtml(p.ans) + '</div>';
+                } else {
+                    html += '<div class="student-ans-empty">No answer written</div>';
                 }
-
-                html += '<div class="feedback-box">' + escapeHtml(p.feedback || '') + '</div>';
-
-                html += '<div class="model-answer">';
-                html += '<div class="model-label">✨ Model Answer</div>';
-                html += '<div class="model-text">' + escapeHtml(p.model || '') + '</div>';
                 html += '</div>';
+
+                // What earns the point
+                html += '<div class="earns-section">';
+                html += '<div class="earns-label">✓ What earns this point (College Board)</div>';
+                html += '<ul class="earns-list">';
+                p.scoring.earns.forEach(function(e) { html += '<li>' + escapeHtml(e) + '</li>'; });
+                html += '</ul></div>';
+
+                // Model answer
+                html += '<div class="model-section">';
+                html += '<div class="model-label">📝 Model Answer</div>';
+                html += '<div class="model-text">' + escapeHtml(p.scoring.model) + '</div>';
+                html += '</div>';
+
+                // Common mistakes
+                html += '<div class="mistakes-section">';
+                html += '<div class="mistakes-label">✗ Common Mistakes</div>';
+                html += '<ul class="mistakes-list">';
+                p.scoring.mistakes.forEach(function(m) { html += '<li>' + escapeHtml(m) + '</li>'; });
+                html += '</ul></div>';
 
                 html += '</div>';
             });
 
             document.getElementById('part-results').innerHTML = html;
 
-            // Overall tip
-            if (result.overallTip) {
-                document.getElementById('tip-text').textContent = result.overallTip;
-                document.getElementById('overall-tip').style.display = 'block';
-            }
+            // Reset checkboxes
+            document.querySelectorAll('.check-box').forEach(function(cb) { cb.className = 'check-box'; });
 
+            document.getElementById('writing-screen').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleCheck(item) {
+            var box = item.querySelector('.check-box');
+            if (box.classList.contains('checked')) {
+                box.classList.remove('checked');
+                box.textContent = '';
+            } else {
+                box.classList.add('checked');
+                box.textContent = '✓';
+            }
         }
 
         function escapeHtml(str) {
             return String(str)
-                .replace(/&/g,'&amp;')
-                .replace(/</g,'&lt;')
-                .replace(/>/g,'&gt;')
-                .replace(/"/g,'&quot;');
+                .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         }
 
-        // ========================
-        // NAVIGATION
-        // ========================
         function retrySame() {
             document.getElementById('results-screen').style.display = 'none';
             startSAQ();
@@ -668,9 +897,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ========================
-        // INIT
-        // ========================
         buildPromptCards();
     </script>
 </body>
