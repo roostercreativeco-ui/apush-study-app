@@ -337,6 +337,8 @@
         }
         .weakest-period strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
         .saved-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 6px 14px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); border-radius: 100px; font-size: 0.8rem; color: var(--accent-green); }
+        .xp-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 6px 14px; background: rgba(255,200,69,0.1); border: 1px solid rgba(255,200,69,0.25); border-radius: 100px; font-size: 0.85rem; font-weight: 700; color: var(--accent-gold); animation: xp-pop 0.4s ease; }
+        @keyframes xp-pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .results-actions { display: flex; gap: 12px; justify-content: center; }
         .btn-retry { padding: 14px 28px; background: linear-gradient(135deg, var(--accent-blue), #6c63ff); color: white; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
         .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
@@ -467,6 +469,7 @@
                     <div class="stat-wrong">✗ Wrong: <span id="final-wrong">0</span></div>
                 </div>
                 <div class="saved-badge" id="saved-badge" style="display:none;">✓ Score saved</div>
+                <div class="xp-badge" id="xp-badge" style="display:none;"></div>
                 <div class="weakest-period" id="weakest-period" style="display:none;"></div>
             </div>
 
@@ -605,6 +608,15 @@
         // ========================
         // SAVE SCORE
         // ========================
+        // XP helpers
+        function calcLevel(xp) {
+            if (xp < 500)  return { level: 1, title: 'Recruit',   next: 500  };
+            if (xp < 1000) return { level: 2, title: 'Scholar',   next: 1000 };
+            if (xp < 2000) return { level: 3, title: 'Historian', next: 2000 };
+            if (xp < 4000) return { level: 4, title: 'Expert',    next: 4000 };
+            return              { level: 5, title: 'Master',    next: null };
+        }
+
         async function saveScore(correct, total, period, pct) {
             if (!currentUser) return;
             try {
@@ -613,26 +625,49 @@
                         correct, total, percent: pct, period,
                         date: firebase.firestore.FieldValue.serverTimestamp()
                     });
+
+                // XP: 10 per correct + 20 completion bonus
+                var xpEarned = (correct * 10) + 20;
+
                 var userRef = db.collection('users').doc(currentUser.uid);
                 var userDoc = await userRef.get();
+                var newXP, newName;
                 if (userDoc.exists) {
                     var data = userDoc.data();
+                    newXP = (data.xp || 0) + xpEarned;
+                    newName = data.name || currentUser.displayName || currentUser.email.split('@')[0];
                     await userRef.update({
                         totalQuizzes:  (data.totalQuizzes  || 0) + 1,
                         totalCorrect:  (data.totalCorrect  || 0) + correct,
                         totalAnswered: (data.totalAnswered || 0) + total,
+                        xp: newXP,
+                        level: calcLevel(newXP).level,
                         lastActive: firebase.firestore.FieldValue.serverTimestamp()
                     });
                 } else {
+                    newXP = xpEarned;
+                    newName = currentUser.displayName || currentUser.email.split('@')[0];
                     await userRef.set({
-                        name: currentUser.displayName || currentUser.email.split('@')[0],
-                        email: currentUser.email,
+                        name: newName, email: currentUser.email,
                         totalQuizzes: 1, totalCorrect: correct, totalAnswered: total,
+                        xp: newXP, level: 1,
                         lastActive: firebase.firestore.FieldValue.serverTimestamp(),
-                        joined:     firebase.firestore.FieldValue.serverTimestamp()
+                        joined: firebase.firestore.FieldValue.serverTimestamp()
                     });
                 }
+
+                // Update public leaderboard
+                await db.collection('leaderboard').doc(currentUser.uid).set({
+                    name: newName, xp: newXP,
+                    level: calcLevel(newXP).level,
+                    levelTitle: calcLevel(newXP).title,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
                 document.getElementById('saved-badge').style.display = 'inline-flex';
+                var xpEl = document.getElementById('xp-badge');
+                xpEl.textContent = '+' + xpEarned + ' XP ⚡';
+                xpEl.style.display = 'inline-flex';
             } catch(e) { console.log('Could not save score:', e); }
         }
 
@@ -661,7 +696,8 @@
         // ========================
         // QUESTION LOADING
         // ========================
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-FkjKgBvxeU9RJ3s3YU7uWilcTE9vPk73fd1iZbH064PoF0dGLhT6f6lZSlxR0Q/pub?gid=573257227&single=true&output=csv";
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=562015740&single=true&output=csv";
+
         let allQuestions = [], filteredQuestions = [], quizQuestions = [];
         let currentIndex = 0, correctCount = 0, wrongCount = 0;
         let answered = false, currentPeriod = "all";
