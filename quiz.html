@@ -325,19 +325,6 @@
         .results-stats .stat-correct { color: var(--accent-green); }
         .results-stats .stat-wrong { color: var(--accent-red); }
         .results-stats span { font-weight: 700; }
-        .streak-badge {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-            margin-top: 12px;
-            padding: 10px 18px;
-            background: rgba(255, 107, 53, 0.1);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            border-radius: 100px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #ff8c42;
-        }
         .weakest-period {
             margin-top: 14px;
             padding: 12px 16px;
@@ -481,7 +468,6 @@
                 </div>
                 <div class="saved-badge" id="saved-badge" style="display:none;">✓ Score saved</div>
                 <div class="weakest-period" id="weakest-period" style="display:none;"></div>
-                <div class="streak-badge" id="streak-badge" style="display:none;"></div>
             </div>
 
             <div class="results-actions">
@@ -675,7 +661,7 @@
         // ========================
         // QUESTION LOADING
         // ========================
-        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=562015740&single=true&output=csv";
+        const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-FkjKgBvxeU9RJ3s3YU7uWilcTE9vPk73fd1iZbH064PoF0dGLhT6f6lZSlxR0Q/pub?gid=573257227https://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=562015740&single=true&output=csvsingle=truehttps://docs.google.com/spreadsheets/d/e/2PACX-1vS27sGvM2_qbgIzYu0DUexvyoBvmYFtPJurozjPJ-lOkdu87UQFnqGJBvhIiirbqiVSHcUEHRtx7bBw/pub?gid=562015740&single=true&output=csvoutput=csv";
 
         let allQuestions = [], filteredQuestions = [], quizQuestions = [];
         let currentIndex = 0, correctCount = 0, wrongCount = 0;
@@ -918,63 +904,6 @@
             el.style.display = 'block';
         }
 
-
-        // ========================
-        // STREAK LOGIC
-        // ========================
-        async function updateStreak() {
-            if (!currentUser) return;
-            try {
-                var userRef = db.collection('users').doc(currentUser.uid);
-                var userDoc = await userRef.get();
-                var data = userDoc.exists ? userDoc.data() : {};
-
-                var today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
-                var lastDate = data.lastStudyDate || null;
-                var streak = data.streak || 0;
-                var longest = data.longestStreak || 0;
-
-                if (lastDate === today) {
-                    // Already studied today — no change, just show current streak
-                } else if (lastDate === getYesterday()) {
-                    // Studied yesterday — increment streak
-                    streak = streak + 1;
-                } else {
-                    // Missed a day (or first time) — reset
-                    streak = 1;
-                }
-
-                if (streak > longest) longest = streak;
-
-                await userRef.update({
-                    streak: streak,
-                    longestStreak: longest,
-                    lastStudyDate: today
-                });
-
-                showStreakOnResults(streak);
-            } catch(e) { console.log('Could not update streak:', e); }
-        }
-
-        function getYesterday() {
-            var d = new Date();
-            d.setDate(d.getDate() - 1);
-            return d.toISOString().slice(0, 10);
-        }
-
-        function showStreakOnResults(streak) {
-            var el = document.getElementById('streak-badge');
-            if (!el) return;
-            if (streak >= 1) {
-                var msg = streak === 1 ? '🔥 1 day streak — keep it going!' :
-                          streak >= 30 ? '🏆 ' + streak + ' day streak — legendary!' :
-                          streak >= 7  ? '🔥 ' + streak + ' day streak — on fire!' :
-                                         '🔥 ' + streak + ' day streak!';
-                el.textContent = msg;
-                el.style.display = 'inline-flex';
-            }
-        }
-
         // ========================
         // RESULTS
         // ========================
@@ -991,7 +920,6 @@
             document.getElementById('final-wrong').textContent     = wrongCount;
             document.getElementById('final-pct').textContent       = pct + '%';
             document.getElementById('saved-badge').style.display   = 'none';
-            document.getElementById('streak-badge').style.display = 'none';
 
             var pctEl = document.getElementById('final-pct');
             pctEl.style.color = pct >= 80 ? 'var(--accent-green)' : pct >= 60 ? 'var(--accent-gold)' : 'var(--accent-red)';
@@ -1017,7 +945,6 @@
 
             showWeakestPeriod();
             saveScore(correctCount, total, currentPeriod, pct);
-            updateStreak();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
