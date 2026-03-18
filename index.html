@@ -269,6 +269,15 @@
             border-color: rgba(255,255,255,0.08);
             color: var(--text-dim);
         }
+        .stat-chip.xp-chip {
+            background: rgba(255, 200, 69, 0.08);
+            border-color: rgba(255, 200, 69, 0.25);
+            color: var(--accent-gold);
+        }
+        .xp-bar-wrap { margin-top: 12px; }
+        .xp-bar-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 5px; }
+        .xp-bar-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
+        .xp-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-gold), #ffb300); border-radius: 100px; transition: width 0.6s ease; width: 0%; }
         .stat-chip.accuracy-chip {
             background: rgba(52, 211, 153, 0.07);
             border-color: rgba(52, 211, 153, 0.2);
@@ -423,6 +432,14 @@
             <div class="stats-row fade-up">
                 <div class="stat-chip streak-zero" id="streak-chip">🔥 0 day streak</div>
                 <div class="stat-chip accuracy-chip" id="accuracy-chip" style="display:none;">🎯 <span id="accuracy-val">—</span>% accuracy</div>
+                <div class="stat-chip xp-chip" id="xp-chip" style="display:none;">⚡ <span id="xp-val">0</span> XP</div>
+            </div>
+            <div class="xp-bar-wrap fade-up" id="xp-bar-wrap" style="display:none; margin-bottom:16px;">
+                <div class="xp-bar-labels">
+                    <span id="xp-bar-left">Lv.1 Recruit</span>
+                    <span id="xp-bar-right">Next: 500 XP</span>
+                </div>
+                <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar-fill"></div></div>
             </div>
 
             <div class="nav-links fade-up">
@@ -444,7 +461,11 @@
                 </a>
                 <a href="leq.html" class="nav-link" style="border-color: rgba(45,212,191,0.2);">
                     <span class="nav-emoji">✍️</span> LEQ Practice
-                    <span class="nav-arrow">Essay writing →</span>
+                    <span class="nav-arrow">6 real prompts →</span>
+                </a>
+                <a href="leaderboard.html" class="nav-link" style="border-color: rgba(255,200,69,0.2);">
+                    <span class="nav-emoji">🏆</span> Leaderboard
+                    <span class="nav-arrow">Top students →</span>
                 </a>
                 <a href="feedback.html" class="nav-link">
                     <span class="nav-emoji">💬</span> Send Feedback
@@ -523,7 +544,30 @@
                     document.getElementById('accuracy-val').textContent = pct;
                     document.getElementById('accuracy-chip').style.display = 'inline-flex';
                 }
+
+                // XP chip + bar
+                var xp = data.xp || 0;
+                if (xp > 0) {
+                    document.getElementById('xp-val').textContent = xp.toLocaleString();
+                    document.getElementById('xp-chip').style.display = 'inline-flex';
+                    document.getElementById('xp-bar-wrap').style.display = 'block';
+                    var lvlInfo = calcLevel(xp);
+                    var pct2 = lvlInfo.next
+                        ? Math.min(100, Math.round(((xp - lvlInfo.prev) / (lvlInfo.next - lvlInfo.prev)) * 100))
+                        : 100;
+                    document.getElementById('xp-bar-fill').style.width = pct2 + '%';
+                    document.getElementById('xp-bar-left').textContent = 'Lv.' + lvlInfo.level + ' ' + lvlInfo.title;
+                    document.getElementById('xp-bar-right').textContent = lvlInfo.next ? 'Next: ' + lvlInfo.next.toLocaleString() + ' XP' : '🏆 Max Level!';
+                }
             } catch(e) { console.log('Could not load stats:', e); }
+        }
+
+        function calcLevel(xp) {
+            if (xp < 500)  return { level: 1, title: 'Recruit',   next: 500,  prev: 0    };
+            if (xp < 1000) return { level: 2, title: 'Scholar',   next: 1000, prev: 500  };
+            if (xp < 2000) return { level: 3, title: 'Historian', next: 2000, prev: 1000 };
+            if (xp < 4000) return { level: 4, title: 'Expert',    next: 4000, prev: 2000 };
+            return              { level: 5, title: 'Master',    next: null, prev: 4000 };
         }
 
         // ========================
