@@ -90,18 +90,9 @@
         }
         .period-pill:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
         .period-pill.active { background: var(--accent-blue); border-color: var(--accent-blue); color: white; }
-        .period-pill.bookmark-pill {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-        }
-        .period-pill.bookmark-pill:hover {
-            background: rgba(255, 200, 69, 0.1);
-        }
-        .period-pill.bookmark-pill.active {
-            background: var(--accent-gold);
-            border-color: var(--accent-gold);
-            color: #0a0e1a;
-        }
+        .period-pill.bookmark-pill { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .period-pill.bookmark-pill:hover { background: rgba(255, 200, 69, 0.1); }
+        .period-pill.bookmark-pill.active { background: var(--accent-gold); border-color: var(--accent-gold); color: #0a0e1a; }
 
         .quiz-setup { text-align: center; margin-top: 20px; }
         .quiz-setup p { color: var(--text-dim); margin-bottom: 20px; font-size: 0.95rem; }
@@ -131,7 +122,6 @@
         .history-date { font-size: 0.75rem; color: var(--text-dim); }
         .history-score { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; }
 
-        /* PROGRESS BAR */
         .progress-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
         .progress-track { flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-green)); border-radius: 100px; transition: width 0.4s ease; }
@@ -141,7 +131,6 @@
         .score-correct { color: var(--accent-green); }
         .score-wrong { color: var(--accent-red); }
 
-        /* QUESTION CARD — with bookmark row */
         .question-card {
             background: var(--bg-card);
             border: 1px solid rgba(79, 140, 255, 0.1);
@@ -164,109 +153,52 @@
         }
         .question-card .question-text { font-size: 1.05rem; font-weight: 600; line-height: 1.5; margin-bottom: 16px; }
 
-        /* BOOKMARK BUTTON */
         .bookmark-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            border-radius: 100px;
+            display: flex; align-items: center; gap: 6px;
+            padding: 5px 12px; border-radius: 100px;
             border: 1px solid rgba(255,255,255,0.12);
-            background: transparent;
-            color: var(--text-dim);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-            margin-left: 12px;
+            background: transparent; color: var(--text-dim);
+            font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; margin-left: 12px;
         }
-        .bookmark-btn:hover {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-        }
-        .bookmark-btn.bookmarked {
-            background: rgba(255, 200, 69, 0.12);
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-        }
+        .bookmark-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .bookmark-btn.bookmarked { background: rgba(255, 200, 69, 0.12); border-color: var(--accent-gold); color: var(--accent-gold); }
         .bookmark-btn .bk-star { font-size: 1rem; line-height: 1; }
 
-        /* BOOKMARK TOAST */
         .bookmark-toast {
-            position: fixed;
-            bottom: 32px;
-            left: 50%;
+            position: fixed; bottom: 32px; left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--bg-card);
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 10px 20px;
-            border-radius: 100px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            z-index: 999;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            white-space: nowrap;
+            background: var(--bg-card); border: 1px solid var(--accent-gold);
+            color: var(--accent-gold); padding: 10px 20px; border-radius: 100px;
+            font-size: 0.9rem; font-weight: 700; z-index: 999;
+            opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap;
         }
-        .bookmark-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .bookmark-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         .choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 
         .choice-btn {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            padding: 16px 18px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
-            color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.95rem;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 16px 18px; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
+            color: var(--text-main); font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem; text-align: left; cursor: pointer; transition: all 0.2s; width: 100%;
         }
-        .choice-btn:hover:not(.disabled) {
-            border-color: var(--accent-blue);
-            background: rgba(79, 140, 255, 0.06);
-        }
+        .choice-btn:hover:not(.disabled) { border-color: var(--accent-blue); background: rgba(79, 140, 255, 0.06); }
         .choice-btn .letter {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.06);
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            min-width: 32px; height: 32px; border-radius: 8px;
+            background: rgba(255,255,255,0.06); font-weight: 700; font-size: 0.85rem;
+            color: var(--text-dim); flex-shrink: 0;
         }
         .choice-body { display: flex; flex-direction: column; gap: 0; padding-top: 4px; flex: 1; }
         .choice-text { line-height: 1.4; }
 
         .wrong-reason {
-            display: none;
-            margin-top: 8px;
-            padding: 7px 10px;
-            background: rgba(255, 79, 79, 0.07);
-            border-left: 3px solid rgba(255, 79, 79, 0.5);
-            border-radius: 0 6px 6px 0;
-            font-size: 0.81rem;
-            line-height: 1.45;
-            color: #ff9999;
-            font-weight: 500;
+            display: none; margin-top: 8px; padding: 7px 10px;
+            background: rgba(255, 79, 79, 0.07); border-left: 3px solid rgba(255, 79, 79, 0.5);
+            border-radius: 0 6px 6px 0; font-size: 0.81rem; line-height: 1.45;
+            color: #ff9999; font-weight: 500;
         }
         .wrong-reason.visible { display: block; animation: fadeInReason 0.3s ease; }
         .choice-btn.correct .wrong-reason { display: none !important; }
@@ -284,25 +216,19 @@
         .choice-btn.disabled { cursor: default; pointer-events: none; }
 
         .explanation-box {
-            display: none;
-            padding: 20px;
-            border-radius: 14px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            display: none; padding: 20px; border-radius: 14px; margin-bottom: 20px;
+            font-size: 0.9rem; line-height: 1.6;
         }
         .explanation-box.show { display: block; }
         .explanation-box.is-correct { background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.2); }
-        .explanation-box.is-wrong   { background: rgba(255, 79, 79, 0.08);  border: 1px solid rgba(255, 79, 79, 0.2); }
+        .explanation-box.is-wrong   { background: rgba(255, 79, 79, 0.08); border: 1px solid rgba(255, 79, 79, 0.2); }
         .explanation-box .result-label { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
         .explanation-box.is-correct .result-label { color: var(--accent-green); }
         .explanation-box.is-wrong   .result-label { color: var(--accent-red); }
         .explanation-box .result-text { color: var(--text-dim); }
 
         .btn-next-q {
-            display: none;
-            width: 100%;
-            padding: 16px;
+            display: none; width: 100%; padding: 16px;
             background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
             color: white; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
             border: none; border-radius: 14px; cursor: pointer; transition: all 0.2s;
@@ -310,6 +236,7 @@
         .btn-next-q.show { display: block; }
         .btn-next-q:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
 
+        /* ======================== RESULTS ======================== */
         .results { display: none; text-align: center; padding: 20px 0; }
         .results-emoji { font-size: 4rem; margin-bottom: 16px; }
         .results h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
@@ -326,25 +253,60 @@
         .results-stats .stat-wrong { color: var(--accent-red); }
         .results-stats span { font-weight: 700; }
         .weakest-period {
-            margin-top: 14px;
-            padding: 12px 16px;
-            background: rgba(255, 200, 69, 0.07);
-            border: 1px solid rgba(255, 200, 69, 0.2);
-            border-radius: 12px;
-            font-size: 0.88rem;
-            color: var(--accent-gold);
-            line-height: 1.5;
+            margin-top: 14px; padding: 12px 16px;
+            background: rgba(255, 200, 69, 0.07); border: 1px solid rgba(255, 200, 69, 0.2);
+            border-radius: 12px; font-size: 0.88rem; color: var(--accent-gold); line-height: 1.5;
         }
         .weakest-period strong { display: block; font-size: 0.95rem; margin-bottom: 2px; }
         .saved-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 6px 14px; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); border-radius: 100px; font-size: 0.8rem; color: var(--accent-green); }
         .xp-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 6px 14px; background: rgba(255,200,69,0.1); border: 1px solid rgba(255,200,69,0.25); border-radius: 100px; font-size: 0.85rem; font-weight: 700; color: var(--accent-gold); animation: xp-pop 0.4s ease; }
         @keyframes xp-pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .results-actions { display: flex; gap: 12px; justify-content: center; }
+
+        /* ======================== RESULTS ACTIONS ======================== */
+        .results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
         .btn-retry { padding: 14px 28px; background: linear-gradient(135deg, var(--accent-blue), #6c63ff); color: white; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
         .btn-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
         .btn-home { padding: 14px 28px; background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-dim); font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
         .btn-home:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
+        /* ======================== SHARE BUTTON ======================== */
+        .btn-share {
+            padding: 14px 28px;
+            background: transparent;
+            border: 1px solid rgba(52, 211, 153, 0.4);
+            color: var(--accent-green);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem; font-weight: 700;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-share:hover {
+            background: rgba(52, 211, 153, 0.08);
+            border-color: var(--accent-green);
+            transform: translateY(-2px);
+        }
+
+        /* Share toast */
+        .share-toast {
+            position: fixed; bottom: 32px; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card); border: 1px solid var(--accent-green);
+            color: var(--accent-green); padding: 10px 20px; border-radius: 100px;
+            font-size: 0.9rem; font-weight: 700; z-index: 999;
+            opacity: 0; transition: all 0.3s ease; pointer-events: none; white-space: nowrap;
+        }
+        .share-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ======================== CONFETTI ======================== */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        /* ======================== LOADING ======================== */
         .loading { text-align: center; padding: 80px 20px; }
         .loading .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -363,8 +325,13 @@
     <div class="bg-glow blue"></div>
     <div class="bg-glow red"></div>
 
-    <!-- Bookmark toast notification -->
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Bookmark toast -->
     <div class="bookmark-toast" id="bookmark-toast"></div>
+    <!-- Share toast -->
+    <div class="share-toast" id="share-toast">📋 Copied to clipboard!</div>
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">🇺🇸 <span>APUSH</span></a>
@@ -475,6 +442,7 @@
 
             <div class="results-actions">
                 <button class="btn-retry" onclick="retryQuiz()">🔄 Try Again</button>
+                <button class="btn-share" onclick="shareResult()" id="btn-share">📤 Share</button>
                 <a href="index.html" class="btn-home">🏠 Home</a>
             </div>
         </div>
@@ -502,15 +470,107 @@
         let currentUser = null;
 
         // ========================
-        // BOOKMARKS (in-memory + Firestore)
+        // CONFETTI
         // ========================
-        let bookmarkedIds = new Set(); // set of question id strings
+        var confettiCanvas = document.getElementById('confetti-canvas');
+        var confettiCtx = confettiCanvas.getContext('2d');
+        var confettiPieces = [];
+        var confettiAnimId = null;
+
+        var confettiColors = ['#4f8cff','#ffc845','#34d399','#ff4f4f','#a78bfa','#f472b6','#fb923c'];
+
+        function launchConfetti() {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            confettiPieces = [];
+            for (var i = 0; i < 160; i++) {
+                confettiPieces.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * -confettiCanvas.height * 0.5,
+                    w: Math.random() * 10 + 6,
+                    h: Math.random() * 6 + 4,
+                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+                    rotation: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 8,
+                    speedX: (Math.random() - 0.5) * 3,
+                    speedY: Math.random() * 4 + 2,
+                    opacity: 1
+                });
+            }
+            if (confettiAnimId) cancelAnimationFrame(confettiAnimId);
+            animateConfetti();
+            // stop after 3.5s
+            setTimeout(stopConfetti, 3500);
+        }
+
+        function animateConfetti() {
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+            var alive = false;
+            confettiPieces.forEach(function(p) {
+                if (p.y < confettiCanvas.height + 20) alive = true;
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.rotation += p.rotSpeed;
+                p.opacity = Math.max(0, 1 - (p.y / confettiCanvas.height));
+                confettiCtx.save();
+                confettiCtx.globalAlpha = p.opacity;
+                confettiCtx.translate(p.x, p.y);
+                confettiCtx.rotate(p.rotation * Math.PI / 180);
+                confettiCtx.fillStyle = p.color;
+                confettiCtx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                confettiCtx.restore();
+            });
+            if (alive) confettiAnimId = requestAnimationFrame(animateConfetti);
+        }
+
+        function stopConfetti() {
+            if (confettiAnimId) { cancelAnimationFrame(confettiAnimId); confettiAnimId = null; }
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+
+        // ========================
+        // SHARE RESULT
+        // ========================
+        var lastPct = 0;
+
+        function shareResult() {
+            var correct = parseInt(document.getElementById('final-correct').textContent);
+            var total = parseInt(document.getElementById('final-total').textContent.replace(' / ', ''));
+            var pct = lastPct;
+
+            var emoji = pct === 100 ? '🏆' : pct >= 80 ? '🔥' : pct >= 60 ? '💪' : '📚';
+            var periodLabel = currentPeriod === 'all' ? 'All Periods' : currentPeriod === 'bookmarks' ? 'Saved Questions' : 'Period ' + currentPeriod;
+            var msg = emoji + ' Just scored ' + correct + '/' + total + ' (' + pct + '%) on APUSH ' + periodLabel + '!\nStudying with apush-study-app.netlify.app — try to beat me! 🇺🇸';
+
+            // Try native share first (works great on mobile)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My APUSH Score',
+                    text: msg,
+                    url: 'https://apush-study-app.netlify.app'
+                }).catch(function() {});
+            } else {
+                // Fallback: copy to clipboard
+                navigator.clipboard.writeText(msg).then(function() {
+                    var toast = document.getElementById('share-toast');
+                    toast.classList.add('show');
+                    setTimeout(function() { toast.classList.remove('show'); }, 2200);
+                }).catch(function() {
+                    // Final fallback: prompt
+                    prompt('Copy your score:', msg);
+                });
+            }
+        }
+
+        // ========================
+        // BOOKMARKS
+        // ========================
+        let bookmarkedIds = new Set();
 
         async function loadBookmarks() {
             if (!currentUser) return;
             try {
-                var snap = await db.collection('users').doc(currentUser.uid)
-                    .collection('bookmarks').get();
+                var snap = await db.collection('users').doc(currentUser.uid).collection('bookmarks').get();
                 bookmarkedIds = new Set();
                 snap.forEach(function(doc) { bookmarkedIds.add(doc.id); });
                 updateBookmarksPill();
@@ -524,7 +584,6 @@
             var btn = document.getElementById('bookmark-btn');
 
             if (bookmarkedIds.has(qid)) {
-                // Remove bookmark
                 bookmarkedIds.delete(qid);
                 btn.classList.remove('bookmarked');
                 btn.querySelector('.bk-star').textContent = '☆';
@@ -534,7 +593,6 @@
                     try { await db.collection('users').doc(currentUser.uid).collection('bookmarks').doc(qid).delete(); } catch(e) {}
                 }
             } else {
-                // Add bookmark
                 bookmarkedIds.add(qid);
                 btn.classList.add('bookmarked');
                 btn.querySelector('.bk-star').textContent = '⭐';
@@ -543,8 +601,7 @@
                 if (currentUser) {
                     try {
                         await db.collection('users').doc(currentUser.uid).collection('bookmarks').doc(qid).set({
-                            questionId: qid,
-                            period: q.period,
+                            questionId: qid, period: q.period,
                             savedAt: firebase.firestore.FieldValue.serverTimestamp()
                         });
                     } catch(e) {}
@@ -574,7 +631,6 @@
                 pill.textContent = '⭐ Saved (' + bookmarkedIds.size + ')';
             } else {
                 pill.style.display = 'none';
-                // If currently viewing bookmarks and all removed, switch to all
                 if (currentPeriod === 'bookmarks') {
                     currentPeriod = 'all';
                     filteredQuestions = [...allQuestions];
@@ -599,16 +655,12 @@
         // ========================
         auth.onAuthStateChanged(function(user) {
             currentUser = user;
-            if (user) {
-                loadHistory();
-                loadBookmarks();
-            }
+            if (user) { loadHistory(); loadBookmarks(); }
         });
 
         // ========================
-        // SAVE SCORE
+        // SAVE SCORE + XP
         // ========================
-        // XP helpers
         function calcLevel(xp) {
             if (xp < 500)  return { level: 1, title: 'Recruit',   next: 500  };
             if (xp < 1000) return { level: 2, title: 'Scholar',   next: 1000 };
@@ -620,18 +672,16 @@
         async function saveScore(correct, total, period, pct) {
             if (!currentUser) return;
             try {
-                await db.collection('users').doc(currentUser.uid)
-                    .collection('quizScores').add({
-                        correct, total, percent: pct, period,
-                        date: firebase.firestore.FieldValue.serverTimestamp()
-                    });
+                await db.collection('users').doc(currentUser.uid).collection('quizScores').add({
+                    correct, total, percent: pct, period,
+                    date: firebase.firestore.FieldValue.serverTimestamp()
+                });
 
-                // XP: 10 per correct + 20 completion bonus
                 var xpEarned = (correct * 10) + 20;
-
                 var userRef = db.collection('users').doc(currentUser.uid);
                 var userDoc = await userRef.get();
                 var newXP, newName;
+
                 if (userDoc.exists) {
                     var data = userDoc.data();
                     newXP = (data.xp || 0) + xpEarned;
@@ -640,8 +690,7 @@
                         totalQuizzes:  (data.totalQuizzes  || 0) + 1,
                         totalCorrect:  (data.totalCorrect  || 0) + correct,
                         totalAnswered: (data.totalAnswered || 0) + total,
-                        xp: newXP,
-                        level: calcLevel(newXP).level,
+                        xp: newXP, level: calcLevel(newXP).level,
                         lastActive: firebase.firestore.FieldValue.serverTimestamp()
                     });
                 } else {
@@ -656,7 +705,6 @@
                     });
                 }
 
-                // Update public leaderboard
                 await db.collection('leaderboard').doc(currentUser.uid).set({
                     name: newName, xp: newXP,
                     level: calcLevel(newXP).level,
@@ -807,8 +855,6 @@
             document.getElementById('score-wrong').textContent = wrongCount;
             document.getElementById('q-period').textContent = 'Period ' + q.period;
             document.getElementById('q-text').textContent = q.question;
-
-            // Set bookmark button state
             updateBookmarkBtn(q);
 
             var choices = [
@@ -821,14 +867,10 @@
             var html = '';
             choices.forEach(function(c) {
                 var explain = escapeAttr(c.explain || '');
-                html +=
-                    '<button class="choice-btn" data-letter="' + c.letter + '" data-explain="' + explain + '" onclick="selectAnswer(\'' + c.letter + '\')">' +
-                        '<div class="letter">' + c.letter + '</div>' +
-                        '<div class="choice-body">' +
-                            '<div class="choice-text">' + c.text + '</div>' +
-                            '<div class="wrong-reason" id="reason-' + c.letter + '"></div>' +
-                        '</div>' +
-                    '</button>';
+                html += '<button class="choice-btn" data-letter="' + c.letter + '" data-explain="' + explain + '" onclick="selectAnswer(\'' + c.letter + '\')">' +
+                    '<div class="letter">' + c.letter + '</div>' +
+                    '<div class="choice-body"><div class="choice-text">' + c.text + '</div>' +
+                    '<div class="wrong-reason" id="reason-' + c.letter + '"></div></div></button>';
             });
 
             document.getElementById('choices').innerHTML = html;
@@ -901,37 +943,22 @@
             else { showQuestion(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
         }
 
-
         // ========================
         // WEAKEST PERIOD
         // ========================
         function showWeakestPeriod() {
             var el = document.getElementById('weakest-period');
             if (!el) return;
-
-            // Find period with most wrong answers
             var periods = Object.keys(wrongByPeriod);
-            if (periods.length === 0) {
-                el.style.display = 'none';
-                return;
-            }
-
-            var weakest = periods.reduce(function(a, b) {
-                return wrongByPeriod[a] >= wrongByPeriod[b] ? a : b;
-            });
-
+            if (periods.length === 0) { el.style.display = 'none'; return; }
+            var weakest = periods.reduce(function(a, b) { return wrongByPeriod[a] >= wrongByPeriod[b] ? a : b; });
             var periodNames = {
-                '1': 'Period 1 — Pre-Columbian & Exploration',
-                '2': 'Period 2 — Colonial America',
-                '3': 'Period 3 — Revolution & Early Republic',
-                '4': 'Period 4 — Expansion & Reform',
-                '5': 'Period 5 — Civil War & Reconstruction',
-                '6': 'Period 6 — Gilded Age',
-                '7': 'Period 7 — Progressivism through WWII',
-                '8': 'Period 8 — Cold War & Civil Rights',
-                '9': 'Period 9 — Modern America'
+                '1':'Period 1 — Pre-Columbian & Exploration','2':'Period 2 — Colonial America',
+                '3':'Period 3 — Revolution & Early Republic','4':'Period 4 — Expansion & Reform',
+                '5':'Period 5 — Civil War & Reconstruction','6':'Period 6 — Gilded Age',
+                '7':'Period 7 — Progressivism through WWII','8':'Period 8 — Cold War & Civil Rights',
+                '9':'Period 9 — Modern America'
             };
-
             var name = periodNames[weakest] || ('Period ' + weakest);
             var count = wrongByPeriod[weakest];
             el.innerHTML = '<strong>📉 Weakest area: ' + name + '</strong>You missed ' + count + ' question' + (count > 1 ? 's' : '') + ' here — quiz that period next!';
@@ -947,6 +974,7 @@
 
             var total = quizQuestions.length;
             var pct = Math.round((correctCount / total) * 100);
+            lastPct = pct; // store for share button
 
             document.getElementById('final-correct').textContent   = correctCount;
             document.getElementById('final-total').textContent     = ' / ' + total;
@@ -954,6 +982,7 @@
             document.getElementById('final-wrong').textContent     = wrongCount;
             document.getElementById('final-pct').textContent       = pct + '%';
             document.getElementById('saved-badge').style.display   = 'none';
+            document.getElementById('xp-badge').style.display      = 'none';
 
             var pctEl = document.getElementById('final-pct');
             pctEl.style.color = pct >= 80 ? 'var(--accent-green)' : pct >= 60 ? 'var(--accent-gold)' : 'var(--accent-red)';
@@ -977,6 +1006,11 @@
             document.getElementById('results-title').textContent    = title;
             document.getElementById('results-subtitle').textContent = subtitle;
 
+            // 🎉 Fire confetti on 80%+
+            if (pct >= 80) {
+                setTimeout(launchConfetti, 300);
+            }
+
             showWeakestPeriod();
             saveScore(correctCount, total, currentPeriod, pct);
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -986,6 +1020,7 @@
         // RETRY
         // ========================
         function retryQuiz() {
+            stopConfetti();
             document.getElementById('results-screen').style.display = 'none';
             document.getElementById('results-bar-fill').style.width = '0%';
             document.getElementById('setup-screen').style.display = 'block';
