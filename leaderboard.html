@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>GOAT AP: US History — Leaderboard</title>
+    <title>GOAT AP: US History — Leaderboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -34,7 +34,6 @@
         .page-hero h2 span { color: var(--accent-gold); }
         .page-hero p { color: var(--text-dim); font-size: 0.9rem; }
 
-        /* My rank card */
         .my-rank-card { background: var(--bg-card); border: 1px solid rgba(255,200,69,0.2); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; display: none; }
         .my-rank-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
         .my-rank-row { display: flex; align-items: center; gap: 12px; }
@@ -44,13 +43,11 @@
         .my-rank-level { font-size: 0.8rem; color: var(--text-dim); }
         .my-rank-xp { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--accent-gold); }
 
-        /* XP bar */
         .xp-bar-wrap { margin-top: 10px; }
         .xp-bar-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px; }
         .xp-bar-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
         .xp-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-gold), #ffb300); border-radius: 100px; transition: width 0.6s ease; }
 
-        /* Leaderboard list */
         .lb-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
 
         .lb-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; transition: border-color 0.2s; }
@@ -71,7 +68,6 @@
 
         .lb-xp { font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--accent-gold); white-space: nowrap; }
 
-        /* Loading */
         .loading { text-align: center; padding: 60px 20px; }
         .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -105,13 +101,7 @@
     <div class="bg-glow blue"></div>
 
     <nav class="nav">
-        <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a> ```  **4function calcLevel(xp) {
-    if (xp < 500)  return { level: 1, title: 'Baby Goat',     next: 500,  prev: 0    };
-    if (xp < 1000) return { level: 2, title: 'Rookie Goat',   next: 1000, prev: 500  };
-    if (xp < 2000) return { level: 3, title: 'Field Goat',    next: 2000, prev: 1000 };
-    if (xp < 4000) return { level: 4, title: 'Mountain Goat', next: 4000, prev: 2000 };
-    return              { level: 5, title: 'GOAT 👑',        next: null, prev: 4000 };
-}. Level legend HTML (the level-rows section):** Replace the 5 `level-title` spans: ``` Recruit → Baby Goat Scholar → Rookie Goat Historian → Field Goat Expert → Mountain Goat Master → GOAT 👑
+        <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>
         <a href="index.html" class="nav-back">← Back</a>
     </nav>
 
@@ -122,7 +112,6 @@
             <p>Earn XP by taking quizzes. 10 XP per correct answer + 20 XP per quiz completed.</p>
         </div>
 
-        <!-- My rank -->
         <div class="my-rank-card" id="my-rank-card">
             <div class="my-rank-label">⚡ Your Rank</div>
             <div class="my-rank-row">
@@ -144,30 +133,26 @@
             </div>
         </div>
 
-        <!-- Loading -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <p>Loading leaderboard...</p>
         </div>
 
-        <!-- Leaderboard -->
         <div id="lb-list" class="lb-list" style="display:none;"></div>
 
-        <!-- Empty -->
         <div class="empty-state" id="empty-state" style="display:none;">
             <span class="e-icon">📚</span>
             <p>No scores yet — be the first on the board!</p>
         </div>
 
-        <!-- Level legend -->
         <div class="level-legend">
-            <h4>🎖 Level Guide</h4>
+            <h4>🐐 GOAT Levels</h4>
             <div class="level-rows">
-                <div class="level-row"><div class="level-badge l1">1</div><span class="level-title">Recruit</span><span class="level-xp">0 – 499 XP</span></div>
-                <div class="level-row"><div class="level-badge l2">2</div><span class="level-title">Scholar</span><span class="level-xp">500 – 999 XP</span></div>
-                <div class="level-row"><div class="level-badge l3">3</div><span class="level-title">Historian</span><span class="level-xp">1,000 – 1,999 XP</span></div>
-                <div class="level-row"><div class="level-badge l4">4</div><span class="level-title">Expert</span><span class="level-xp">2,000 – 3,999 XP</span></div>
-                <div class="level-row"><div class="level-badge l5">5</div><span class="level-title">Master</span><span class="level-xp">4,000+ XP</span></div>
+                <div class="level-row"><div class="level-badge l1">1</div><span class="level-title">Baby Goat</span><span class="level-xp">0 – 499 XP</span></div>
+                <div class="level-row"><div class="level-badge l2">2</div><span class="level-title">Rookie Goat</span><span class="level-xp">500 – 999 XP</span></div>
+                <div class="level-row"><div class="level-badge l3">3</div><span class="level-title">Field Goat</span><span class="level-xp">1,000 – 1,999 XP</span></div>
+                <div class="level-row"><div class="level-badge l4">4</div><span class="level-title">Mountain Goat</span><span class="level-xp">2,000 – 3,999 XP</span></div>
+                <div class="level-row"><div class="level-badge l5">5</div><span class="level-title">GOAT 👑</span><span class="level-xp">4,000+ XP</span></div>
             </div>
         </div>
 
@@ -195,11 +180,11 @@
         let currentUser = null;
 
         function calcLevel(xp) {
-            if (xp < 500)  return { level: 1, title: 'Recruit',   next: 500,  prev: 0    };
-            if (xp < 1000) return { level: 2, title: 'Scholar',   next: 1000, prev: 500  };
-            if (xp < 2000) return { level: 3, title: 'Historian', next: 2000, prev: 1000 };
-            if (xp < 4000) return { level: 4, title: 'Expert',    next: 4000, prev: 2000 };
-            return              { level: 5, title: 'Master',    next: null, prev: 4000 };
+            if (xp < 500)  return { level: 1, title: 'Baby Goat',     next: 500,  prev: 0    };
+            if (xp < 1000) return { level: 2, title: 'Rookie Goat',   next: 1000, prev: 500  };
+            if (xp < 2000) return { level: 3, title: 'Field Goat',    next: 2000, prev: 1000 };
+            if (xp < 4000) return { level: 4, title: 'Mountain Goat', next: 4000, prev: 2000 };
+            return              { level: 5, title: 'GOAT 👑',        next: null, prev: 4000 };
         }
 
         auth.onAuthStateChanged(function(user) {
@@ -226,7 +211,6 @@
                     entries.push({ id: doc.id, ...doc.data() });
                 });
 
-                // Find current user rank
                 if (currentUser) {
                     var myIdx = entries.findIndex(function(e) { return e.id === currentUser.uid; });
                     if (myIdx >= 0) {
@@ -240,7 +224,6 @@
                         document.getElementById('my-rank-level').textContent = 'Level ' + lvl.level + ' — ' + lvl.title;
                         document.getElementById('my-rank-xp').textContent = myXP.toLocaleString() + ' XP';
 
-                        // XP progress bar
                         var pct = lvl.next ? Math.min(100, Math.round(((myXP - lvl.prev) / (lvl.next - lvl.prev)) * 100)) : 100;
                         document.getElementById('xp-bar-fill').style.width = pct + '%';
                         document.getElementById('xp-bar-label-left').textContent = myXP.toLocaleString() + ' XP';
@@ -248,7 +231,6 @@
                     }
                 }
 
-                // Build list
                 var html = '';
                 entries.forEach(function(e, i) {
                     var rank = i + 1;
