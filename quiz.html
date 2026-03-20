@@ -662,12 +662,12 @@
         // SAVE SCORE + XP
         // ========================
         function calcLevel(xp) {
-            if (xp < 500)  return { level: 1, title: 'Recruit',   next: 500  };
-            if (xp < 1000) return { level: 2, title: 'Scholar',   next: 1000 };
-            if (xp < 2000) return { level: 3, title: 'Historian', next: 2000 };
-            if (xp < 4000) return { level: 4, title: 'Expert',    next: 4000 };
-            return              { level: 5, title: 'Master',    next: null };
-        }
+    if (xp < 500)  return { level: 1, title: 'Baby Goat',     next: 500  };
+    if (xp < 1000) return { level: 2, title: 'Rookie Goat',   next: 1000 };
+    if (xp < 2000) return { level: 3, title: 'Field Goat',    next: 2000 };
+    if (xp < 4000) return { level: 4, title: 'Mountain Goat', next: 4000 };
+    return              { level: 5, title: 'GOAT 👑',        next: null };
+}
 
         async function saveScore(correct, total, period, pct) {
             if (!currentUser) return;
