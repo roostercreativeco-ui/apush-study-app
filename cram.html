@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APUSH Cram Mode</title>
+    <title>GOAT AP: US History — Cram Mode</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -55,7 +55,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--text-main); text-decoration: none; }
-        .nav-logo span { color: var(--accent-orange); }
+        .nav-logo span { background: linear-gradient(135deg, var(--accent-gold), #ff9f0a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-back { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
         .nav-back:hover { color: var(--accent-orange); }
 
@@ -221,7 +221,35 @@
 
         /* ── RESULTS SCREEN ── */
         .results { display: none; text-align: center; padding: 20px 0; }
-        .results-emoji { font-size: 4rem; margin-bottom: 12px; }
+
+        .results-goat {
+            font-size: 4.5rem;
+            margin-bottom: 8px;
+            animation: goat-bounce 0.6s ease;
+        }
+        @keyframes goat-bounce {
+            0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.15) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .results-rank {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .results-rank.gold { background: rgba(255,200,69,0.12); border: 1px solid rgba(255,200,69,0.3); color: var(--accent-gold); }
+        .results-rank.green { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.25); color: var(--accent-green); }
+        .results-rank.blue { background: rgba(79,140,255,0.1); border: 1px solid rgba(79,140,255,0.25); color: var(--accent-blue); }
+        .results-rank.dim { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-dim); }
+
         .results h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; }
         .results .results-subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 8px; }
         .cram-time-display {
@@ -321,7 +349,7 @@
     <div class="bg-glow red"></div>
 
     <nav class="nav">
-        <a href="index.html" class="nav-logo">⚡ <span>Cram Mode</span></a>
+        <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>
         <a href="index.html" class="nav-back">← Back</a>
     </nav>
 
@@ -409,7 +437,8 @@
 
         <!-- RESULTS -->
         <div class="results" id="results-screen">
-            <div class="results-emoji" id="results-emoji">🎉</div>
+            <div class="results-goat" id="results-goat">🐐</div>
+            <div class="results-rank" id="results-rank">GOAT STATUS</div>
             <h2 id="results-title">Nice work!</h2>
             <p class="results-subtitle" id="results-subtitle">Here's how you did</p>
             <div class="cram-time-display" id="cram-time-display">⏱ Finished in 0:00</div>
@@ -470,7 +499,7 @@
 
         let allQuestions = [], filteredQuestions = [], cramQuestions = [];
         let currentIndex = 0, correctCount = 0, wrongCount = 0;
-        let wrongItems = []; // stores full question objects that were answered wrong
+        let wrongItems = [];
         let answered = false;
         let selectedMode = 'top50';
         let selectedPeriod = 'all';
@@ -624,7 +653,6 @@
             document.getElementById('q-period').textContent = 'Period ' + q.period;
             document.getElementById('q-text').textContent = q.question;
 
-            // Clear flash
             var flash = document.getElementById('flash-feedback');
             flash.className = 'flash-feedback';
             flash.textContent = '';
@@ -647,7 +675,7 @@
         }
 
         // ========================
-        // SELECT ANSWER — rapid fire, auto-advance
+        // SELECT ANSWER
         // ========================
         function selectAnswer(letter) {
             if (answered) return;
@@ -665,7 +693,6 @@
                 wrongItems.push({ q: q, chosen: letter });
             }
 
-            // Color the buttons briefly
             document.querySelectorAll('.choice-btn').forEach(function(btn) {
                 btn.classList.add('disabled');
                 if (btn.dataset.letter === q.correct) btn.classList.add('correct');
@@ -673,12 +700,10 @@
                 else btn.classList.add('dimmed');
             });
 
-            // Flash feedback
             var flash = document.getElementById('flash-feedback');
             flash.textContent = isCorrect ? '✓ Correct!' : '✗ Wrong';
             flash.className = 'flash-feedback show ' + (isCorrect ? 'correct-flash' : 'wrong-flash');
 
-            // Auto-advance after 700ms
             setTimeout(function() {
                 currentIndex++;
                 if (currentIndex >= cramQuestions.length) {
@@ -688,6 +713,32 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             }, 700);
+        }
+
+        // ========================
+        // GOAT REACTION
+        // ========================
+        function getGoatReaction(pct) {
+            if (pct === 100) return {
+                goat: '🐐👑', rank: 'GOAT STATUS', rankClass: 'gold',
+                title: 'Perfect Cram!', subtitle: "Nothing can stop you now."
+            };
+            if (pct >= 80) return {
+                goat: '🐐🔥', rank: 'MOUNTAIN GOAT', rankClass: 'green',
+                title: 'Crushing It!', subtitle: "You're exam ready!"
+            };
+            if (pct >= 60) return {
+                goat: '🐐💪', rank: 'FIELD GOAT', rankClass: 'blue',
+                title: 'Getting There!', subtitle: 'Review the misses below.'
+            };
+            if (pct >= 40) return {
+                goat: '🐐📚', rank: 'ROOKIE GOAT', rankClass: 'dim',
+                title: 'Keep Cramming!', subtitle: 'Study the review below then go again.'
+            };
+            return {
+                goat: '🐐', rank: 'BABY GOAT', rankClass: 'dim',
+                title: 'Grind Time!', subtitle: "Focus on the review — you've got this."
+            };
         }
 
         // ========================
@@ -719,20 +770,15 @@
                     : 'linear-gradient(90deg, var(--accent-red), #ff6b6b)';
             setTimeout(function() { barFill.style.width = pct + '%'; }, 100);
 
-            var emoji, title, subtitle;
-            if      (pct === 100) { emoji='🏆'; title='Perfect Cram!';    subtitle="Nothing can stop you now."; }
-            else if (pct >= 80)   { emoji='🔥'; title='Crushing It!';     subtitle='You\'re exam ready!'; }
-            else if (pct >= 60)   { emoji='💪'; title='Getting There!';   subtitle='Review the misses below.'; }
-            else if (pct >= 40)   { emoji='📚'; title='Keep Cramming!';   subtitle='Study the review below then go again.'; }
-            else                  { emoji='😤'; title='Grind Time!';      subtitle='Focus on the review — you\'ve got this.'; }
+            // GOAT reactions
+            var reaction = getGoatReaction(pct);
+            document.getElementById('results-goat').textContent    = reaction.goat;
+            document.getElementById('results-rank').textContent    = reaction.rank;
+            document.getElementById('results-rank').className      = 'results-rank ' + reaction.rankClass;
+            document.getElementById('results-title').textContent   = reaction.title;
+            document.getElementById('results-subtitle').textContent = reaction.subtitle;
 
-            document.getElementById('results-emoji').textContent    = emoji;
-            document.getElementById('results-title').textContent    = title;
-            document.getElementById('results-subtitle').textContent = subtitle;
-
-            // Build wrong answer review
             buildReview();
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -745,7 +791,6 @@
                 return;
             }
 
-            var explainMap = { A: 'explainA', B: 'explainB', C: 'explainC', D: 'explainD' };
             var choiceTextMap = function(q, l) {
                 return { A: q.choiceA, B: q.choiceB, C: q.choiceC, D: q.choiceD }[l] || '';
             };
@@ -760,13 +805,11 @@
                 html += '<div class="review-q">' + q.question + '</div>';
                 html += '<div class="review-answers">';
 
-                // Show chosen (wrong) answer
                 html += '<div class="review-answer was-wrong">' +
                     '<span class="ans-letter">' + chosen + '</span>' +
                     '<span>✗ ' + choiceTextMap(q, chosen) + '</span>' +
                     '</div>';
 
-                // Show correct answer
                 html += '<div class="review-answer is-correct">' +
                     '<span class="ans-letter">' + q.correct + '</span>' +
                     '<span>✓ ' + choiceTextMap(q, q.correct) + '</span>' +
