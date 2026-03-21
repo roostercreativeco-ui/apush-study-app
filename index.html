@@ -31,6 +31,34 @@
             --radius: 16px;
         }
 
+        html[data-theme="light"] {
+            --bg-dark: #f5f5fa;
+            --bg-card: #ffffff;
+            --text-main: #1a1a2e;
+            --text-dim: #5a6078;
+        }
+        html[data-theme="light"] body {
+            background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%);
+        }
+        html[data-theme="light"] .bg-grid {
+            background-image:
+                linear-gradient(rgba(79, 140, 255, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79, 140, 255, 0.06) 1px, transparent 1px);
+        }
+        html[data-theme="light"] .bg-glow { opacity: 0.08; }
+
+        .theme-toggle {
+            position: fixed; top: 16px; right: 16px; z-index: 200;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%; width: 40px; height: 40px; font-size: 1.1rem;
+            cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
+        html[data-theme="light"] .theme-toggle {
+            background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1);
+        }
+        html[data-theme="light"] .theme-toggle:hover { background: rgba(0,0,0,0.1); }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -483,8 +511,10 @@
             .hero-btn .hero-label { font-size: 1.05rem; }
         }
     </style>
+    <script src="theme.js"></script>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
     <div class="bg-grid"></div>
     <div class="bg-glow blue"></div>
     <div class="bg-glow gold"></div>

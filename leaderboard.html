@@ -13,6 +13,21 @@
             --accent-green: #34d399; --accent-red: #ff4f4f;
             --text-main: #f0f2ff; --text-dim: #8892b0; --radius: 16px;
         }
+        html[data-theme="light"] {
+            --bg-dark: #f5f5fa; --bg-card: #ffffff;
+            --text-main: #1a1a2e; --text-dim: #5a6078;
+        }
+        html[data-theme="light"] body { background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%); }
+        html[data-theme="light"] .bg-grid { background-image: linear-gradient(rgba(255,200,69,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,200,69,0.06) 1px, transparent 1px); }
+        html[data-theme="light"] .bg-glow { opacity: 0.06; }
+        html[data-theme="light"] .nav { background: rgba(245,245,250,0.9); border-bottom-color: rgba(0,0,0,0.06); }
+        html[data-theme="light"] .lb-item { background: var(--bg-card); border-color: rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+        html[data-theme="light"] .my-rank-card { background: var(--bg-card); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        html[data-theme="light"] .level-legend { background: var(--bg-card); border-color: rgba(0,0,0,0.06); }
+        .theme-toggle { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; width: 32px; height: 32px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .theme-toggle:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
+        html[data-theme="light"] .theme-toggle { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Outfit', sans-serif; background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%); background-attachment: fixed; color: var(--text-main); min-height: 100vh; }
         .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(255,200,69,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,200,69,0.03) 1px,transparent 1px); background-size: 60px 60px; z-index: 0; }
@@ -104,6 +119,7 @@
             .my-rank-card { padding: 14px 16px; }
         }
     </style>
+    <script src="theme.js"></script>
 </head>
 <body>
     <div class="bg-grid"></div>
@@ -112,7 +128,10 @@
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>
-        <a href="index.html" class="nav-back">← Back</a>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+            <a href="index.html" class="nav-back">← Back</a>
+        </div>
     </nav>
 
     <div class="container">

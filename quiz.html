@@ -19,6 +19,26 @@
             --radius: 16px;
         }
 
+        html[data-theme="light"] {
+            --bg-dark: #f5f5fa; --bg-card: #ffffff;
+            --text-main: #1a1a2e; --text-dim: #5a6078;
+        }
+        html[data-theme="light"] body { background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%); }
+        html[data-theme="light"] .bg-grid { background-image: linear-gradient(rgba(79,140,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(79,140,255,0.06) 1px, transparent 1px); }
+        html[data-theme="light"] .bg-glow { opacity: 0.08; }
+        html[data-theme="light"] .nav { background: rgba(245,245,250,0.9); border-bottom-color: rgba(0,0,0,0.06); }
+        html[data-theme="light"] .question-card { background: var(--bg-card); border-color: rgba(79,140,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        html[data-theme="light"] .choice-btn { background: rgba(0,0,0,0.02); border-color: rgba(0,0,0,0.08); }
+        html[data-theme="light"] .period-pill { border-color: rgba(0,0,0,0.1); color: var(--text-dim); }
+        html[data-theme="light"] .explanation-box.is-correct { background: rgba(52,211,153,0.06); }
+        html[data-theme="light"] .explanation-box.is-wrong { background: rgba(255,79,79,0.06); }
+        html[data-theme="light"] .results-score-card { background: var(--bg-card); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        html[data-theme="light"] .history-item { background: var(--bg-card); border-color: rgba(0,0,0,0.06); }
+        html[data-theme="light"] .confidence-btn { border-color: rgba(0,0,0,0.1); }
+        .theme-toggle { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; width: 32px; height: 32px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .theme-toggle:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
+        html[data-theme="light"] .theme-toggle { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -351,6 +371,7 @@
             .results-big-score { font-size: 2.4rem; }
         }
     </style>
+    <script src="theme.js"></script>
 </head>
 <body>
     <div class="bg-grid"></div>
@@ -367,7 +388,10 @@
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">🇺🇸 <span>APUSH</span></a>
-        <a href="index.html" class="nav-back">← Back</a>
+        <div style="display:flex;align-items:center;gap:10px;">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+            <a href="index.html" class="nav-back">← Back</a>
+        </div>
     </nav>
 
     <div class="container">

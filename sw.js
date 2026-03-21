@@ -1,6 +1,6 @@
 // GOAT AP: US History — Service Worker
 // Caches core app files for offline use
-const CACHE_NAME = 'goatap-v3';
+const CACHE_NAME = 'goatap-v4';
 const CORE_FILES = [
   '/',
   '/index.html',
@@ -11,6 +11,7 @@ const CORE_FILES = [
   '/leq.html',
   '/leaderboard.html',
   '/feedback.html',
+  '/theme.js',
   'https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap'
 ];
 // Install — cache core files
