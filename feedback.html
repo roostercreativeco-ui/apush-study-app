@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>GOAT AP: US History — Feedback</title>
+    <title>GOAT APUSH Feedback</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -16,31 +16,41 @@
             --accent-green: #34d399;
             --text-main: #f0f2ff;
             --text-dim: #8892b0;
-            --radius: 16px;
+            --radius: 18px;
         }
 
         html[data-theme="light"] {
-            --bg-dark: #f5f5fa; --bg-card: #ffffff;
-            --text-main: #1a1a2e; --text-dim: #5a6078;
+            --bg-dark: #f5f5fa;
+            --bg-card: #ffffff;
+            --text-main: #1a1a2e;
+            --text-dim: #5a6078;
         }
-        html[data-theme="light"] body { background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%); }
-        html[data-theme="light"] .bg-grid { background-image: linear-gradient(rgba(79,140,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(79,140,255,0.06) 1px, transparent 1px); }
+
+        html[data-theme="light"] body {
+            background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%);
+        }
+
+        html[data-theme="light"] .bg-grid {
+            background-image:
+                linear-gradient(rgba(79,140,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79,140,255,0.06) 1px, transparent 1px);
+        }
+
         html[data-theme="light"] .bg-glow { opacity: 0.08; }
-        html[data-theme="light"] .nav { background: rgba(245,245,250,0.9); border-bottom-color: rgba(0,0,0,0.06); }
-        html[data-theme="light"] .feedback-card { background: var(--bg-card); border-color: rgba(79,140,255,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        html[data-theme="light"] .form-group input,
-        html[data-theme="light"] .form-group textarea,
-        html[data-theme="light"] .form-group select { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); color: var(--text-main); }
-        .theme-toggle { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; width: 32px; height: 32px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-        .theme-toggle:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
-        html[data-theme="light"] .theme-toggle { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+
+        html[data-theme="light"] .nav,
+        html[data-theme="light"] .hero-card,
+        html[data-theme="light"] .feedback-card,
+        html[data-theme="light"] .helper-card,
+        html[data-theme="light"] .toast {
+            box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Outfit', sans-serif;
             background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%);
-            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
@@ -58,189 +68,417 @@
 
         .bg-glow {
             position: fixed;
-            width: 600px;
-            height: 600px;
+            width: 560px;
+            height: 560px;
             border-radius: 50%;
             filter: blur(120px);
-            opacity: 0.4;
+            opacity: 0.3;
             z-index: 0;
             pointer-events: none;
         }
-        .bg-glow.gold { background: var(--accent-gold); top: -200px; right: -100px; opacity: 0.15; }
-        .bg-glow.blue { background: var(--accent-blue); bottom: -300px; left: -200px; opacity: 0.1; }
+
+        .bg-glow.gold { background: var(--accent-gold); top: -220px; right: -120px; opacity: 0.14; }
+        .bg-glow.blue { background: var(--accent-blue); bottom: -280px; left: -180px; opacity: 0.12; }
+
+        .theme-toggle {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.08);
+        }
+
+        html[data-theme="light"] .theme-toggle {
+            background: rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.1);
+        }
 
         .nav {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
             z-index: 100;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
-            background: rgba(10, 14, 26, 0.85);
+            padding: 14px 18px;
+            background: rgba(10, 14, 26, 0.84);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .nav-logo {
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--text-main);
-            text-decoration: none;
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
         }
-        .nav-logo span { background: linear-gradient(135deg, var(--accent-gold), #ff9f0a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .nav-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .nav-copy {
+            min-width: 0;
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 900;
+            line-height: 1.05;
+        }
+
+        .nav-sub {
+            font-size: 0.74rem;
+            color: var(--text-dim);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
         .nav-back {
             color: var(--text-dim);
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 600;
+            font-weight: 700;
             transition: color 0.2s;
         }
+
         .nav-back:hover { color: var(--accent-blue); }
 
         .container {
             position: relative;
             z-index: 1;
-            max-width: 520px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 80px 24px 40px;
-            min-height: 100vh;
+            padding: 22px 16px 36px;
         }
 
-        .page-header {
-            text-align: center;
-            margin-bottom: 32px;
+        .hero-card,
+        .feedback-card,
+        .helper-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(79,140,255,0.12);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
         }
-        .page-header .emoji { font-size: 2.5rem; margin-bottom: 12px; }
-        .page-header h1 {
+
+        .hero-card {
+            padding: 22px 18px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .hero-logo {
+            width: 84px;
+            height: 84px;
+            object-fit: contain;
+            border-radius: 18px;
+            display: block;
+            margin: 0 auto 12px;
+            filter: drop-shadow(0 10px 28px rgba(255, 200, 69, 0.16));
+        }
+
+        .hero-card h1 {
             font-size: 1.8rem;
             font-weight: 900;
+            letter-spacing: -0.8px;
             margin-bottom: 8px;
         }
-        .page-header p {
+
+        .hero-card h1 span {
+            background: linear-gradient(135deg, var(--accent-gold), #ff9f0a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-card p {
             color: var(--text-dim);
-            font-size: 0.95rem;
+            font-size: 0.96rem;
             line-height: 1.5;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         .feedback-card {
-            background: var(--bg-card);
-            border: 1px solid rgba(79, 140, 255, 0.1);
-            border-radius: var(--radius);
-            padding: 28px 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            padding: 18px;
+            margin-bottom: 14px;
         }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
+        .section-label {
+            font-size: 0.8rem;
+            font-weight: 800;
             color: var(--text-dim);
-            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
         }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px 15px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            border-radius: 14px;
             color: var(--text-main);
             font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
+            font-size: 0.96rem;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s, background 0.2s;
         }
-        .form-group input::placeholder,
-        .form-group textarea::placeholder { color: var(--text-dim); }
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus { border-color: var(--accent-blue); }
-        .form-group textarea {
-            min-height: 140px;
+
+        .field textarea {
+            min-height: 160px;
             resize: vertical;
             line-height: 1.5;
         }
-        .form-group select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238892b0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-        }
-        .form-group select option {
-            background: var(--bg-card);
-            color: var(--text-main);
-        }
 
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 4px;
-        }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
-        .btn-submit:active { transform: translateY(0); }
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* SUCCESS STATE */
-        .success-state {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        .success-state .emoji { font-size: 3rem; margin-bottom: 16px; }
-        .success-state h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-        .success-state p {
+        .field input::placeholder,
+        .field textarea::placeholder {
             color: var(--text-dim);
-            font-size: 0.95rem;
-            margin-bottom: 28px;
         }
-        .btn-back-home {
-            display: inline-block;
-            padding: 14px 28px;
-            background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
-            color: white;
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--accent-blue);
+            background: rgba(255,255,255,0.07);
+        }
+
+        .rating-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .rating-btn {
+            padding: 14px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.03);
+            color: var(--text-dim);
             font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 800;
             cursor: pointer;
-            text-decoration: none;
             transition: all 0.2s;
         }
-        .btn-back-home:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(79,140,255,0.3); }
 
-        @media (max-width: 480px) {
-            .container { padding: 72px 18px 32px; }
-            .feedback-card { padding: 22px 18px; }
-            .page-header h1 { font-size: 1.5rem; }
+        .rating-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .rating-btn.active {
+            background: rgba(255,200,69,0.1);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .quick-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .quick-tag {
+            padding: 10px 14px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: var(--text-dim);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-tag:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .quick-tag.active {
+            background: rgba(79,140,255,0.1);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .meta-box {
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 16px;
+        }
+
+        .meta-box p {
+            color: var(--text-dim);
+            font-size: 0.86rem;
+            line-height: 1.5;
+        }
+
+        .meta-line {
+            margin-top: 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            word-break: break-word;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            padding: 15px 16px;
+            border-radius: 14px;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(79,140,255,0.28);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-dim);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .helper-card {
+            padding: 16px;
+        }
+
+        .helper-card h2 {
+            font-size: 1rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .helper-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .helper-card li {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card);
+            border: 1px solid rgba(52,211,153,0.26);
+            color: var(--accent-green);
+            padding: 12px 18px;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            z-index: 300;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 560px) {
+            .container { padding: 18px 12px 28px; }
+            .hero-card { padding: 18px 14px; }
+            .hero-card h1 { font-size: 1.55rem; }
+            .hero-logo { width: 74px; height: 74px; }
+            .form-grid,
+            .actions {
+                grid-template-columns: 1fr;
+            }
+            .rating-row {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
         }
     </style>
     <script src="theme.js"></script>
+    <script src="haptics.js"></script>
 </head>
 <body>
     <div class="bg-grid"></div>
@@ -248,110 +486,269 @@
     <div class="bg-glow blue"></div>
 
     <nav class="nav">
-        <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>
-        <div style="display:flex;align-items:center;gap:10px;">
+        <div class="nav-left">
+            <img src="icon-192.png" alt="GOAT APUSH icon" class="nav-logo">
+            <div class="nav-copy">
+                <div class="nav-title">GOAT APUSH</div>
+                <div class="nav-sub">Feedback · Help improve the app</div>
+            </div>
+        </div>
+        <div class="nav-actions">
             <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
-            <a href="index.html" class="nav-back">← Back</a>
+            <a href="index.html" class="nav-back" onclick="triggerHaptic('tap')">← Home</a>
         </div>
     </nav>
 
-    <div class="container">
+    <main class="container">
+        <section class="hero-card">
+            <img src="icon-192.png" alt="GOAT APUSH icon" class="hero-logo">
+            <h1><span>Send Feedback</span></h1>
+            <p>Tell us what feels great, what feels confusing, and what would make GOAT APUSH faster, cleaner, and more fun.</p>
+        </section>
 
-        <!-- FORM STATE -->
-        <div id="form-state">
-            <div class="page-header">
-                <div class="emoji">💬</div>
-                <h1>Send Feedback</h1>
-                <p>Found a bug? Have an idea? Want more questions for a specific period? Let us know!</p>
+        <section class="feedback-card">
+            <div class="section-label">Quick rating</div>
+            <div class="rating-row" id="rating-row">
+                <button class="rating-btn" data-rating="1">1</button>
+                <button class="rating-btn" data-rating="2">2</button>
+                <button class="rating-btn" data-rating="3">3</button>
+                <button class="rating-btn" data-rating="4">4</button>
+                <button class="rating-btn" data-rating="5">5</button>
             </div>
 
-            <div class="feedback-card">
-                <div class="form-group">
-                    <label for="name">Name (optional)</label>
-                    <input type="text" id="name" name="name" placeholder="Your name">
-                </div>
+            <div class="section-label">What is this about?</div>
+            <div class="quick-tags" id="quick-tags">
+                <button class="quick-tag" data-tag="Bug">Bug</button>
+                <button class="quick-tag" data-tag="Design">Design</button>
+                <button class="quick-tag" data-tag="Quiz">Quiz</button>
+                <button class="quick-tag" data-tag="Study Mode">Study Mode</button>
+                <button class="quick-tag" data-tag="Progress">Progress</button>
+                <button class="quick-tag" data-tag="Feature Idea">Feature Idea</button>
+            </div>
 
-                <div class="form-group">
-                    <label for="email">Email (optional)</label>
-                    <input type="email" id="email" name="email" placeholder="your@email.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="type">What kind of feedback?</label>
-                    <select id="type" name="type">
-                        <option value="general">General feedback</option>
-                        <option value="bug">Bug report</option>
-                        <option value="feature">Feature request</option>
-                        <option value="question-error">Wrong question/answer</option>
-                        <option value="content">Need more content for a period</option>
+            <div class="form-grid">
+                <div class="field">
+                    <label for="feedback-type">Feedback type</label>
+                    <select id="feedback-type">
+                        <option value="General">General</option>
+                        <option value="Bug Report">Bug Report</option>
+                        <option value="Feature Request">Feature Request</option>
+                        <option value="UI/UX">UI/UX</option>
+                        <option value="Question Content">Question Content</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="message">Your message</label>
-                    <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+                <div class="field">
+                    <label for="screen-name">Screen / area</label>
+                    <input id="screen-name" type="text" placeholder="Example: Quiz, Home, Progress">
                 </div>
 
-                <button class="btn-submit" id="btn-submit" onclick="submitFeedback()">Send Feedback →</button>
+                <div class="field full">
+                    <label for="feedback-message">Your feedback</label>
+                    <textarea id="feedback-message" placeholder="What happened, what you expected, or what would make this better?"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="contact-email">Email (optional)</label>
+                    <input id="contact-email" type="email" placeholder="you@example.com">
+                </div>
+
+                <div class="field">
+                    <label for="device-note">Device note (optional)</label>
+                    <input id="device-note" type="text" placeholder="iPhone 15, Safari, etc.">
+                </div>
             </div>
-        </div>
 
-        <!-- SUCCESS STATE -->
-        <div class="success-state" id="success-state">
-            <div class="emoji">🎉</div>
-            <h2>Thanks for the feedback!</h2>
-            <p>We read every message. Your input helps make APUSH Study App better for everyone.</p>
-            <a href="index.html" class="btn-back-home">🏠 Back to Home</a>
-        </div>
+            <div class="meta-box">
+                <p>Helpful feedback includes what screen you were on, what you tapped, what happened, and what should have happened instead.</p>
+                <div class="meta-line" id="meta-line">Collecting device info…</div>
+            </div>
 
-    </div>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="sendFeedback()">Send Feedback</button>
+                <button class="btn btn-secondary" onclick="copyFeedback()">Copy Feedback</button>
+            </div>
+        </section>
+
+        <section class="helper-card">
+            <h2>Best kind of feedback</h2>
+            <ul>
+                <li>“On Quiz mode, I tapped an answer and the next button didn’t appear.”</li>
+                <li>“The Progress page is good, but I want average score easier to see.”</li>
+                <li>“Study Mode feels clear, but the flashcard text could be a little bigger.”</li>
+            </ul>
+        </section>
+    </main>
+
+    <div class="toast" id="toast">Copied to clipboard</div>
 
     <script>
-        async function submitFeedback() {
-            var message = document.getElementById('message').value.trim();
+        let selectedRating = '';
+        let selectedTag = '';
+
+        const STORAGE_KEY = 'goatap-feedback-draft';
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
+        function buildFeedbackText() {
+            const type = document.getElementById('feedback-type').value.trim();
+            const screen = document.getElementById('screen-name').value.trim();
+            const message = document.getElementById('feedback-message').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const deviceNote = document.getElementById('device-note').value.trim();
+            const meta = document.getElementById('meta-line').textContent;
+
+            return [
+                'GOAT APUSH Feedback',
+                '',
+                'Rating: ' + (selectedRating || 'Not set'),
+                'Tag: ' + (selectedTag || 'Not set'),
+                'Type: ' + (type || 'General'),
+                'Screen: ' + (screen || 'Not specified'),
+                'Contact Email: ' + (email || 'Not provided'),
+                'Device Note: ' + (deviceNote || 'Not provided'),
+                '',
+                'Feedback:',
+                message || '(No message entered)',
+                '',
+                'Meta:',
+                meta
+            ].join('\n');
+        }
+
+        function saveDraft() {
+            const payload = {
+                rating: selectedRating,
+                tag: selectedTag,
+                type: document.getElementById('feedback-type').value,
+                screen: document.getElementById('screen-name').value,
+                message: document.getElementById('feedback-message').value,
+                email: document.getElementById('contact-email').value,
+                deviceNote: document.getElementById('device-note').value
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        }
+
+        function loadDraft() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+
+            try {
+                const payload = JSON.parse(raw);
+                selectedRating = payload.rating || '';
+                selectedTag = payload.tag || '';
+                document.getElementById('feedback-type').value = payload.type || 'General';
+                document.getElementById('screen-name').value = payload.screen || '';
+                document.getElementById('feedback-message').value = payload.message || '';
+                document.getElementById('contact-email').value = payload.email || '';
+                document.getElementById('device-note').value = payload.deviceNote || '';
+
+                if (selectedRating) {
+                    document.querySelectorAll('.rating-btn').forEach(function(btn) {
+                        btn.classList.toggle('active', btn.dataset.rating === selectedRating);
+                    });
+                }
+
+                if (selectedTag) {
+                    document.querySelectorAll('.quick-tag').forEach(function(btn) {
+                        btn.classList.toggle('active', btn.dataset.tag === selectedTag);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        function clearDraft() {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+
+        function sendFeedback() {
+            const message = document.getElementById('feedback-message').value.trim();
             if (!message) {
-                document.getElementById('message').style.borderColor = 'var(--accent-red)';
-                document.getElementById('message').placeholder = 'Please type a message...';
+                triggerHaptic('wrong');
+                showToast('Add a message first');
+                document.getElementById('feedback-message').focus();
                 return;
             }
 
-            var btn = document.getElementById('btn-submit');
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
+            triggerHaptic('success');
 
-            var data = {
-                name: document.getElementById('name').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                type: document.getElementById('type').value,
-                message: message
-            };
+            const subject = encodeURIComponent('GOAT APUSH Feedback');
+            const body = encodeURIComponent(buildFeedbackText());
+
+            window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+        }
+
+        async function copyFeedback() {
+            const message = document.getElementById('feedback-message').value.trim();
+            if (!message) {
+                triggerHaptic('wrong');
+                showToast('Add a message first');
+                document.getElementById('feedback-message').focus();
+                return;
+            }
 
             try {
-                var response = await fetch('https://formspree.io/f/xbdzoqoe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                if (response.ok) {
-                    document.getElementById('form-state').style.display = 'none';
-                    document.getElementById('success-state').style.display = 'block';
-                } else {
-                    btn.disabled = false;
-                    btn.textContent = 'Send Feedback →';
-                    alert('Something went wrong. Please try again.');
-                }
-            } catch (error) {
-                btn.disabled = false;
-                btn.textContent = 'Send Feedback →';
-                alert('Could not send. Check your connection and try again.');
+                await navigator.clipboard.writeText(buildFeedbackText());
+                triggerHaptic('success');
+                showToast('Copied to clipboard');
+            } catch (e) {
+                triggerHaptic('wrong');
+                showToast('Could not copy');
             }
         }
 
-        // Reset border on typing
-        document.getElementById('message').addEventListener('input', function() {
-            this.style.borderColor = 'rgba(255,255,255,0.1)';
+        function setMetaLine() {
+            const ua = navigator.userAgent;
+            const lang = navigator.language || 'unknown';
+            const screenSize = window.innerWidth + 'x' + window.innerHeight;
+            const line = 'User agent: ' + ua + ' | Language: ' + lang + ' | Screen: ' + screenSize;
+            document.getElementById('meta-line').textContent = line;
+        }
+
+        document.querySelectorAll('.rating-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                selectedRating = this.dataset.rating;
+                document.querySelectorAll('.rating-btn').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                triggerHaptic('tap');
+                saveDraft();
+            });
         });
+
+        document.querySelectorAll('.quick-tag').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const already = selectedTag === this.dataset.tag;
+                document.querySelectorAll('.quick-tag').forEach(function(b) {
+                    b.classList.remove('active');
+                });
+                if (already) {
+                    selectedTag = '';
+                } else {
+                    selectedTag = this.dataset.tag;
+                    this.classList.add('active');
+                }
+                triggerHaptic('tap');
+                saveDraft();
+            });
+        });
+
+        ['feedback-type', 'screen-name', 'feedback-message', 'contact-email', 'device-note'].forEach(function(id) {
+            document.getElementById(id).addEventListener('input', saveDraft);
+        });
+
+        window.addEventListener('beforeunload', saveDraft);
+
+        setMetaLine();
+        loadDraft();
     </script>
 </body>
 </html>
