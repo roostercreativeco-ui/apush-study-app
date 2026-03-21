@@ -1,298 +1,954 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOAT AP: US History — Leaderboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0a0e1a; --bg-card: #121829;
-            --accent-blue: #4f8cff; --accent-gold: #ffc845;
-            --accent-green: #34d399; --accent-red: #ff4f4f;
-            --text-main: #f0f2ff; --text-dim: #8892b0; --radius: 16px;
-        }
-        html[data-theme="light"] {
-            --bg-dark: #f5f5fa; --bg-card: #ffffff;
-            --text-main: #1a1a2e; --text-dim: #5a6078;
-        }
-        html[data-theme="light"] body { background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%); }
-        html[data-theme="light"] .bg-grid { background-image: linear-gradient(rgba(255,200,69,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,200,69,0.06) 1px, transparent 1px); }
-        html[data-theme="light"] .bg-glow { opacity: 0.06; }
-        html[data-theme="light"] .nav { background: rgba(245,245,250,0.9); border-bottom-color: rgba(0,0,0,0.06); }
-        html[data-theme="light"] .lb-item { background: var(--bg-card); border-color: rgba(0,0,0,0.06); box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-        html[data-theme="light"] .my-rank-card { background: var(--bg-card); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        html[data-theme="light"] .level-legend { background: var(--bg-card); border-color: rgba(0,0,0,0.06); }
-        .theme-toggle { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 50%; width: 32px; height: 32px; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
-        .theme-toggle:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
-        html[data-theme="light"] .theme-toggle { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOAT APUSH Progress</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Outfit', sans-serif; background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%); background-attachment: fixed; color: var(--text-main); min-height: 100vh; }
-        .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(255,200,69,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,200,69,0.03) 1px,transparent 1px); background-size: 60px 60px; z-index: 0; }
-        .bg-glow { position: fixed; width: 600px; height: 600px; border-radius: 50%; filter: blur(120px); opacity: 0.15; z-index: 0; pointer-events: none; }
-        .bg-glow.gold { background: var(--accent-gold); top: -200px; right: -100px; }
-        .bg-glow.blue { background: var(--accent-blue); bottom: -300px; left: -200px; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; background: rgba(10,14,26,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.06); }
-        .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--text-main); text-decoration: none; }
-        .nav-logo span { background: linear-gradient(135deg, var(--accent-gold), #ff9f0a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .nav-back { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
-        .nav-back:hover { color: var(--accent-gold); }
+  <style>
+    :root {
+      --bg-dark: #0a0e1a;
+      --bg-card: #121829;
+      --accent-blue: #4f8cff;
+      --accent-red: #ff4f4f;
+      --accent-gold: #ffc845;
+      --accent-green: #34d399;
+      --text-main: #f0f2ff;
+      --text-dim: #8892b0;
+      --radius: 18px;
+    }
 
-        .container { position: relative; z-index: 1; max-width: 520px; margin: 0 auto; padding: 80px 24px 60px; }
+    html[data-theme="light"] {
+      --bg-dark: #f5f5fa;
+      --bg-card: #ffffff;
+      --text-main: #1a1a2e;
+      --text-dim: #5a6078;
+    }
 
-        .page-hero { text-align: center; margin-bottom: 32px; }
-        .page-hero .icon { font-size: 3rem; display: block; margin-bottom: 12px; }
-        .page-hero h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 6px; }
-        .page-hero h2 span { color: var(--accent-gold); }
-        .page-hero p { color: var(--text-dim); font-size: 0.9rem; }
+    html[data-theme="light"] body {
+      background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%);
+    }
 
-        .my-rank-card { background: var(--bg-card); border: 1px solid rgba(255,200,69,0.2); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; display: none; }
-        .my-rank-label { font-size: 0.75rem; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-        .my-rank-row { display: flex; align-items: center; gap: 12px; }
-        .my-rank-num { font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700; color: var(--accent-gold); width: 36px; text-align: center; }
-        .my-rank-info { flex: 1; }
-        .my-rank-name { font-weight: 700; font-size: 1rem; }
-        .my-rank-level { font-size: 0.8rem; color: var(--text-dim); }
-        .my-rank-xp { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; color: var(--accent-gold); }
+    html[data-theme="light"] .bg-grid {
+      background-image:
+        linear-gradient(rgba(79, 140, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 140, 255, 0.06) 1px, transparent 1px);
+    }
 
-        .xp-bar-wrap { margin-top: 10px; }
-        .xp-bar-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 4px; }
-        .xp-bar-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
-        .xp-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-gold), #ffb300); border-radius: 100px; transition: width 0.6s ease; }
+    html[data-theme="light"] .bg-glow { opacity: 0.08; }
 
-        .lb-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    html[data-theme="light"] .nav,
+    html[data-theme="light"] .panel,
+    html[data-theme="light"] .leaderboard-row,
+    html[data-theme="light"] .empty-state {
+      box-shadow: 0 8px 26px rgba(0,0,0,0.08);
+    }
 
-        .lb-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; transition: border-color 0.2s; }
-        .lb-item.me { border-color: rgba(255,200,69,0.3); background: rgba(255,200,69,0.04); }
-        .lb-item.top1 { border-color: rgba(255,200,69,0.4); }
-        .lb-item.top2 { border-color: rgba(192,192,192,0.3); }
-        .lb-item.top3 { border-color: rgba(205,127,50,0.3); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .lb-rank { font-family: 'Space Mono', monospace; font-size: 0.95rem; font-weight: 700; width: 28px; text-align: center; flex-shrink: 0; }
-        .lb-rank.r1 { color: var(--accent-gold); font-size: 1.1rem; }
-        .lb-rank.r2 { color: #c0c0c0; }
-        .lb-rank.r3 { color: #cd7f32; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        .lb-info { flex: 1; min-width: 0; }
-        .lb-name { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .lb-level { font-size: 0.78rem; color: var(--text-dim); }
-        .lb-me-tag { font-size: 0.7rem; font-weight: 700; color: var(--accent-gold); background: rgba(255,200,69,0.1); padding: 1px 7px; border-radius: 100px; margin-left: 6px; }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79, 140, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
 
-        .lb-xp { font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--accent-gold); white-space: nowrap; }
+    .bg-glow {
+      position: fixed;
+      width: 560px;
+      height: 560px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.3;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        .loading { text-align: center; padding: 60px 20px; }
-        .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading p { color: var(--text-dim); }
+    .bg-glow.blue { background: var(--accent-blue); top: -220px; right: -120px; }
+    .bg-glow.gold { background: var(--accent-gold); bottom: -260px; left: -180px; opacity: 0.14; }
 
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-dim); }
-        .empty-state .e-icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+    .theme-toggle {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+    }
 
-        .level-legend { background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; }
-        .level-legend h4 { font-size: 0.8rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-        .level-rows { display: flex; flex-direction: column; gap: 6px; }
-        .level-row { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; }
-        .level-badge { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
-        .level-badge.l1 { background: rgba(136,146,176,0.2); color: var(--text-dim); }
-        .level-badge.l2 { background: rgba(79,140,255,0.2); color: var(--accent-blue); }
-        .level-badge.l3 { background: rgba(52,211,153,0.2); color: var(--accent-green); }
-        .level-badge.l4 { background: rgba(255,200,69,0.2); color: var(--accent-gold); }
-        .level-badge.l5 { background: rgba(255,79,79,0.2); color: var(--accent-red); }
-        .level-title { font-weight: 600; color: var(--text-main); }
-        .level-xp { color: var(--text-dim); font-size: 0.8rem; margin-left: auto; }
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.08);
+    }
 
-        .btn-quiz { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent-gold), #ffb300); color: #0a0e1a; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 800; border: none; border-radius: 14px; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; margin-bottom: 12px; }
-        .btn-quiz:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,200,69,0.3); }
+    html[data-theme="light"] .theme-toggle {
+      background: rgba(0,0,0,0.05);
+      border-color: rgba(0,0,0,0.1);
+    }
 
-        @media (max-width: 480px) {
-            .container { padding: 72px 16px 40px; }
-            .page-hero h2 { font-size: 1.5rem; }
-            .page-hero p { font-size: 0.88rem; }
-            .lb-item { padding: 12px 14px; }
-            .lb-name { font-size: 0.9rem; }
-            .lb-level { font-size: 0.82rem; }
-            .lb-xp { font-size: 0.85rem; }
-            .level-row { font-size: 0.88rem; }
-            .my-rank-card { padding: 14px 16px; }
-        }
-    </style>
-    <script src="theme.js"></script>
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: rgba(10, 14, 26, 0.82);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .nav-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .nav-copy {
+      min-width: 0;
+    }
+
+    .nav-title {
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+
+    .nav-sub {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .nav-back {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .nav-back:hover { color: var(--accent-blue); }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .hero-logo {
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+      border-radius: 20px;
+      margin: 0 auto 14px;
+      display: block;
+      filter: drop-shadow(0 10px 28px rgba(255, 200, 69, 0.16));
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-gold), #ff9f0a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--text-dim);
+      font-size: 0.98rem;
+      line-height: 1.5;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid rgba(79, 140, 255, 0.12);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-title h2 {
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .section-title p {
+      color: var(--text-dim);
+      font-size: 0.84rem;
+    }
+
+    .user-summary {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .level-card {
+      padding: 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,200,69,0.12), rgba(255,159,10,0.06));
+      border: 1px solid rgba(255,200,69,0.22);
+    }
+
+    .level-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .level-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      font-size: 1.65rem;
+      flex-shrink: 0;
+    }
+
+    .level-copy h3 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+
+    .level-copy p {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    .xp-total {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+    }
+
+    .xp-track {
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .xp-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-gold), #ffb300);
+      border-radius: 100px;
+      transition: width 0.5s ease;
+    }
+
+    .xp-note {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-card {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-card .label {
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-card .value {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .stat-card.accuracy .value { color: var(--accent-green); }
+    .stat-card.streak .value { color: #ff8c42; }
+    .stat-card.quizzes .value { color: var(--accent-blue); }
+    .stat-card.rank .value { color: var(--accent-gold); }
+
+    .goat-levels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .goat-tier {
+      padding: 12px 10px;
+      text-align: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .goat-tier.active {
+      border-color: rgba(255,200,69,0.28);
+      background: rgba(255,200,69,0.08);
+    }
+
+    .goat-tier .emoji {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .goat-tier .name {
+      font-size: 0.78rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .goat-tier .xp {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .leaderboard-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .leaderboard-head h2 {
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .leaderboard-head span {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+    }
+
+    .leaderboard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .leaderboard-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .leaderboard-row.me {
+      border-color: rgba(255,200,69,0.26);
+      background: rgba(255,200,69,0.08);
+    }
+
+    .leaderboard-row:hover {
+      transform: translateY(-1px);
+      border-color: rgba(79,140,255,0.2);
+    }
+
+    .rank-pill {
+      width: 56px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.06);
+      color: var(--text-main);
+    }
+
+    .rank-pill.gold {
+      background: rgba(255,200,69,0.15);
+      color: var(--accent-gold);
+    }
+
+    .rank-pill.silver {
+      background: rgba(203,213,225,0.14);
+      color: #d6deea;
+    }
+
+    .rank-pill.bronze {
+      background: rgba(251,146,60,0.14);
+      color: #fb923c;
+    }
+
+    .player-copy {
+      min-width: 0;
+    }
+
+    .player-name {
+      font-size: 0.98rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-meta {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+
+    .player-score {
+      text-align: right;
+    }
+
+    .player-xp {
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .player-level {
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+
+    .empty-state,
+    .loading-state {
+      text-align: center;
+      padding: 28px 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text-dim);
+    }
+
+    .loading-state .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent-blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .footer-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .footer-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 800;
+      transition: all 0.2s;
+    }
+
+    .footer-btn.primary {
+      background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
+      color: white;
+      border: none;
+    }
+
+    .footer-btn.secondary {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .footer-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 18px 14px 34px; }
+      .hero h1 { font-size: 1.7rem; }
+      .user-summary {
+        grid-template-columns: 1fr;
+      }
+      .goat-levels {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-actions {
+        grid-template-columns: 1fr;
+      }
+      .leaderboard-row {
+        grid-template-columns: 48px 1fr auto;
+      }
+      .rank-pill {
+        width: 48px;
+      }
+    }
+  </style>
+
+  <script src="theme.js"></script>
+  <script src="haptics.js"></script>
 </head>
 <body>
-    <div class="bg-grid"></div>
-    <div class="bg-glow gold"></div>
-    <div class="bg-glow blue"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-glow blue"></div>
+  <div class="bg-glow gold"></div>
 
-    <nav class="nav">
-        <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>
-        <div style="display:flex;align-items:center;gap:10px;">
-            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
-            <a href="index.html" class="nav-back">← Back</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="page-hero">
-            <span class="icon">🏆</span>
-            <h2>Top <span>Students</span></h2>
-            <p>Earn XP by taking quizzes. 10 XP per correct answer + 20 XP per quiz completed.</p>
-        </div>
-
-        <div class="my-rank-card" id="my-rank-card">
-            <div class="my-rank-label">⚡ Your Rank</div>
-            <div class="my-rank-row">
-                <div class="my-rank-num" id="my-rank-num">#–</div>
-                <div class="my-rank-info">
-                    <div class="my-rank-name" id="my-rank-name">–</div>
-                    <div class="my-rank-level" id="my-rank-level">–</div>
-                </div>
-                <div class="my-rank-xp" id="my-rank-xp">0 XP</div>
-            </div>
-            <div class="xp-bar-wrap">
-                <div class="xp-bar-labels">
-                    <span id="xp-bar-label-left">0 XP</span>
-                    <span id="xp-bar-label-right">Next: 500 XP</span>
-                </div>
-                <div class="xp-bar-track">
-                    <div class="xp-bar-fill" id="xp-bar-fill" style="width:0%"></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Loading leaderboard...</p>
-        </div>
-
-        <div id="lb-list" class="lb-list" style="display:none;"></div>
-
-        <div class="empty-state" id="empty-state" style="display:none;">
-            <span class="e-icon">📚</span>
-            <p>No scores yet — be the first on the board!</p>
-        </div>
-
-        <div class="level-legend">
-            <h4>🐐 GOAT Levels</h4>
-            <div class="level-rows">
-                <div class="level-row"><div class="level-badge l1">1</div><span class="level-title">Baby Goat</span><span class="level-xp">0 – 499 XP</span></div>
-                <div class="level-row"><div class="level-badge l2">2</div><span class="level-title">Rookie Goat</span><span class="level-xp">500 – 999 XP</span></div>
-                <div class="level-row"><div class="level-badge l3">3</div><span class="level-title">Field Goat</span><span class="level-xp">1,000 – 1,999 XP</span></div>
-                <div class="level-row"><div class="level-badge l4">4</div><span class="level-title">Mountain Goat</span><span class="level-xp">2,000 – 3,999 XP</span></div>
-                <div class="level-row"><div class="level-badge l5">5</div><span class="level-title">GOAT 👑</span><span class="level-xp">4,000+ XP</span></div>
-            </div>
-        </div>
-
-        <a href="quiz.html" class="btn-quiz">⚡ Earn More XP — Take a Quiz</a>
-        <a href="index.html" class="nav-back" style="display:block;text-align:center;padding:10px;">← Back to Home</a>
+  <nav class="nav">
+    <div class="nav-left">
+      <img src="icon-192.png" alt="GOAT APUSH icon" class="nav-logo">
+      <div class="nav-copy">
+        <div class="nav-title">GOAT APUSH</div>
+        <div class="nav-sub">Progress, XP, streaks, and leaderboard</div>
+      </div>
     </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+      <a href="index.html" class="nav-back" onclick="triggerHaptic('tap')">← Home</a>
+    </div>
+  </nav>
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <main class="container">
+    <section class="hero">
+      <img src="icon-192.png" alt="GOAT APUSH icon" class="hero-logo">
+      <h1><span>Your Progress</span></h1>
+      <p>Track your XP, quiz streak, accuracy, and how you stack up against other GOAT APUSH players.</p>
+    </section>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBSGb5RS3Nl0vVTYgJ_mhL2MKyon8pdxIg",
-            authDomain: "apush-study-app.firebaseapp.com",
-            projectId: "apush-study-app",
-            storageBucket: "apush-study-app.firebasestorage.app",
-            messagingSenderId: "640755610090",
-            appId: "1:640755610090:web:3b9189be74c31f35d31ec6"
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>🐐 Your GOAT Level</h2>
+          <p>Daily progress beats cramming.</p>
+        </div>
+      </div>
+
+      <div id="user-loading" class="loading-state">
+        <div class="spinner"></div>
+        <div>Loading your progress…</div>
+      </div>
+
+      <div id="user-panel" style="display:none;">
+        <div class="user-summary">
+          <div class="level-card">
+            <div class="level-top">
+              <div class="level-badge" id="level-emoji">🐐</div>
+              <div class="level-copy">
+                <h3 id="level-title">Baby Goat</h3>
+                <p id="level-subtitle">You’re getting started.</p>
+              </div>
+            </div>
+
+            <div class="xp-total"><span id="xp-total">0</span> XP</div>
+
+            <div class="xp-track">
+              <div class="xp-fill" id="xp-fill"></div>
+            </div>
+
+            <div class="xp-note" id="xp-note">Start a quiz to earn XP.</div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card streak">
+              <div class="label">Streak</div>
+              <div class="value" id="stat-streak">0 days</div>
+            </div>
+
+            <div class="stat-card accuracy">
+              <div class="label">Accuracy</div>
+              <div class="value" id="stat-accuracy">0%</div>
+            </div>
+
+            <div class="stat-card quizzes">
+              <div class="label">Quizzes</div>
+              <div class="value" id="stat-quizzes">0</div>
+            </div>
+
+            <div class="stat-card rank">
+              <div class="label">Rank</div>
+              <div class="value" id="stat-rank">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="goat-levels">
+          <div class="goat-tier" id="tier-1">
+            <span class="emoji">🐐</span>
+            <div class="name">Rookie Goat</div>
+            <div class="xp">0–499 XP</div>
+          </div>
+          <div class="goat-tier" id="tier-2">
+            <span class="emoji">🌾</span>
+            <div class="name">Field Goat</div>
+            <div class="xp">500–999 XP</div>
+          </div>
+          <div class="goat-tier" id="tier-3">
+            <span class="emoji">🏔</span>
+            <div class="name">Mountain Goat</div>
+            <div class="xp">1000–3999 XP</div>
+          </div>
+          <div class="goat-tier" id="tier-4">
+            <span class="emoji">👑</span>
+            <div class="name">GOAT</div>
+            <div class="xp">4000+ XP</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="leaderboard-head">
+        <h2>🏆 Leaderboard</h2>
+        <span>Top GOAT APUSH grinders</span>
+      </div>
+
+      <div id="leaderboard-loading" class="loading-state">
+        <div class="spinner"></div>
+        <div>Loading leaderboard…</div>
+      </div>
+
+      <div id="leaderboard-list" class="leaderboard-list" style="display:none;"></div>
+
+      <div id="leaderboard-empty" class="empty-state" style="display:none;">
+        No leaderboard data yet. Be the first to earn XP.
+      </div>
+    </section>
+
+    <div class="footer-actions">
+      <a href="quiz.html" class="footer-btn primary" onclick="triggerHaptic('tap')">▶ Start Quiz</a>
+      <a href="flashcards.html" class="footer-btn secondary" onclick="triggerHaptic('tap')">🧠 Study Mode</a>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBSGb5RS3Nl0vVTYgJ_mhL2MKyon8pdxIg",
+      authDomain: "apush-study-app.firebaseapp.com",
+      projectId: "apush-study-app",
+      storageBucket: "apush-study-app.firebasestorage.app",
+      messagingSenderId: "542394166242",
+      appId: "1:542394166242:web:a25342b1cba5af5c3267bb",
+      measurementId: "G-3DNWBLPPC3"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    let currentUser = null;
+    let currentRank = null;
+
+    function getLevelInfo(xp) {
+      if (xp < 500) {
+        return {
+          title: "Rookie Goat",
+          emoji: "🐐",
+          levelNum: 1,
+          prev: 0,
+          next: 500,
+          subtitle: "You’re building momentum."
         };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+      }
+      if (xp < 1000) {
+        return {
+          title: "Field Goat",
+          emoji: "🌾",
+          levelNum: 2,
+          prev: 500,
+          next: 1000,
+          subtitle: "You’re putting in real work."
+        };
+      }
+      if (xp < 4000) {
+        return {
+          title: "Mountain Goat",
+          emoji: "🏔",
+          levelNum: 3,
+          prev: 1000,
+          next: 4000,
+          subtitle: "You’re climbing fast."
+        };
+      }
+      return {
+        title: "GOAT",
+        emoji: "👑",
+        levelNum: 4,
+        prev: 4000,
+        next: null,
+        subtitle: "You’re at the top tier."
+      };
+    }
 
-        let currentUser = null;
+    function setActiveTier(xp) {
+      ['tier-1','tier-2','tier-3','tier-4'].forEach(function(id) {
+        document.getElementById(id).classList.remove('active');
+      });
 
-        function calcLevel(xp) {
-            if (xp < 500)  return { level: 1, title: 'Baby Goat',     next: 500,  prev: 0    };
-            if (xp < 1000) return { level: 2, title: 'Rookie Goat',   next: 1000, prev: 500  };
-            if (xp < 2000) return { level: 3, title: 'Field Goat',    next: 2000, prev: 1000 };
-            if (xp < 4000) return { level: 4, title: 'Mountain Goat', next: 4000, prev: 2000 };
-            return              { level: 5, title: 'GOAT 👑',        next: null, prev: 4000 };
+      if (xp < 500) {
+        document.getElementById('tier-1').classList.add('active');
+      } else if (xp < 1000) {
+        document.getElementById('tier-2').classList.add('active');
+      } else if (xp < 4000) {
+        document.getElementById('tier-3').classList.add('active');
+      } else {
+        document.getElementById('tier-4').classList.add('active');
+      }
+    }
+
+    function formatRank(rank) {
+      if (!rank) return '—';
+      if (rank === 1) return '#1';
+      if (rank === 2) return '#2';
+      if (rank === 3) return '#3';
+      return '#' + rank;
+    }
+
+    function rankClass(index) {
+      if (index === 1) return 'gold';
+      if (index === 2) return 'silver';
+      if (index === 3) return 'bronze';
+      return '';
+    }
+
+    function safeName(user) {
+      if (!user) return 'Anonymous';
+      return user.displayName || (user.email ? user.email.split('@')[0] : 'Anonymous');
+    }
+
+    async function loadLeaderboard() {
+      try {
+        const snap = await db.collection('leaderboard')
+          .orderBy('xp', 'desc')
+          .limit(50)
+          .get();
+
+        document.getElementById('leaderboard-loading').style.display = 'none';
+
+        if (snap.empty) {
+          document.getElementById('leaderboard-empty').style.display = 'block';
+          document.getElementById('leaderboard-list').style.display = 'none';
+          return;
         }
 
-        auth.onAuthStateChanged(function(user) {
-            currentUser = user;
-            loadLeaderboard();
+        const list = document.getElementById('leaderboard-list');
+        list.innerHTML = '';
+
+        let rank = 0;
+        snap.forEach(function(doc) {
+          rank += 1;
+          const data = doc.data();
+          const isMe = currentUser && doc.id === currentUser.uid;
+
+          if (isMe) {
+            currentRank = rank;
+            document.getElementById('stat-rank').textContent = formatRank(rank);
+          }
+
+          const row = document.createElement('div');
+          row.className = 'leaderboard-row' + (isMe ? ' me' : '');
+
+          row.innerHTML =
+            '<div class="rank-pill ' + rankClass(rank) + '">' + (rank <= 3 ? ['🥇','🥈','🥉'][rank - 1] : '#' + rank) + '</div>' +
+            '<div class="player-copy">' +
+              '<div class="player-name">' + escapeHtml(data.name || 'Anonymous') + (isMe ? ' (You)' : '') + '</div>' +
+              '<div class="player-meta">' + escapeHtml(data.levelTitle || 'GOAT Player') + '</div>' +
+            '</div>' +
+            '<div class="player-score">' +
+              '<div class="player-xp">' + ((data.xp || 0).toLocaleString()) + ' XP</div>' +
+              '<div class="player-level">Lv. ' + (data.level || 1) + '</div>' +
+            '</div>';
+
+          list.appendChild(row);
         });
 
-        async function loadLeaderboard() {
-            try {
-                var snap = await db.collection('leaderboard')
-                    .orderBy('xp', 'desc')
-                    .limit(20)
-                    .get();
+        list.style.display = 'flex';
+      } catch (e) {
+        console.log('Could not load leaderboard:', e);
+        document.getElementById('leaderboard-loading').style.display = 'none';
+        document.getElementById('leaderboard-empty').style.display = 'block';
+        document.getElementById('leaderboard-empty').textContent = 'Could not load leaderboard right now.';
+      }
+    }
 
-                document.getElementById('loading').style.display = 'none';
+    async function loadUserProgress(user) {
+      try {
+        const userRef = db.collection('users').doc(user.uid);
+        const doc = await userRef.get();
 
-                if (snap.empty) {
-                    document.getElementById('empty-state').style.display = 'block';
-                    return;
-                }
+        document.getElementById('user-loading').style.display = 'none';
+        document.getElementById('user-panel').style.display = 'block';
 
-                var entries = [];
-                snap.forEach(function(doc) {
-                    entries.push({ id: doc.id, ...doc.data() });
-                });
-
-                if (currentUser) {
-                    var myIdx = entries.findIndex(function(e) { return e.id === currentUser.uid; });
-                    if (myIdx >= 0) {
-                        var me = entries[myIdx];
-                        var myXP = me.xp || 0;
-                        var lvl = calcLevel(myXP);
-
-                        document.getElementById('my-rank-card').style.display = 'block';
-                        document.getElementById('my-rank-num').textContent = '#' + (myIdx + 1);
-                        document.getElementById('my-rank-name').textContent = me.name || 'You';
-                        document.getElementById('my-rank-level').textContent = 'Level ' + lvl.level + ' — ' + lvl.title;
-                        document.getElementById('my-rank-xp').textContent = myXP.toLocaleString() + ' XP';
-
-                        var pct = lvl.next ? Math.min(100, Math.round(((myXP - lvl.prev) / (lvl.next - lvl.prev)) * 100)) : 100;
-                        document.getElementById('xp-bar-fill').style.width = pct + '%';
-                        document.getElementById('xp-bar-label-left').textContent = myXP.toLocaleString() + ' XP';
-                        document.getElementById('xp-bar-label-right').textContent = lvl.next ? 'Next level: ' + lvl.next.toLocaleString() + ' XP' : '🏆 Max Level!';
-                    }
-                }
-
-                var html = '';
-                entries.forEach(function(e, i) {
-                    var rank = i + 1;
-                    var xp = e.xp || 0;
-                    var lvl = calcLevel(xp);
-                    var isMe = currentUser && e.id === currentUser.uid;
-                    var rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
-                    var itemClass = isMe ? 'me' : rank <= 3 ? 'top' + rank : '';
-                    var rankText = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '#' + rank;
-                    var meTag = isMe ? '<span class="lb-me-tag">You</span>' : '';
-
-                    html += '<div class="lb-item ' + itemClass + '">' +
-                        '<div class="lb-rank ' + rankClass + '">' + rankText + '</div>' +
-                        '<div class="lb-info">' +
-                        '<div class="lb-name">' + escHtml(e.name || 'Student') + meTag + '</div>' +
-                        '<div class="lb-level">Lv.' + lvl.level + ' ' + lvl.title + '</div>' +
-                        '</div>' +
-                        '<div class="lb-xp">' + xp.toLocaleString() + ' XP</div>' +
-                        '</div>';
-                });
-
-                document.getElementById('lb-list').innerHTML = html;
-                document.getElementById('lb-list').style.display = 'flex';
-
-            } catch(e) {
-                document.getElementById('loading').innerHTML = '<p style="color:var(--accent-red);">Could not load leaderboard. Please refresh.</p>';
-                console.log('Leaderboard error:', e);
-            }
+        if (!doc.exists) {
+          const name = safeName(user);
+          document.getElementById('level-title').textContent = 'Rookie Goat';
+          document.getElementById('level-subtitle').textContent = 'Welcome, ' + name + '. Start your first quiz.';
+          document.getElementById('xp-total').textContent = '0';
+          document.getElementById('stat-streak').textContent = '0 days';
+          document.getElementById('stat-accuracy').textContent = '0%';
+          document.getElementById('stat-quizzes').textContent = '0';
+          document.getElementById('stat-rank').textContent = '—';
+          document.getElementById('xp-note').textContent = '500 XP to reach Field Goat.';
+          document.getElementById('xp-fill').style.width = '0%';
+          setActiveTier(0);
+          return;
         }
 
-        function escHtml(str) {
-            return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const data = doc.data();
+        const xp = data.xp || 0;
+        const streak = data.streak || 0;
+        const totalQuizzes = data.totalQuizzes || 0;
+        const totalCorrect = data.totalCorrect || 0;
+        const totalAnswered = data.totalAnswered || 0;
+        const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+        const level = getLevelInfo(xp);
+
+        document.getElementById('level-emoji').textContent = level.emoji;
+        document.getElementById('level-title').textContent = level.title;
+        document.getElementById('level-subtitle').textContent = level.subtitle;
+        document.getElementById('xp-total').textContent = xp.toLocaleString();
+        document.getElementById('stat-streak').textContent = streak + (streak === 1 ? ' day' : ' days');
+        document.getElementById('stat-accuracy').textContent = accuracy + '%';
+        document.getElementById('stat-quizzes').textContent = totalQuizzes;
+
+        if (level.next) {
+          const pct = Math.min(100, Math.round(((xp - level.prev) / (level.next - level.prev)) * 100));
+          document.getElementById('xp-fill').style.width = pct + '%';
+          document.getElementById('xp-note').textContent = (level.next - xp).toLocaleString() + ' XP to reach the next level.';
+        } else {
+          document.getElementById('xp-fill').style.width = '100%';
+          document.getElementById('xp-note').textContent = 'You’ve reached the top GOAT tier.';
         }
-    </script>
+
+        setActiveTier(xp);
+      } catch (e) {
+        console.log('Could not load user progress:', e);
+        document.getElementById('user-loading').style.display = 'none';
+        document.getElementById('user-panel').style.display = 'block';
+        document.getElementById('level-title').textContent = 'Could not load progress';
+        document.getElementById('level-subtitle').textContent = 'Try refreshing the page.';
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    auth.onAuthStateChanged(async function(user) {
+      currentUser = user;
+
+      if (!user) {
+        document.getElementById('user-loading').style.display = 'none';
+        document.getElementById('user-panel').style.display = 'block';
+        document.getElementById('level-title').textContent = 'Sign in to track progress';
+        document.getElementById('level-subtitle').textContent = 'Your XP, streak, and quiz stats will show here.';
+        document.getElementById('stat-rank').textContent = '—';
+        document.getElementById('xp-note').textContent = 'Go back home and sign in to save progress.';
+        setActiveTier(0);
+        loadLeaderboard();
+        return;
+      }
+
+      await loadUserProgress(user);
+      await loadLeaderboard();
+    });
+  </script>
 </body>
 </html>
