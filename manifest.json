@@ -1,7 +1,7 @@
 {
-  "name": "APUSH Study App",
-  "short_name": "APUSH",
-  "description": "Ace the 2026 AP US History exam. Quiz yourself, track streaks, crush all 9 periods.",
+  "name": "GOAT APUSH",
+  "short_name": "GOAT AP",
+  "description": "Master APUSH. One question at a time.",
   "start_url": "/index.html",
   "display": "standalone",
   "orientation": "portrait",
