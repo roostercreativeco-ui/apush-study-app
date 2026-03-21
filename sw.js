@@ -1,6 +1,6 @@
 // GOAT AP: US History — Service Worker
 // Caches core app files for offline use
-const CACHE_NAME = 'goatap-v2';
+const CACHE_NAME = 'goatap-v3';
 const CORE_FILES = [
   '/',
   '/index.html',

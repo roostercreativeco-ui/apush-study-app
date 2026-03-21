@@ -175,6 +175,38 @@
         }
         .bookmark-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+        /* ======================== CONFIDENCE RATING ======================== */
+        .confidence-bar {
+            display: flex; gap: 8px; margin-bottom: 16px; justify-content: center;
+        }
+        .confidence-label {
+            font-size: 0.78rem; font-weight: 600; color: var(--text-dim);
+            text-align: center; margin-bottom: 6px;
+        }
+        .confidence-btn {
+            flex: 1; padding: 10px 8px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent; color: var(--text-dim);
+            font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; text-align: center;
+        }
+        .confidence-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+        .confidence-btn.selected { border-color: var(--accent-gold); background: rgba(255,200,69,0.1); color: var(--accent-gold); }
+        .confidence-btn.c-guess.selected { border-color: var(--accent-red); background: rgba(255,79,79,0.08); color: var(--accent-red); }
+        .confidence-btn.c-kinda.selected { border-color: var(--accent-gold); background: rgba(255,200,69,0.08); color: var(--accent-gold); }
+        .confidence-btn.c-sure.selected { border-color: var(--accent-green); background: rgba(52,211,153,0.08); color: var(--accent-green); }
+
+        .confidence-results {
+            display: flex; justify-content: center; gap: 16px;
+            margin-top: 12px; font-size: 0.85rem;
+        }
+        .conf-stat { text-align: center; }
+        .conf-stat .conf-num { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1rem; display: block; }
+        .conf-stat .conf-label { font-size: 0.72rem; color: var(--text-dim); }
+        .conf-stat.c-guess .conf-num { color: var(--accent-red); }
+        .conf-stat.c-kinda .conf-num { color: var(--accent-gold); }
+        .conf-stat.c-sure .conf-num { color: var(--accent-green); }
+
         .choices { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 
         .choice-btn {
@@ -408,6 +440,13 @@
                 <div class="question-text" id="q-text"></div>
             </div>
 
+            <div class="confidence-label">How confident are you?</div>
+            <div class="confidence-bar" id="confidence-bar">
+                <button class="confidence-btn c-guess" onclick="setConfidence('guess')">🤷 Guess</button>
+                <button class="confidence-btn c-kinda" onclick="setConfidence('kinda')">🤔 Kinda Sure</button>
+                <button class="confidence-btn c-sure" onclick="setConfidence('sure')">😎 Very Sure</button>
+            </div>
+
             <div class="choices" id="choices"></div>
 
             <div class="explanation-box" id="explanation-box">
@@ -434,6 +473,11 @@
                 <div class="results-stats">
                     <div class="stat-correct">✓ Correct: <span id="final-correct-2">0</span></div>
                     <div class="stat-wrong">✗ Wrong: <span id="final-wrong">0</span></div>
+                </div>
+                <div class="confidence-results" id="confidence-results" style="display:none;">
+                    <div class="conf-stat c-guess"><span class="conf-num" id="conf-guess-pct">0%</span><span class="conf-label">Guesses correct</span></div>
+                    <div class="conf-stat c-kinda"><span class="conf-num" id="conf-kinda-pct">0%</span><span class="conf-label">Kinda Sure correct</span></div>
+                    <div class="conf-stat c-sure"><span class="conf-num" id="conf-sure-pct">0%</span><span class="conf-label">Very Sure correct</span></div>
                 </div>
                 <div class="saved-badge" id="saved-badge" style="display:none;">✓ Score saved</div>
                 <div class="xp-badge" id="xp-badge" style="display:none;"></div>
@@ -749,10 +793,19 @@
         let currentIndex = 0, correctCount = 0, wrongCount = 0;
         let answered = false, currentPeriod = "all";
         let wrongByPeriod = {};
+        let currentConfidence = null;
+        let confidenceStats = { guess: { total: 0, correct: 0 }, kinda: { total: 0, correct: 0 }, sure: { total: 0, correct: 0 } };
 
         async function loadQuestions() {
             try {
-                const text = await (await fetch(SHEET_URL)).text();
+                var cached = sessionStorage.getItem('goatap-csv');
+                var text;
+                if (cached) {
+                    text = cached;
+                } else {
+                    text = await (await fetch(SHEET_URL)).text();
+                    try { sessionStorage.setItem('goatap-csv', text); } catch(e) {}
+                }
                 const rows = parseCSV(text);
                 allQuestions = rows.slice(1).map(function(row) {
                     return {
@@ -836,6 +889,7 @@
             }
             quizQuestions = numSelect === "all" ? shuffled : shuffled.slice(0, Math.min(parseInt(numSelect), shuffled.length));
             currentIndex = 0; correctCount = 0; wrongCount = 0; wrongByPeriod = {};
+            confidenceStats = { guess: { total: 0, correct: 0 }, kinda: { total: 0, correct: 0 }, sure: { total: 0, correct: 0 } };
             document.getElementById('setup-screen').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'block';
             document.getElementById('results-screen').style.display = 'none';
@@ -843,10 +897,23 @@
         }
 
         // ========================
+        // CONFIDENCE
+        // ========================
+        function setConfidence(level) {
+            currentConfidence = level;
+            document.querySelectorAll('.confidence-btn').forEach(function(btn) { btn.classList.remove('selected'); });
+            var map = { guess: 'c-guess', kinda: 'c-kinda', sure: 'c-sure' };
+            var selected = document.querySelector('.confidence-btn.' + map[level]);
+            if (selected) selected.classList.add('selected');
+        }
+
+        // ========================
         // SHOW QUESTION
         // ========================
         function showQuestion() {
             answered = false;
+            currentConfidence = null;
+            document.querySelectorAll('.confidence-btn').forEach(function(btn) { btn.classList.remove('selected'); });
             var q = quizQuestions[currentIndex];
 
             document.getElementById('progress-fill').style.width = ((currentIndex / quizQuestions.length) * 100) + '%';
@@ -891,6 +958,12 @@
 
             var q = quizQuestions[currentIndex];
             var isCorrect = letter === q.correct;
+
+            // Track confidence
+            if (currentConfidence) {
+                confidenceStats[currentConfidence].total++;
+                if (isCorrect) confidenceStats[currentConfidence].correct++;
+            }
 
             if (isCorrect) { correctCount++; document.getElementById('score-correct').textContent = correctCount; }
             else {
@@ -1009,6 +1082,20 @@
             // 🎉 Fire confetti on 80%+
             if (pct >= 80) {
                 setTimeout(launchConfetti, 300);
+            }
+
+            // Show confidence breakdown
+            var confEl = document.getElementById('confidence-results');
+            var anyConf = confidenceStats.guess.total + confidenceStats.kinda.total + confidenceStats.sure.total;
+            if (anyConf > 0) {
+                confEl.style.display = 'flex';
+                ['guess', 'kinda', 'sure'].forEach(function(lvl) {
+                    var s = confidenceStats[lvl];
+                    var p = s.total > 0 ? Math.round((s.correct / s.total) * 100) + '%' : '—';
+                    document.getElementById('conf-' + lvl + '-pct').textContent = p;
+                });
+            } else {
+                confEl.style.display = 'none';
             }
 
             showWeakestPeriod();

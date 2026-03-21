@@ -23,7 +23,8 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background: var(--bg-dark);
+            background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%);
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
@@ -49,8 +50,8 @@
             z-index: 0;
             pointer-events: none;
         }
-        .bg-glow.blue { background: var(--accent-blue); top: -200px; right: -100px; }
-        .bg-glow.red { background: var(--accent-red); bottom: -300px; left: -200px; opacity: 0.2; }
+        .bg-glow.gold { background: var(--accent-gold); top: -200px; right: -100px; opacity: 0.15; }
+        .bg-glow.blue { background: var(--accent-blue); bottom: -300px; left: -200px; opacity: 0.1; }
 
         .nav {
             position: fixed;
@@ -98,7 +99,7 @@
 
         .flashcard-wrapper { perspective: 1200px; margin-bottom: 28px; cursor: pointer; }
         .flashcard {
-            position: relative; width: 100%; min-height: 280px;
+            position: relative; width: 100%; min-height: 320px;
             transform-style: preserve-3d; transition: transform 0.5s ease;
         }
         .flashcard.flipped { transform: rotateY(180deg); }
@@ -108,7 +109,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
         }
         .flashcard-front { background: var(--bg-card); border: 1px solid rgba(79,140,255,0.15); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-        .flashcard-back { background: linear-gradient(135deg,#121829,#1a2240); border: 1px solid rgba(52,211,153,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.3); transform: rotateY(180deg); }
+        .flashcard-back { background: linear-gradient(135deg,#121829,#1a2240); border: 1px solid rgba(52,211,153,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.3); transform: rotateY(180deg); overflow-y: auto; }
 
         .card-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; color: var(--accent-blue); }
         .flashcard-back .card-label { color: var(--accent-green); }
@@ -117,6 +118,10 @@
         .card-answer { font-size: 1rem; line-height: 1.6; color: var(--text-main); }
         .card-answer .correct-letter { display: inline-block; font-weight: 800; font-size: 1.4rem; color: var(--accent-green); margin-bottom: 12px; }
         .card-answer .explanation { font-size: 0.9rem; color: var(--text-dim); margin-top: 12px; line-height: 1.5; }
+        .why-wrong-section { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); text-align: left; }
+        .why-wrong-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-red); margin-bottom: 8px; }
+        .why-wrong-item { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 6px; }
+        .why-wrong-letter { font-weight: 700; color: var(--accent-red); }
         .tap-hint { font-size: 0.8rem; color: var(--text-dim); margin-top: 16px; opacity: 0.6; }
 
         .controls { display: flex; gap: 12px; justify-content: center; margin-bottom: 24px; }
@@ -141,14 +146,18 @@
             .container { padding: 72px 18px 32px; }
             .flashcard-face { padding: 24px 20px; }
             .card-question { font-size: 1rem; }
+            .card-answer { font-size: 0.95rem; }
+            .why-wrong-item { font-size: 0.88rem; }
+            .why-wrong-title { font-size: 0.8rem; }
+            .period-pill { font-size: 0.88rem; padding: 9px 16px; }
             .keyboard-hints { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
+    <div class="bg-glow gold"></div>
     <div class="bg-glow blue"></div>
-    <div class="bg-glow red"></div>
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>
@@ -224,8 +233,15 @@
 
         async function loadQuestions() {
             try {
-                const response = await fetch(SHEET_URL);
-                const text = await response.text();
+                var cached = sessionStorage.getItem('goatap-csv');
+                var text;
+                if (cached) {
+                    text = cached;
+                } else {
+                    const response = await fetch(SHEET_URL);
+                    text = await response.text();
+                    try { sessionStorage.setItem('goatap-csv', text); } catch(e) {}
+                }
                 const rows = parseCSV(text);
 
                 allQuestions = rows.slice(1).map(function(row) {
@@ -233,7 +249,9 @@
                         id: row[0], period: row[1], type: row[2],
                         question: row[3], choiceA: row[4], choiceB: row[5],
                         choiceC: row[6], choiceD: row[7], correct: row[8],
-                        explanation: row[9]
+                        explanation: row[9],
+                        explainA: row[10] || '', explainB: row[11] || '',
+                        explainC: row[12] || '', explainD: row[13] || ''
                     };
                 }).filter(function(q) { return q.question && q.question.trim() !== ''; });
 
@@ -293,11 +311,30 @@
             document.getElementById('card-question').textContent = q.question;
 
             const letters = { A: q.choiceA, B: q.choiceB, C: q.choiceC, D: q.choiceD };
+            const explains = { A: q.explainA, B: q.explainB, C: q.explainC, D: q.explainD };
             const correctText = letters[q.correct] || '';
-            document.getElementById('card-answer').innerHTML =
+
+            var answerHTML =
                 '<div class="correct-letter">' + q.correct + '</div>' +
                 '<div>' + correctText + '</div>' +
                 '<div class="explanation">' + q.explanation + '</div>';
+
+            // Build "why wrong" section for incorrect choices
+            var wrongHTML = '';
+            ['A', 'B', 'C', 'D'].forEach(function(L) {
+                if (L !== q.correct && explains[L]) {
+                    wrongHTML += '<div class="why-wrong-item">' +
+                        '<span class="why-wrong-letter">' + L + ':</span> ' +
+                        explains[L] + '</div>';
+                }
+            });
+            if (wrongHTML) {
+                answerHTML += '<div class="why-wrong-section">' +
+                    '<div class="why-wrong-title">Why the others are wrong:</div>' +
+                    wrongHTML + '</div>';
+            }
+
+            document.getElementById('card-answer').innerHTML = answerHTML;
 
             const pct = ((currentIndex + 1) / filteredQuestions.length) * 100;
             document.getElementById('progress-fill').style.width = pct + '%';

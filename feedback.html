@@ -23,7 +23,8 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background: var(--bg-dark);
+            background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%);
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
@@ -49,8 +50,8 @@
             z-index: 0;
             pointer-events: none;
         }
-        .bg-glow.blue { background: var(--accent-blue); top: -200px; right: -100px; }
-        .bg-glow.red { background: var(--accent-red); bottom: -300px; left: -200px; opacity: 0.2; }
+        .bg-glow.gold { background: var(--accent-gold); top: -200px; right: -100px; opacity: 0.15; }
+        .bg-glow.blue { background: var(--accent-blue); bottom: -300px; left: -200px; opacity: 0.1; }
 
         .nav {
             position: fixed;
@@ -226,8 +227,8 @@
 </head>
 <body>
     <div class="bg-grid"></div>
+    <div class="bg-glow gold"></div>
     <div class="bg-glow blue"></div>
-    <div class="bg-glow red"></div>
 
     <nav class="nav">
         <a href="index.html" class="nav-logo">🐐 <span>GOAT AP</span></a>

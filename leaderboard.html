@@ -14,7 +14,7 @@
             --text-main: #f0f2ff; --text-dim: #8892b0; --radius: 16px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: var(--text-main); min-height: 100vh; }
+        body { font-family: 'Outfit', sans-serif; background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%); background-attachment: fixed; color: var(--text-main); min-height: 100vh; }
         .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(255,200,69,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,200,69,0.03) 1px,transparent 1px); background-size: 60px 60px; z-index: 0; }
         .bg-glow { position: fixed; width: 600px; height: 600px; border-radius: 50%; filter: blur(120px); opacity: 0.15; z-index: 0; pointer-events: none; }
         .bg-glow.gold { background: var(--accent-gold); top: -200px; right: -100px; }
@@ -92,7 +92,17 @@
         .btn-quiz { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, var(--accent-gold), #ffb300); color: #0a0e1a; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 800; border: none; border-radius: 14px; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; margin-bottom: 12px; }
         .btn-quiz:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,200,69,0.3); }
 
-        @media (max-width: 480px) { .container { padding: 72px 16px 40px; } }
+        @media (max-width: 480px) {
+            .container { padding: 72px 16px 40px; }
+            .page-hero h2 { font-size: 1.5rem; }
+            .page-hero p { font-size: 0.88rem; }
+            .lb-item { padding: 12px 14px; }
+            .lb-name { font-size: 0.9rem; }
+            .lb-level { font-size: 0.82rem; }
+            .lb-xp { font-size: 0.85rem; }
+            .level-row { font-size: 0.88rem; }
+            .my-rank-card { padding: 14px 16px; }
+        }
     </style>
 </head>
 <body>
