@@ -1036,5 +1036,20 @@
         updateCountdown();
         setInterval(updateCountdown, 60 * 60 * 1000);
     </script>
+
+    <!-- Offline indicator banner -->
+    <div id="offline-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#ff4f4f,#ff6b35);color:white;text-align:center;padding:10px 16px;font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:600;box-shadow:0 2px 12px rgba(255,79,79,0.3);transition:transform 0.3s ease;transform:translateY(-100%);">
+        📡 You're offline — some features may be limited
+    </div>
+    <script>
+    (function(){
+        var banner = document.getElementById('offline-banner');
+        function showBanner() { banner.style.display = 'block'; requestAnimationFrame(function(){ banner.style.transform = 'translateY(0)'; }); }
+        function hideBanner() { banner.style.transform = 'translateY(-100%)'; setTimeout(function(){ banner.style.display = 'none'; }, 300); }
+        if (!navigator.onLine) showBanner();
+        window.addEventListener('offline', showBanner);
+        window.addEventListener('online', hideBanner);
+    })();
+    </script>
 </body>
 </html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOAT AP — You're Offline</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0e1a">
+    <style>
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #121829;
+            --accent-blue: #4f8cff;
+            --accent-gold: #ffc845;
+            --accent-green: #34d399;
+            --text-main: #f0f2ff;
+            --text-dim: #8892b0;
+            --radius: 16px;
+        }
+        html[data-theme="light"] {
+            --bg-dark: #f5f5fa;
+            --bg-card: #ffffff;
+            --text-main: #1a1a2e;
+            --text-dim: #5a6078;
+        }
+        html[data-theme="light"] body {
+            background: linear-gradient(180deg, #eef0f8 0%, #f5f5fa 40%, #e8eaf2 100%);
+        }
+        html[data-theme="light"] .bg-grid {
+            background-image:
+                linear-gradient(rgba(79,140,255,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79,140,255,0.06) 1px, transparent 1px);
+        }
+        html[data-theme="light"] .bg-glow { opacity: 0.08; }
+        html[data-theme="light"] .offline-card {
+            background: var(--bg-card);
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        html[data-theme="light"] .btn-retry {
+            background: var(--accent-blue);
+        }
+        html[data-theme="light"] .btn-home {
+            border-color: rgba(0,0,0,0.12);
+            color: var(--text-dim);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(180deg, #0d1225 0%, var(--bg-dark) 40%, #060910 100%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bg-grid {
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(79,140,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(79,140,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+        }
+        .bg-glow {
+            position: fixed; width: 600px; height: 600px;
+            border-radius: 50%; filter: blur(120px); opacity: 0.4;
+            z-index: 0; pointer-events: none;
+        }
+        .bg-glow.gold { background: var(--accent-gold); top: -200px; right: -100px; opacity: 0.15; }
+        .bg-glow.blue { background: var(--accent-blue); bottom: -300px; left: -200px; opacity: 0.1; }
+
+        .offline-card {
+            position: relative; z-index: 1;
+            max-width: 420px; width: 90%;
+            background: var(--bg-card);
+            border: 1px solid rgba(79,140,255,0.12);
+            border-radius: var(--radius);
+            padding: 48px 32px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .offline-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+        .offline-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--accent-gold), #ff9f0a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .offline-message {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        .offline-actions {
+            display: flex; flex-direction: column;
+            gap: 12px; align-items: center;
+        }
+        .btn-retry {
+            display: inline-block; padding: 14px 36px;
+            background: linear-gradient(135deg, var(--accent-blue), #6c63ff);
+            color: white; border: none; border-radius: 12px;
+            font-family: inherit; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; width: 100%;
+        }
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79,140,255,0.3);
+        }
+        .btn-home {
+            display: inline-block; padding: 12px 24px;
+            background: transparent; color: var(--text-dim);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; text-decoration: none; width: 100%;
+        }
+        .btn-home:hover {
+            border-color: var(--accent-blue); color: var(--accent-blue);
+        }
+        .offline-tip {
+            margin-top: 28px; padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.8rem; color: var(--text-dim); line-height: 1.5;
+        }
+        .offline-tip strong { color: var(--accent-green); }
+    </style>
+    <script src="theme.js"></script>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow gold"></div>
+    <div class="bg-glow blue"></div>
+
+    <div class="offline-card">
+        <div class="offline-icon">📡</div>
+        <h1 class="offline-title">You're Offline</h1>
+        <p class="offline-message">
+            No internet connection right now. If you've used the app before,
+            your flashcards, quiz, and cram modes may still work from the cache.
+        </p>
+        <div class="offline-actions">
+            <button class="btn-retry" onclick="window.location.reload()">Try Again</button>
+            <a href="index.html" class="btn-home">Go to Home</a>
+        </div>
+        <div class="offline-tip">
+            <strong>Tip:</strong> Open the app while online first so your study data gets saved for offline use.
+        </div>
+    </div>
+
+    <script>
+        // Auto-reload when connection comes back
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>
